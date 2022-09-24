@@ -1,0 +1,30 @@
+@import '~react-pro-sidebar/dist/scss/styles.scss';
+
+$sidebar-width: 25% !default;
+// $sidebar-bg-color: #0c1e35;
+// $submenu-bg-color: rgba(255, 255, 255, 0.05);
+
+.pro-sidebar {
+    color: black;
+    border-right: 0.5px solid black;
+}
+
+.pro-sidebar .pro-sidebar-inner {
+    background: white;
+}
+
+.pro-sidebar .pro-menu>ul>.pro-sub-menu>.pro-inner-list-item {
+    background-color: white;
+    border-bottom: 0.5px solid black;
+}
+
+.react-slidedown {
+    height: 0;
+    transition-property: none;
+    transition-duration: 0s;
+    transition-timing-function: ease-in-out;
+}
+
+.MenuItem{
+    margin-bottom: 20px;
+}
