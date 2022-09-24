@@ -47,7 +47,7 @@ function Playbook() {
       var startEnd = []
        console.log(edges)
        /* edges.map(item => {
-        // console.log(`${item.source}  is connected to ${item.target}`)
+         console.log(`${item.source}  is connected to ${item.target}`)
         // console.log(item.target);
          edges.map(item1 => {
            if (item == item1) {
