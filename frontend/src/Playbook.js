@@ -85,7 +85,7 @@ function Playbook() {
   return (
     <div className="dndflow">
       <ReactFlowProvider>
-        <NewSidebar/>
+        <NewSidebar />
         <div className="reactflow-wrapper" ref={reactFlowWrapper}>
           <ReactFlow
             nodes={nodes}
@@ -114,18 +114,21 @@ function findSequence(edges, nodes) {
   var pointer;
   var sequence = [];
   if (nodes.length > 1) {
-    nodes.map((item) => {
+    nodes.forEach(item => {
       console.log(item.data.value);
     });
   }
   console.log(edges);
-  edges.map((item) => {
+  // array.forEach(element => {
+    
+  // });
+  edges.forEach(item => {
     startEnd.push(item.source);
     startEnd.push(item.target);
   });
   // console.log(startEnd)
-  startEnd.map((item) => {
-    startEnd.map((duplicateItem) => {
+  startEnd.forEach(item => {
+    startEnd.forEach(duplicateItem => {
       if (item === duplicateItem) {
         count += 1;
       }
@@ -136,8 +139,8 @@ function findSequence(edges, nodes) {
     count = 0;
   });
 
-  edges.map((item2) => {
-    startAndEnd.map((item3) => {
+  edges.forEach(item2 => {
+    startAndEnd.forEach(item3 => {
       if (item2.source === item3) {
         pointer = item3;
         // console.log(`Starting node is ${pointer}`)
@@ -152,7 +155,7 @@ function findSequence(edges, nodes) {
   } else {
     sequence.push(pointer);
     for (var i = 0; i < edges.length; i++) {
-      edges.map((item) => {
+      edges.forEach(item => {
         if (item.source === pointer) {
           sequence.push(item.target);
           pointer = item.target;

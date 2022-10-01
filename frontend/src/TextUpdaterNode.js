@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { Handle, Position } from "react-flow-renderer";
+// import $ from "jquery";
 
 const handleStyle = { bottom: 6 };
 
@@ -9,14 +10,14 @@ function TextUpdaterNode({ data }) {
     console.log(evt.target.value);
     // window.name=evt.target.value
     data.value.push(evt.target.value)
-  }, []);
+  }, [data.value]);
 
   return (
+
     <div className="text-updater-node">
       <Handle type="target" position={Position.Left} id="left" />
       <div>
-        <label htmlFor="text">{data.playbook.playbook_display_name}</label>
-        
+        <label htmlFor="text">{data.playbook.playbook_display_name}</label>        
         <input id="text" name="text" onChange={onChange} />
         <br></br>
         <input id="text" name="text" onChange={onChange} />
