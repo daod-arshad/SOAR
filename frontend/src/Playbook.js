@@ -15,6 +15,10 @@ const initialNodes = [
   }, 
   */
 ];
+const rfStyle = {
+  backgroundColor: "#fff6f6",
+};
+
 window.name = "Dawood"
 const nodeTypes = { textUpdater: TextUpdaterNode };
 let id = 0;
@@ -98,6 +102,7 @@ function Playbook() {
             onDragOver={onDragOver}
             fitView={false}
             nodeTypes={nodeTypes}
+            style={rfStyle}
           >
             <Controls />
           </ReactFlow>
