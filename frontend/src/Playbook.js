@@ -159,6 +159,11 @@ function findSequence(edges, nodes) {
     console.log("There are only 2 nodes");
   } else {
     sequence.push(pointer);
+    var edgesCopy = []
+    edges.forEach(item => {
+        edgesCopy.push(item)
+    })
+    console.log(edgesCopy)
     for (var i = 0; i < edges.length; i++) {
       edges.forEach(item => {
         if (item.source === pointer) {
