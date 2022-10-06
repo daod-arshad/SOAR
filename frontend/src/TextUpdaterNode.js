@@ -1,6 +1,5 @@
 import { useCallback, } from "react";
 import { Handle, Position } from "react-flow-renderer";
-// import $ from "jquery";
 
 const handleStyle = { bottom: 6 };
 
