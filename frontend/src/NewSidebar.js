@@ -13,11 +13,11 @@ function NewSidebar() {
     axios.get("/windowsPlaybooks/find").then((response) => {
       console.log(response.data);
       setwindowsPlaybooks(response.data)
-    });
+    },[]);
     axios.get("/linuxPlaybooks/find").then((response) => {
       console.log(response.data);
       setlinuxPlaybooks(response.data);
-    });
+    },[]);
     axios.get("/otherPlaybooks/find").then((response) => {
       console.log(response.data);
       setotherPlaybooks(response.data);
@@ -38,7 +38,12 @@ function NewSidebar() {
               <MenuItem key={playbook.id}>
                 <div
                   className="dndnode"
-                  onDragStart={(event) => onDragStart(event, JSON.stringify([playbook,"textUpdater"]))}
+                  onDragStart={(event) =>
+                    onDragStart(
+                      event,
+                      JSON.stringify([playbook, "textUpdater"])
+                    )
+                  }
                   draggable
                 >
                   <label htmlFor="text">{playbook.playbook_display_name}</label>
@@ -52,7 +57,12 @@ function NewSidebar() {
               <MenuItem key={playbook.id}>
                 <div
                   className="dndnode"
-                  onDragStart={(event) => onDragStart(event, "textUpdater")}
+                  onDragStart={(event) =>
+                    onDragStart(
+                      event,
+                      JSON.stringify([playbook, "textUpdater"])
+                    )
+                  }
                   draggable
                 >
                   <label key={playbook.id} htmlFor="text">
