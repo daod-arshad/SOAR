@@ -85,7 +85,7 @@ function Playbook() {
       // console.log(edges);
     },
     //
-    [reactFlowInstance, edges, setNodes, nodes]
+    [reactFlowInstance, setNodes,]
     
     
   );
@@ -187,7 +187,7 @@ function findSequence(edges, nodes) {
     }
     console.log(sequence);
   }
-      
+    console.log(nodes)  
 
 }
 
