@@ -13,10 +13,9 @@ function TextUpdaterNode({ data }) {
   const inputs = []
 
   for (let i = 0; i < data.playbook.playbook_inputs; i++) {
-    inputs.push(<input key={i} onChange={onChange} />);
-    inputs.push(<br key={Math.random()} />)
+    inputs.push(<input id={i} key={i} onChange={onChange} />);
+    inputs.push(<br key={1000 - i} />)
   }
-  // console.log(inputs)
   
   return (
     <div className="text-updater-node">

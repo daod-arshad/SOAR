@@ -39,10 +39,7 @@ function NewSidebar() {
                 <div
                   className="dndnode"
                   onDragStart={(event) =>
-                    onDragStart(
-                      event,
-                      JSON.stringify([playbook, "textUpdater"])
-                    )
+                    onDragStart(event, JSON.stringify(playbook))
                   }
                   draggable
                 >
@@ -58,10 +55,7 @@ function NewSidebar() {
                 <div
                   className="dndnode"
                   onDragStart={(event) =>
-                    onDragStart(
-                      event,
-                      JSON.stringify([playbook, "textUpdater"])
-                    )
+                    onDragStart(event, JSON.stringify(playbook))
                   }
                   draggable
                 >
@@ -79,7 +73,7 @@ function NewSidebar() {
                 <div
                   className="dndnode"
                   onDragStart={(event) =>
-                    onDragStart(event, ["textUpdater", playbook])
+                    onDragStart(event, JSON.stringify(playbook))
                   }
                   draggable
                 >

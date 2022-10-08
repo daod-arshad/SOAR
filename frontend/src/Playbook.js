@@ -4,6 +4,7 @@ import "./style/Playbook.css";
 import TextUpdaterNode from "./TextUpdaterNode.js";
 import "./style/text-updater-node.css";
 import NewSidebar from "./NewSidebar";
+import Button from "@mui/material/Button";
 
 const initialNodes = [
   /*
@@ -48,16 +49,19 @@ function Playbook() {
   const onDrop = useCallback(
     (event) => {
       
-      findSequence(edges,nodes)
+      // findSequence(edges,nodes)
 
 
       event.preventDefault();
 
       const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
-      var recievedData = event.dataTransfer.getData("application/reactflow");
+      /* var recievedData = event.dataTransfer.getData("application/reactflow");
       recievedData = JSON.parse(recievedData);
-      const playbookInformation = recievedData[0]
-      const type = recievedData[1]
+      const playbookInformation = recievedData[0] */
+      const playbookInformation = JSON.parse(
+        event.dataTransfer.getData("application/reactflow")
+      );
+      const type = "textUpdater"
 
       // console.log(type)
       
@@ -105,6 +109,9 @@ function Playbook() {
             style={rfStyle}
           >
             <Controls />
+            <div className="save__controls">
+              <Button variant="contained" color="success" onClick={() => findSequence(edges, nodes)}>Execute</Button>
+            </div>
           </ReactFlow>
         </div>
       </ReactFlowProvider>
@@ -123,7 +130,7 @@ function findSequence(edges, nodes) {
       console.log(item.data.value);
     });
   }
-  console.log(edges);
+  // console.log(edges);
   // array.forEach(element => {
     
   // });
@@ -154,16 +161,21 @@ function findSequence(edges, nodes) {
   });
 
   if (edges.length === 0) {
-    console.log("There is only one Node");
+    console.log("There are no connections");
   } else if (edges.length === 1) {
-    console.log("There are only 2 nodes");
+    // console.log("There are only 2 nodes");
+    edges.forEach(item => {
+      sequence.push(item.source)
+      sequence.push(item.target)
+      console.log(sequence)
+    })
   } else {
     sequence.push(pointer);
     var edgesCopy = []
     edges.forEach(item => {
         edgesCopy.push(item)
     })
-    console.log(edgesCopy)
+    // console.log(edgesCopy)
     for (var i = 0; i < edges.length; i++) {
       edges.forEach(item => {
         if (item.source === pointer) {
