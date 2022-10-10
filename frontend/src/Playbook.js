@@ -74,11 +74,12 @@ function Playbook() {
         x: event.clientX - reactFlowBounds.left,
         y: event.clientY - reactFlowBounds.top,
       });
+      
       const newNode = {
         id: getId(),
         type,
         position,
-        data: { playbook: playbookInformation, value:[] },
+        data: { playbook: playbookInformation, values:[] },
       };
 
       setNodes((nds) => nds.concat(newNode));
@@ -110,7 +111,7 @@ function Playbook() {
           >
             <Controls />
             <div className="save__controls">
-              <Button variant="contained" color="success" onClick={() => findSequence(edges, nodes)}>Execute</Button>
+              <Button variant="contained" onClick={() => getNodeData(nodes)}>Execute</Button>
             </div>
           </ReactFlow>
         </div>
@@ -191,4 +192,14 @@ function findSequence(edges, nodes) {
 
 }
 
+function getNodeData(nodes) {
+  nodes.forEach(node => {
+    console.log(node.data.values)
+  })
+}
+
+  
+  
+  
+  
 export default Playbook;
