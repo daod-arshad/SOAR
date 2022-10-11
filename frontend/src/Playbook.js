@@ -1,5 +1,13 @@
-import React, { useState, useRef, useCallback } from "react";
-import ReactFlow, { ReactFlowProvider,addEdge,useNodesState,useEdgesState, Controls,} from "react-flow-renderer";
+import React, { useState,useRef ,useCallback,} from "react";
+import ReactFlow, {
+  ReactFlowProvider,
+  addEdge,
+  useNodesState,
+  useEdgesState,
+  Controls,
+  applyEdgeChanges,
+  applyNodeChanges,
+} from "react-flow-renderer";
 import "./style/Playbook.css";
 import TextUpdaterNode from "./TextUpdaterNode.js";
 import "./style/text-updater-node.css";
@@ -27,12 +35,20 @@ const getId = () => `dndnode_${id++}`;
 
 
 function Playbook() {
-  
   const reactFlowWrapper = useRef(null);
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [nodes, setNodes,] = useNodesState(initialNodes);
+  const [edges, setEdges,] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-//
+  
+  const onNodesChange = useCallback(
+    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
+    [setNodes]
+  );
+  const onEdgesChange = useCallback(
+    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
+    [setEdges]
+  );
+
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)
       // || console.log(edges)
@@ -75,11 +91,16 @@ function Playbook() {
         y: event.clientY - reactFlowBounds.top,
       });
       
+      const dataArray = []
+      for (let i = 0; i < playbookInformation.playbook_inputs; i++){
+        dataArray.push(null)
+      }
+      
       const newNode = {
         id: getId(),
         type,
         position,
-        data: { playbook: playbookInformation, values:[] },
+        data: { playbook: playbookInformation, values:dataArray},
       };
 
       setNodes((nds) => nds.concat(newNode));
@@ -194,6 +215,7 @@ function findSequence(edges, nodes) {
 
 function getNodeData(nodes) {
   nodes.forEach(node => {
+    console.log(node.data.playbook.playbook_display_name);
     console.log(node.data.values)
   })
 }

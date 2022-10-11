@@ -1,4 +1,4 @@
-import { useCallback, } from "react";
+import { useCallback} from "react";
 import { Handle, Position } from "react-flow-renderer";
 import Button from "@mui/material/Button";
 
@@ -6,20 +6,23 @@ const handleStyle = { bottom: 6 };
 
 function TextUpdaterNode({ data }) {
   const inputs = []
-  data.values = []
+  console.log(data.values)
 
-  const onChange = useCallback((evt) => {
-    for (let i = 0; i < data.playbook.playbook_inputs; i++){
-      data.values[i] = document.getElementById(i).value
-    }
-      // console.log(evt.target.value);
-    // data.values.push(evt.target.value)
-  }, [data.values]);
+  const onChange = useCallback(
+    (evt) => {
+      for (let i = 0; i < data.playbook.playbook_inputs; i++) {
+        console.log(document.getElementById(i).value);
+        data.values[i] = document.getElementById(i).value;
+      }
+    },
+    [data.values, data.playbook.playbook_inputs]
+  );
+  
 
   for (let i = 0; i < data.playbook.playbook_inputs; i++) {
     inputs.push(<input id={i} key={i} />);
     inputs.push(<br key={1000 - i} />)
-    data.values.push(null)
+    // data.values.push(null)
   }
   
   return (
