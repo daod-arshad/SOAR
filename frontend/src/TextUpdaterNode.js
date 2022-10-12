@@ -1,4 +1,4 @@
-import { useState} from "react";
+import React, { useState} from "react";
 import { Handle, Position } from "react-flow-renderer";
 import Button from "@mui/material/Button";
 
@@ -20,15 +20,14 @@ function TextUpdaterNode({ data }) {
   return (
     <div className="text-updater-node">
       <Handle type="target" position={Position.Left} id="left" />
-      <div>
         <label htmlFor="text">{data.playbook.playbook_display_name}</label>
         <form onSubmit={handleSubmit}>
           {
             inputs.map((item) => (
-            <>
-              <input id={item} key={item.toString()} />
-              <br key={1000-item} />
-            </>
+              <React.Fragment key={ item }>
+              <input/>
+              <br/> 
+            </React.Fragment>
           ))
           }
           <div className="saveButton">
@@ -43,7 +42,6 @@ function TextUpdaterNode({ data }) {
             </Button>
           </div>
         </form>
-      </div>
       <Handle
         type="source"
         position={Position.Right}
