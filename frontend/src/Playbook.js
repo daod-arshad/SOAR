@@ -100,7 +100,11 @@ function Playbook() {
         id: getId(),
         type,
         position,
-        data: { playbook: playbookInformation, values:dataArray},
+        data: {
+          playbook: playbookInformation, values: dataArray,
+          generateArrays: Array.from(Array(Number(playbookInformation.playbook_inputs)).keys()),
+          retrievedData:null
+        },
       };
 
       setNodes((nds) => nds.concat(newNode));
