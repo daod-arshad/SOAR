@@ -5,9 +5,9 @@ import Button from "@mui/material/Button";
 const handleStyle = { bottom: 6 };
 
 function TextUpdaterNode({ data }) {
-  const [showForm, setShowForm] = React.useState(true);
+  const [showForm, setShowForm] = useState(true);
   const [buttonText, setButtonText] = useState("Save");
-  const [inputs, setInputs] = useState(data.generateArrays)
+  // const [inputs, setInputs] = useState(data.generateArrays)
 
 
   var handleSubmit = (event) => {
@@ -23,28 +23,27 @@ function TextUpdaterNode({ data }) {
   return (
     <div className="text-updater-node">
       <Handle type="target" position={Position.Left} id="left" />
-        <label htmlFor="text">{data.playbook.playbook_display_name}</label>
-        <form onSubmit={handleSubmit}>
-          {showForm && (
-            inputs.map((item) => (
-              <React.Fragment key={ item }>
-              <input/>
-              <br/> 
+      <label htmlFor="text">{data.playbook.playbook_display_name}</label>
+      <form onSubmit={handleSubmit}>
+        {showForm &&
+          data.generateArrays.map((item) => (
+            <React.Fragment key={item}>
+              <input />
+              <br />
             </React.Fragment>
-          ))
-          )}
-          <div className="saveButton">
-            <Button
-              type="submit"
-              variant="contained"
-              size="small"
-              color="success"
+          ))}
+        <div className="saveButton">
+          <Button
+            type="submit"
+            variant="contained"
+            size="small"
+            color="success"
             sx={{ m: 1, alignItems: "center" }}
-            >
-              {buttonText}
-            </Button>
-          </div>
-        </form>
+          >
+            {buttonText}
+          </Button>
+        </div>
+      </form>
       <Handle
         type="source"
         position={Position.Right}
