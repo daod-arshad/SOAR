@@ -136,7 +136,7 @@ function Playbook() {
           >
             <Controls />
             <div className="save__controls">
-              <Button variant="contained" onClick={() => getNodeData(nodes)}>Execute</Button>
+              <Button variant="contained" onClick={() =>  getNodeData(edges,nodes)}>Execute</Button>
             </div>
           </ReactFlow>
         </div>
@@ -151,22 +151,13 @@ function findSequence(edges, nodes) {
   var startAndEnd = [];
   var pointer;
   var sequence = [];
-  if (nodes.length > 1) {
-    nodes.forEach(item => {
-      console.log(item.data.value);
-    });
-  }
-  // console.log(edges);
-  // array.forEach(element => {
-    
-  // });
-  edges.forEach(item => {
+
+  edges.forEach((item) => {
     startEnd.push(item.source);
     startEnd.push(item.target);
   });
-  // console.log(startEnd)
-  startEnd.forEach(item => {
-    startEnd.forEach(duplicateItem => {
+  startEnd.forEach((item) => {
+    startEnd.forEach((duplicateItem) => {
       if (item === duplicateItem) {
         count += 1;
       }
@@ -177,54 +168,61 @@ function findSequence(edges, nodes) {
     count = 0;
   });
 
-  edges.forEach(item2 => {
-    startAndEnd.forEach(item3 => {
+  edges.forEach((item2) => {
+    startAndEnd.forEach((item3) => {
       if (item2.source === item3) {
         pointer = item3;
-        // console.log(`Starting node is ${pointer}`)
       }
     });
   });
 
   if (edges.length === 0) {
     console.log("There are no connections");
+
   } else if (edges.length === 1) {
     // console.log("There are only 2 nodes");
-    edges.forEach(item => {
-      sequence.push(item.source)
-      sequence.push(item.target)
-      console.log(sequence)
-    })
+    edges.forEach((item) => {
+      sequence.push(item.source);
+      sequence.push(item.target);
+    });
   } else {
     sequence.push(pointer);
-    var edgesCopy = []
-    edges.forEach(item => {
-        edgesCopy.push(item)
-    })
-    // console.log(edgesCopy)
+    var edgesCopy = [];
+    edges.forEach((item) => {
+      edgesCopy.push(item);
+    });
     for (var i = 0; i < edges.length; i++) {
-      edges.forEach(item => {
+      edges.forEach((item) => {
         if (item.source === pointer) {
           sequence.push(item.target);
           pointer = item.target;
-          // console.log(`The next node is ${pointer}`)
         }
       });
     }
-    console.log(sequence);
   }
-    console.log(nodes)  
+   return sequence;
 
 }
 
-function getNodeData(nodes) {
-  nodes.forEach(node => {
-    console.log(node.data.playbook.playbook_display_name);
-    console.log(node.data.values)
+function getNodeData(edges,nodes) {
+  var finalSequence = findSequence(edges, nodes)
+  console.log(finalSequence)
+  finalSequence.forEach((nodeInSequence) => {
+    nodes.forEach((node) => {
+      if (node.id == nodeInSequence) {
+        console.log(node.data.playbook.playbook_display_name);
+        console.log(node.data.values);
+      }
+    });
   })
+  
 }
 
-  
+
+
+function runPlaybooks() {
+  const playbooks = ["ansible-runner.py",]
+}
   
   
   
