@@ -136,7 +136,7 @@ function Playbook() {
           >
             <Controls />
             <div className="save__controls">
-              <Button variant="contained" onClick={() =>  getNodeData(edges,nodes)}>Execute</Button>
+              <Button variant="contained" onClick={() =>  runPlaybooks(edges,nodes)}>Execute</Button>
             </div>
           </ReactFlow>
         </div>
@@ -204,14 +204,27 @@ function findSequence(edges, nodes) {
 
 }
 
-function getNodeData(edges,nodes) {
+function runPlaybooks(edges, nodes) {
+  const playbooks = ["ansible-runner.py"];
   var finalSequence = findSequence(edges, nodes)
   console.log(finalSequence)
   finalSequence.forEach((nodeInSequence) => {
     nodes.forEach((node) => {
-      if (node.id == nodeInSequence) {
-        console.log(node.data.playbook.playbook_display_name);
-        console.log(node.data.values);
+      if (node.id === nodeInSequence) {
+        playbooks.push(
+          JSON.stringify({
+            name: node.data.playbook.playbook_name,
+            data: {
+              display_name: node.data.playbook.playbook_display_name,
+              path: node.data.playbook.playbook_path,
+              vault_pass: node.data.playbook.playbook_vault_password_path,
+              module_path: node.data.playbook.playbook_module_path,
+              // host_names: "dawood",
+            },
+          })
+        );
+        // console.log(node.data.playbook.playbook_display_name);
+        // console.log(node.data.values);
       }
     });
   })
@@ -219,10 +232,6 @@ function getNodeData(edges,nodes) {
 }
 
 
-
-function runPlaybooks() {
-  const playbooks = ["ansible-runner.py",]
-}
   
   
   

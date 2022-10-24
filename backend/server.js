@@ -1,9 +1,9 @@
 // importing
 import express from "express";
 import mongoose from "mongoose"
-import LinuxPlaybooks from "./schema/linuxPlaybookSchema.js"
-import WindowsPlaybooks from "./schema/windowsPlaybookSchema.js"
-import OtherPlaybooks from "./schema/otherPlaybookSchema.js"
+import LinuxPlaybooksUpdated from "./schema/linuxPlaybooksSchemaUpdated.js"
+import WindowsPlaybooksUpdated from "./schema/windowsPlaybookSchemaUpdated.js"
+import OtherPlaybooksUpdated from "./schema/otherPlaybookSchemaUpdated.js"
 import cors from "cors"
 
 // app config
@@ -32,17 +32,17 @@ app.get('/', (req, res) => res.status(200).send('hello world'))
 app.post('/linuxPlaybooks/new', (req, res) => {
     const linuxPlaybook = req.body
 
-    LinuxPlaybooks.create(linuxPlaybook, (err, data) => {
-        if (err) {
-            res.status(500).send(err)
-        } else {
-            res.status(201).send(data)
-        }
-    })
+    LinuxPlaybooksUpdated.create(linuxPlaybook, (err, data) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.status(201).send(data);
+      }
+    });
 })
 app.get("/linuxPlaybooks/find", (req, res) => {
 
-  LinuxPlaybooks.find((err, data) => {
+  LinuxPlaybooksUpdated.find((err, data) => {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -56,7 +56,7 @@ app.get("/linuxPlaybooks/find", (req, res) => {
 app.post("/windowsPlaybooks/new", (req, res) => {
   const windowsPlaybook = req.body;
 
-  WindowsPlaybooks.create(windowsPlaybook, (err, data) => {
+  WindowsPlaybooksUpdated.create(windowsPlaybook, (err, data) => {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -65,7 +65,7 @@ app.post("/windowsPlaybooks/new", (req, res) => {
   });
 });
 app.get("/windowsPlaybooks/find", (req, res) => {
-  WindowsPlaybooks.find((err, data) => {
+  WindowsPlaybooksUpdated.find((err, data) => {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -80,7 +80,7 @@ app.get("/windowsPlaybooks/find", (req, res) => {
 app.post("/otherPlaybooks/new", (req, res) => {
   const otherPlaybook = req.body;
 
-  OtherPlaybooks.create(otherPlaybook, (err, data) => {
+  OtherPlaybooksUpdated.create(otherPlaybook, (err, data) => {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -89,7 +89,7 @@ app.post("/otherPlaybooks/new", (req, res) => {
   });
 });
 app.get("/otherPlaybooks/find", (req, res) => {
-  OtherPlaybooks.find((err, data) => {
+  OtherPlaybooksUpdated.find((err, data) => {
     if (err) {
       res.status(500).send(err);
     } else {

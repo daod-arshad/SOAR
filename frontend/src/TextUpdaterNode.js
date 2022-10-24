@@ -28,7 +28,8 @@ function TextUpdaterNode({ data }) {
         {showForm &&
           data.generateArrays.map((item) => (
             <React.Fragment key={item}>
-              <input />
+              <label>{data.playbook.playbook_labels[item]}</label>
+              <input placeholder={data.playbook.playbook_placeholders[item]} />
               <br />
             </React.Fragment>
           ))}
