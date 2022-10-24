@@ -1,6 +1,6 @@
 .app {
     text-align: center;
-    background-color: green;
+    /* background-color: green; */
     height: 100%;
     width: 100%;
 }
@@ -13,6 +13,6 @@
     font-size: calc(10px + 1.5vmin);
     float: right;
     margin-left: 1.5em;
-    background-color: red;
+    /* background-color: red; */
     
 }

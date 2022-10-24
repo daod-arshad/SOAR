@@ -25,7 +25,7 @@ const initialNodes = [
   */
 ];
 const rfStyle = {
-  backgroundColor: "#fff6f6",
+  backgroundColor: "#f8f8f8",
 };
 
 window.name = "Dawood"

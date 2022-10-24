@@ -23,14 +23,14 @@ function TextUpdaterNode({ data }) {
   return (
     <div className="text-updater-node">
       <Handle type="target" position={Position.Left} id="left" />
-      <label htmlFor="text">{data.playbook.playbook_display_name}</label>
+      <label className="heading" htmlFor="text">{data.playbook.playbook_display_name}</label>
       <form onSubmit={handleSubmit}>
         {showForm &&
           data.generateArrays.map((item) => (
             <React.Fragment key={item}>
-              <label>{data.playbook.playbook_labels[item]}</label>
+              <label className="labelForInputs">{data.playbook.playbook_labels[item]}</label>
               <input placeholder={data.playbook.playbook_placeholders[item]} />
-              <br />
+              <br className="space" />
             </React.Fragment>
           ))}
         <div className="saveButton">

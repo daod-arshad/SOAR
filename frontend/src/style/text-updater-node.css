@@ -4,22 +4,34 @@
     margin-bottom: 10px;
     /* height: 50px; */
     /* border: 1px solid #eee; */
-    padding: 5px;
+    /* padding: 5px; */
     /* border-radius: 5px; */
     background: white;
     text-align: center;
 }
 
-.text-updater-node label {
+.heading {
+    background-color: #1a192b;
+    text-align: center;
+    font-weight: bolder;
+    display: block;
+    color: white;
+    font-size: 1.3rem;
+    padding: 0.5rem;
+}
+.labelForInputs {
+    font-weight: bold;
     display: block;
     text-align: left;
-    color: #777;
+    color: black;
     font-size: 1rem;
-    margin-bottom: 0.75rem;
+    padding: 0.25rem;
 }
 
 .text-updater-node input {
     font-size: medium;
+    margin: 0.1rem 0.5rem 0.5rem 0.5rem;
+    padding: 0.2rem;
 }
 .saveButton {
     position: sticky;
