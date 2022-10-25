@@ -219,7 +219,7 @@ function runPlaybooks(edges, nodes) {
               path: node.data.playbook.playbook_path,
               vault_pass: node.data.playbook.playbook_vault_password_path,
               module_path: node.data.playbook.playbook_module_path,
-              // host_names: "dawood",
+              values: node.data.values,
             },
           })
         );

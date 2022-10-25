@@ -1,7 +1,6 @@
 import json
 import ansible_runner
 import sys
-import requests
 
 playbook_logs = []
 for i in range(1, len(sys.argv)):
@@ -26,5 +25,5 @@ for i in range(1, len(sys.argv)):
     print("Final status:")
     print(r.stats)
 
-# print('playbook logs',playbook_logs)
-requests.post('http://localhost:3000/playbook_logs/',json=playbook_logs)
+print('playbook logs',playbook_logs)
+# requests.post('http://localhost:3000/playbook_logs/',json=playbook_logs)
