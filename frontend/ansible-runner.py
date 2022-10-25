@@ -1,7 +1,6 @@
 import json
 import ansible_runner
 import sys
-import requests
 
 playbook_logs = []
 for i in range(1, len(sys.argv)):
