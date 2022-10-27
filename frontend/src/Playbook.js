@@ -229,6 +229,26 @@ function runPlaybooks(edges, nodes) {
     });
   })
   
+  if (finalSequence.length > 0) {
+    var dataToSend;
+    // spawn new child process to call ansible-runner.py
+    const python = spawn("python3", playbooks);
+    // collecting data from ansible-runner.py
+    python.stdout.on("data", function (data) {
+      dataToSend = data.toString();
+      console.log(dataToSend);
+    });
+
+    // in close event we are sure that stream from child process is closed
+    python.on("close", (code) => {
+      console.log(`child process close all stdio with code ${code}`);
+      // send data to browser
+    });
+  }
+  else {
+    console.log("no playbook to be executed");
+  }
+  
 }
 
 
