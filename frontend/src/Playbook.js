@@ -13,6 +13,7 @@ import TextUpdaterNode from "./TextUpdaterNode.js";
 import "./style/text-updater-node.css";
 import NewSidebar from "./NewSidebar";
 import Button from "@mui/material/Button";
+import spawn from "child_process"
 
 const initialNodes = [
   /*
