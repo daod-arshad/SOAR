@@ -98,6 +98,10 @@ app.get("/otherPlaybooks/find", (req, res) => {
   });
 });
 
+app.post("/recievePlaybook", (req, res) => {
+  console.log("new data recieved")
+  console.log(req.body.playbooks)
+})
 
 
 // listen
