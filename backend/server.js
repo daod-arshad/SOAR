@@ -5,7 +5,7 @@ import LinuxPlaybooksUpdated from "./schema/linuxPlaybooksSchemaUpdated.js"
 import WindowsPlaybooksUpdated from "./schema/windowsPlaybookSchemaUpdated.js"
 import OtherPlaybooksUpdated from "./schema/otherPlaybookSchemaUpdated.js"
 import cors from "cors"
-import spawn from "child_process"
+import {spawn} from "child_process"
 
 // app config
 const app = express()
@@ -102,7 +102,8 @@ app.get("/otherPlaybooks/find", (req, res) => {
 app.post("/recievePlaybook", (req, res) => {
   console.log("New data recieved")
   console.log(req.body.playbooks)
-  
+  const playbooks = req.body.playbooks
+
   if (playbooks.length > 1) {
     var dataToSend;
     // spawn new child process to call ansible-runner.py

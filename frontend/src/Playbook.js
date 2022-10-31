@@ -231,9 +231,13 @@ function runPlaybooks(edges, nodes) {
   })
   
   if (finalSequence.length > 0) {
-    axios.post("/recievePlaybook", {
-          playbooks:playbooks
-        });
+    axios
+      .post("/recievePlaybook", {
+        playbooks: playbooks,
+      })
+      .then((response) => {
+        console.log(response.data);
+      }, []);
   }
   
 }
