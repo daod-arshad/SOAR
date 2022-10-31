@@ -100,8 +100,29 @@ app.get("/otherPlaybooks/find", (req, res) => {
 });
 
 app.post("/recievePlaybook", (req, res) => {
-  console.log("new data recieved")
+  console.log("New data recieved")
   console.log(req.body.playbooks)
+  
+  if (playbooks.length > 1) {
+    var dataToSend;
+    // spawn new child process to call ansible-runner.py
+    const python = spawn("python3", playbooks);
+    // collecting data from ansible-runner.py
+    python.stdout.on("data", function (data) {
+      dataToSend = data.toString();
+      console.log(dataToSend);
+    });
+
+    // in close event we are sure that stream from child process is closed
+    python.on("close", (code) => {
+      console.log(`child process close all stdio with code ${code}`);
+      // send data to browser
+      res.send(dataToSend);
+    });
+  } else {
+    console.log("no playbook to be executed");
+    res.send();
+  }
 })
 
 
