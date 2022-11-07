@@ -111,6 +111,7 @@ app.post("/recievePlaybook", (req, res) => {
     // collecting data from ansible-runner.py
     python.stdout.on("data", function (data) {
       dataToSend = data.toString();
+      console.log("****************************------------------")
       console.log(dataToSend);
     });
 
@@ -118,7 +119,8 @@ app.post("/recievePlaybook", (req, res) => {
     python.on("close", (code) => {
       console.log(`child process close all stdio with code ${code}`);
       // send data to browser
-      res.send(dataToSend);
+      console.log(dataToSend)
+      res.send(dataToSend); 
     });
   } else {
     console.log("no playbook to be executed");

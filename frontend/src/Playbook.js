@@ -237,6 +237,7 @@ function runPlaybooks(edges, nodes) {
         playbooks: playbooks,
       })
       .then((response) => {
+        console.log("REcieved Data")
         console.log(response.data);
       }, []);
   }
