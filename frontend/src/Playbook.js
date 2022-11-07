@@ -220,6 +220,7 @@ function runPlaybooks(edges, nodes) {
               path: node.data.playbook.playbook_path,
               vault_pass: node.data.playbook.playbook_vault_password_path,
               module_path: node.data.playbook.playbook_module_path,
+              parameters: node.data.playbook.playbook_parameters,
               values: node.data.values,
             },
           })

@@ -7,7 +7,7 @@ const otherSchemaUpdated = mongoose.Schema({
   playbook_display_name: String,
   playbook_path: String,
   playbook_inputs: Number,
-  playbook_outputs: Number,
+  playbook_parameters: Array,
   playbook_vault_password_path: String,
   playbook_module_path: String,
   playbook_placeholders: Array,

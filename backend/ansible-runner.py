@@ -6,6 +6,7 @@ playbook_logs = []
 for i in range(1, len(sys.argv)):
     js_object = sys.argv[i]
     py_dict = json.loads(js_object)
+    print('pydict_data', py_dict["data"])
     if py_dict['data']['vault_pass'] == None or len(py_dict['data']['vault_pass']) == 0:
         r = ansible_runner.run(
         playbook=f"{py_dict['data']['path']}{py_dict['name']}",
