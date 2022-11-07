@@ -100,8 +100,8 @@ app.get("/otherPlaybooks/find", (req, res) => {
 });
 
 app.post("/recievePlaybook", (req, res) => {
-  console.log("New data recieved")
-  console.log(req.body.playbooks)
+  // console.log("New data recieved")
+  // console.log(req.body.playbooks)
   const playbooks = req.body.playbooks
 
   if (playbooks.length > 1) {
