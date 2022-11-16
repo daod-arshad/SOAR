@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import "./style/custom.scss";
-import axios from "./axios.js"
+import axios from "../axios.js"
 
 
 
