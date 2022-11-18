@@ -1,0 +1,45 @@
+---
+- name: FINDING A FILE
+  hosts: win
+  gather_facts: false
+  tasks:
+   - name: finding a file dynamically
+     win_find:
+       paths: "{{ file_path }}"
+       patterns: "{{ file_name }}"
+       recurse: yes
+       follow: yes
+     register: files_matched
+
+   - name: finding a hidden file dynamically
+     win_find:
+       paths: "{{ file_path }}"
+       patterns: "{{ file_name }}"
+       recurse: yes
+       follow: yes
+       hidden: yes
+     register: hidden_files_matched
+     
+   - fail:
+       msg: "{{ file_path }}{{ file_name }} does not exist"
+     when: files_matched.files == [] and hidden_files_matched.files == []
+     
+   - debug:
+       msg: "file path: {{ files_matched.files[0].path }}"
+     when: files_matched.files != []
+       
+   - name: register dummy host with variable
+     add_host:
+       name: "ansible"
+       files_matched_new: "{{ files_matched.files[0].path }}"
+     when: files_matched.files != []
+     
+   - debug:
+       msg: "hidden file path: {{ hidden_files_matched.files[0].path }}"
+     when: hidden_files_matched.files != []
+     
+   - name: register dummy host with hidden variable
+     add_host:
+       name: "ansible"
+       hidden_files_matched_new: "{{ hidden_files_matched.files[0].path }}"
+     when: hidden_files_matched.files != []

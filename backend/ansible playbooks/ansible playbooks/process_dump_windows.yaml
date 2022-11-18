@@ -1,0 +1,30 @@
+---
+- name: process dump from windows host
+  hosts: jon
+  gather_facts: false
+  tasks:
+  
+   - name: creating process dump of a process on windows host
+     win_shell: |
+       $procdump = $env:procdump
+       cd $procdump
+       .\procdump.exe {{process_id}}
+     register: dump
+     failed_when: "'No process matching the specified PID can be found' in dump.stdout"
+
+   - name: output
+     debug:
+       msg: "{{ dump.stdout_lines[5] }}"
+     
+   - name: extracting dump file name
+     set_fact:
+       dump_file_name: '{{ dump.stdout_lines[5][40:] | regex_search("[A-Z].*.dmp", ignorecase=True) }}'
+       
+   - name: output
+     debug:
+       msg: "{{ dump_file_name }}"
+        
+   - name: fetching dump file from windows host
+     fetch:
+       src: 'C:\procdump\{{ dump_file_name }}'
+       dest: "dump/"

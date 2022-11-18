@@ -1,0 +1,10 @@
+---
+- name: LOCKING LINUX HOST
+  hosts: servers
+  become: yes
+  gather_facts: false
+  tasks:
+   - name: locking a user
+     user:
+       name: "{{ username }}"
+       expires: -1

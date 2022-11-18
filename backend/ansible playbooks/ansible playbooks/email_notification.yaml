@@ -1,0 +1,29 @@
+---
+- name: SENDING EMAIL USING GMAIL
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    vars/smtp_secrets.yml
+  vars:
+    email_smtp_server: 'smtp.gmail.com'
+    email_smtp_server_port: '587'
+    email_smtp_from_address: 'ansible@lab.local (Ansible Automation)'
+    email_smtp_to_address:
+          - '<malick4203487@cloud.neduet.edu.pk>'
+    email_report_body: "This is a demo email. Check demo attachment."
+    email_smtp_subject: "Ansible Email Notification - Demo"
+    report_file_name: /home/sam/dynamic.yaml
+  tasks:
+    - name: Email notification
+      mail:
+        host: "{{ email_smtp_server }}"
+        port: "{{ email_smtp_server_port }}"
+        secure: try
+        from: "{{ email_smtp_from_address }}"
+        to: "{{ email_smtp_to_address }}"
+        subject: "{{ email_smtp_subject }}"
+        body: "{{ email_report_body }}"
+        attach:
+          - "{{ report_file_name }}"
+        username: "{{ email_smtp_username }}"
+        password: "{{ email_smtp_password }}"

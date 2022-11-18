@@ -1,0 +1,12 @@
+---
+- name: windows_firewall_playbook.yaml
+  hosts: win
+  tasks:
+    - name: windows firewall rules
+      win_firewall_rule:
+        name: Blocking all incoming traffic
+        direction: out
+        action: block
+        protocol: any
+        enabled: yes
+        state: present

@@ -1,0 +1,13 @@
+---
+ - name: iptables_raw.py
+   hosts: samsung
+   become: yes
+   tasks:
+    - name: iptables rules
+      iptables_raw.py:
+        name: appending multiple rules to iptables
+        weight: 0
+        rules: |
+          -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+          -A INPUT -p tcp --dport 22 -j ACCEPT
+          -A INPUT -j DROP

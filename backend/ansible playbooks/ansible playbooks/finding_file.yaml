@@ -1,0 +1,18 @@
+---
+- name: FINDING A FILE
+  hosts: servers
+  become: yes
+  gather_facts: false
+  tasks:
+   - name: finding a file dynamically
+     find:
+       paths: "{{file_path}}"
+       patterns: "{{file_name}}"
+       recurse: yes
+     register: files_matched
+   - debug:
+       msg: "{{files_matched.files[0].path}}"
+   - name: register dummy host with variable
+     add_host:
+       name: "jon"
+       files_matched_new: "{{files_matched.files[0].path}}"

@@ -1,0 +1,16 @@
+---
+- name: SENDING A SLACK NOTIFICATION
+  hosts: localhost
+  gather_facts: false
+  tasks:
+   - name: sending a message on slack
+     slack:
+       token: T035P69GP0E/B036KKV6U80/oMO9SSctztAoocysy6jYc6Yn
+       msg: 'link: www.google.com'
+       color: danger
+       channel: "{{ item }}"
+     loop: "{{ channels }}"
+     when: channels is defined
+
+
+#https://hooks.slack.com/services/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

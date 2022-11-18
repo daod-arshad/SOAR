@@ -1,0 +1,10 @@
+#playbook to install vim
+
+---
+- hosts: all
+  become: yes
+  tasks:
+   - name: vim install
+     apt:
+       name: vim
+       state: present

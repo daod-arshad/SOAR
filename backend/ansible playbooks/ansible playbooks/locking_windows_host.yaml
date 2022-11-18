@@ -1,0 +1,13 @@
+---
+- name: DISABLING WINDOWS HOST
+  hosts: jon
+  gather_facts: false
+  tasks:
+   - name: disabling a user
+     win_user:
+       name: ansible-win-vm
+       account_disabled: yes
+   - name: logging off host
+     win_shell: $sessions = quser | Where-Object {$_ -match 'ansible-win-vm'};
+      $sessionIds = ($sessions -split ' +')[2];
+       logoff $sessionIds

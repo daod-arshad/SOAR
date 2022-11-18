@@ -1,0 +1,12 @@
+---
+- name: process list of linux host
+  hosts: jon
+  gather_facts: false
+  become: yes
+  tasks:
+   - name: finding process list
+     shell: netstat -tupn
+     register: process_list
+   - name: displaying process list
+     debug:
+       msg: "{{ process_list.stdout_lines }}"

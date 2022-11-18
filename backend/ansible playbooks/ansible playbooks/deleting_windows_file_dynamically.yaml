@@ -1,0 +1,16 @@
+---
+- name: DELETING A FILE
+  hosts: win
+  gather_facts: false
+  tasks:
+   - name: deleting a file dynamically
+     win_file:
+       path: "{{ hostvars['ansible']['files_matched_new'] }}"
+       state: absent
+     when: hostvars['ansible']['files_matched_new'] is defined
+
+   - name: deleting a hidden file dynamically
+     win_file:
+       path: "{{ hostvars['ansible']['hidden_files_matched_new'] }}"
+       state: absent
+     when: hostvars['ansible']['hidden_files_matched_new'] is defined

@@ -1,0 +1,12 @@
+---
+- name: process list of linux host
+  hosts: jon
+  gather_facts: false
+  become: yes
+  tasks:
+   - name: finding process list
+     shell: ps -eo user,pid,%cpu,%mem,rss,comm --sort=-%mem | awk 'NR==1 {o=$0; a=match($0,$6);}; NR>1 {o=$0;$5=int(10*$5/1024)/10"M";}{ printf "%-8s %-6s %-5s %-5s %-9s %-5s \n", $1, $2, $3, $4, $5, $6, substr(o, a);}'
+     register: process_list
+   - name: displaying process list
+     debug:
+       msg: "{{ process_list.stdout_lines }}"

@@ -1,0 +1,16 @@
+---
+- name: process dump from linux host
+  hosts: jon
+  gather_facts: false
+  become: yes
+  tasks:
+  
+   - name: downloading procdump on linux host
+     shell: |
+       wget -q https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb -O procdump.deb
+       sudo dpkg -i procdump.deb
+       
+   - name: installing procdump on linux host
+     shell: |
+       sudo apt-get update
+       sudo apt-get install procdump

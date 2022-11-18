@@ -1,0 +1,9 @@
+---
+- name: ENABLING WINDOWS HOST
+  hosts: jon
+  gather_facts: false
+  tasks:
+   - name: enabling a user
+     win_user:
+       name: ansible-win-vm
+       account_disabled: no

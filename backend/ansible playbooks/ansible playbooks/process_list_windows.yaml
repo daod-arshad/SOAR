@@ -1,0 +1,11 @@
+---
+- name: process list of windows host
+  hosts: jon
+  gather_facts: false
+  tasks:
+   - name: finding process list
+     win_shell: Get-Process
+     register: process_list
+   - name: displaying process list
+     debug:
+       msg: "{{ process_list.stdout_lines }}"

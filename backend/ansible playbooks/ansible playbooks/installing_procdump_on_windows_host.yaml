@@ -1,0 +1,28 @@
+---
+- name: process dump from windows host
+  hosts: jon
+  gather_facts: false
+  tasks:
+  
+   - name: creating procdump folder on windows host
+     win_file:
+       path: 'C:\procdump'
+       state: directory
+  
+   - name: downloading procdump on windows host
+     win_get_url:
+       url: https://download.sysinternals.com/files/Procdump.zip
+       dest: C:\procdump\Procdump.zip
+       force: no
+      
+   - name: installing procdump on windows host
+     win_unzip:
+       src: C:\procdump\Procdump.zip
+       dest: C:\procdump
+      
+   - name: setting environment variable for procdump in windows host
+     win_environment:
+       state: present
+       name: procdump
+       value: 'C:\procdump'
+       level: machine

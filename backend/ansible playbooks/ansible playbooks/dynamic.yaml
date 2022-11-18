@@ -1,0 +1,12 @@
+---
+- name: DELETING A FILE
+  hosts: servers
+  become: yes
+  gather_facts: false
+  tasks:
+   - debug:
+       msg: "{{ hostvars['jon']['files_matched_new'] }}"
+   - name: deleting a file dynamically
+     file:
+       path: "{{ hostvars['jon']['files_matched_new'] }}"
+       state: touch
