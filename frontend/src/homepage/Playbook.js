@@ -7,6 +7,7 @@ import ReactFlow, {
   Controls,
   applyEdgeChanges,
   applyNodeChanges,
+  updateEdge,
 } from "react-flow-renderer";
 import "./style/Playbook.css";
 import TextUpdaterNode from "./TextUpdaterNode.js";
@@ -36,6 +37,7 @@ const getId = () => `dndnode_${id++}`;
 
 
 function Playbook() {
+  const edgeUpdateSuccessful = useRef(true);
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes,] = useNodesState(initialNodes);
   const [edges, setEdges,] = useEdgesState([]);
@@ -52,10 +54,27 @@ function Playbook() {
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)
-      // || console.log(edges)
+      //  || console.log(edges)
     ),
     [setEdges]
   );
+
+  const onEdgeUpdateStart = useCallback(() => {
+    edgeUpdateSuccessful.current = false;
+  }, []);
+
+  const onEdgeUpdate = useCallback((oldEdge, newConnection) => {
+    edgeUpdateSuccessful.current = true;
+    setEdges((els) => updateEdge(oldEdge, newConnection, els));
+  }, [setEdges]);
+
+  const onEdgeUpdateEnd = useCallback((_, edge) => {
+    if (!edgeUpdateSuccessful.current) {
+      setEdges((eds) => eds.filter((e) => e.id !== edge.id));
+    }
+
+    edgeUpdateSuccessful.current = true;
+  }, [setEdges]);
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
@@ -134,10 +153,20 @@ function Playbook() {
             fitView={false}
             nodeTypes={nodeTypes}
             style={rfStyle}
+            onEdgeUpdate={onEdgeUpdate}
+            onEdgeUpdateStart={onEdgeUpdateStart}
+            onEdgeUpdateEnd={onEdgeUpdateEnd}
           >
             <Controls />
             <div className="save__controls">
-              <Button variant="contained" onClick={() =>  runPlaybooks(edges,nodes)}>Execute</Button>
+              <Button
+                variant="contained"
+                onClick={() => console.log(edges)
+                  //  runPlaybooks(edges, nodes)
+                }
+              >
+                Execute
+              </Button>
             </div>
           </ReactFlow>
         </div>
