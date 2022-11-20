@@ -161,9 +161,7 @@ function Playbook() {
             <div className="save__controls">
               <Button
                 variant="contained"
-                onClick={() => console.log(edges)
-                  //  runPlaybooks(edges, nodes)
-                }
+                onClick={() => runPlaybooks(edges, nodes)}
               >
                 Execute
               </Button>
