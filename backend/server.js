@@ -4,6 +4,7 @@ import mongoose from "mongoose"
 import linuxRoute from "./api/routes/linuxPlaybooks.js"
 import windowsRoute from "./api/routes/windowsPlaybooks.js"
 import otherPlaybookRoute from "./api/routes/otherPlaybooks.js"
+import userRoute from "./api/routes/user.js"
 import cors from "cors"
 import {spawn} from "child_process"
 
@@ -33,6 +34,7 @@ app.get('/', (req, res) => res.status(200).send('hello world'))
 app.use("/linuxPlaybooks", linuxRoute)
 app.use("/windowsPlaybooks",windowsRoute)
 app.use("/otherPlaybooks", otherPlaybookRoute)
+app.use("/user", userRoute)
 
 
 app.post("/recievePlaybook", (req, res) => {
