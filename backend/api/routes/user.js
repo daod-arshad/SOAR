@@ -57,7 +57,7 @@ router.post("/login", (req, res) => {
                             expiresIn: "24h"
                         }
                     )
-                    res.status(200).send("User logged in")
+                    res.status(200).send(token)
                 }
             })
         })
