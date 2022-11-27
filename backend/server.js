@@ -1,9 +1,9 @@
 // importing
 import express from "express";
 import mongoose from "mongoose"
-import LinuxPlaybooksUpdated from "./schema/linuxPlaybooksSchemaUpdated.js"
-import WindowsPlaybooksUpdated from "./schema/windowsPlaybookSchemaUpdated.js"
-import OtherPlaybooksUpdated from "./schema/otherPlaybookSchemaUpdated.js"
+import linuxRoute from "./api/routes/linuxPlaybooks.js"
+import windowsRoute from "./api/routes/windowsPlaybooks.js"
+import otherPlaybookRoute from "./api/routes/otherPlaybooks.js"
 import cors from "cors"
 import {spawn} from "child_process"
 
@@ -30,74 +30,10 @@ mongoose.connect(connection_url)
 // api routes
 app.get('/', (req, res) => res.status(200).send('hello world'))
 
-app.post('/linuxPlaybooks/new', (req, res) => {
-    const linuxPlaybook = req.body
+app.use("/linuxPlaybooks", linuxRoute)
+app.use("/windowsPlaybooks",windowsRoute)
+app.use("/otherPlaybooks", otherPlaybookRoute)
 
-    LinuxPlaybooksUpdated.create(linuxPlaybook, (err, data) => {
-      if (err) {
-        res.status(500).send(err);
-      } else {
-        res.status(201).send(data);
-      }
-    });
-})
-app.get("/linuxPlaybooks/find", (req, res) => {
-
-  LinuxPlaybooksUpdated.find((err, data) => {
-    if (err) {
-      res.status(500).send(err);
-    } else {
-      res.status(201).send(data);
-    }
-  });
-});
-
-
-
-app.post("/windowsPlaybooks/new", (req, res) => {
-  const windowsPlaybook = req.body;
-
-  WindowsPlaybooksUpdated.create(windowsPlaybook, (err, data) => {
-    if (err) {
-      res.status(500).send(err);
-    } else {
-      res.status(201).send(data);
-    }
-  });
-});
-app.get("/windowsPlaybooks/find", (req, res) => {
-  WindowsPlaybooksUpdated.find((err, data) => {
-    if (err) {
-      res.status(500).send(err);
-    } else {
-      res.status(201).send(data);
-    }
-  });
-});
-
-
-
-
-app.post("/otherPlaybooks/new", (req, res) => {
-  const otherPlaybook = req.body;
-
-  OtherPlaybooksUpdated.create(otherPlaybook, (err, data) => {
-    if (err) {
-      res.status(500).send(err);
-    } else {
-      res.status(201).send(data);
-    }
-  });
-});
-app.get("/otherPlaybooks/find", (req, res) => {
-  OtherPlaybooksUpdated.find((err, data) => {
-    if (err) {
-      res.status(500).send(err);
-    } else {
-      res.status(201).send(data);
-    }
-  });
-});
 
 app.post("/recievePlaybook", (req, res) => {
   // console.log("New data recieved")
