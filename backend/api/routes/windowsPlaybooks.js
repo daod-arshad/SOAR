@@ -4,7 +4,7 @@ import checkAuth from "../middleware/check-auth.js"
 
 const router = express.Router()
 
-router.post("/new",checkAuth , (req, res) => {
+router.post("/new", (req, res) => {
   const windowsPlaybook = req.body;
 
   WindowsPlaybooksUpdated.create(windowsPlaybook, (err, data) => {
@@ -16,7 +16,7 @@ router.post("/new",checkAuth , (req, res) => {
   });
 });
 
-router.get("/find",checkAuth, (req, res) => {
+router.get("/find", (req, res) => {
   WindowsPlaybooksUpdated.find((err, data) => {
     if (err) {
       res.status(500).send(err);
