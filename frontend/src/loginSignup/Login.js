@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./style/login.css"
 import axios from "../axios.js"
-import jwt from "jwt-decode"
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
@@ -29,8 +28,8 @@ let navigate = useNavigate();
                 localStorage.setItem("token", response.data)
                 navigate("/playbook")
       
-                }, []).
-            catch(err => console.log("Incorrect Username or Password"));
+            }, [])
+          .catch(err => console.log("Incorrect Username or Password"));
     }
   };
 

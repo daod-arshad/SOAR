@@ -1,5 +1,5 @@
 import Playbook from "./homepage/Playbook";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Redirect } from "react-router-dom";
 import TestPage from "./TestPage"
 import Login from "./loginSignup/Login.js"
 import jwt_decode from "jwt-decode";
