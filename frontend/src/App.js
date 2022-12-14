@@ -3,10 +3,12 @@ import { BrowserRouter as Router, Routes, Route, Redirect } from "react-router-d
 import TestPage from "./TestPage"
 import Login from "./loginSignup/Login.js"
 import jwt_decode from "jwt-decode";
-import { useState, useEffect } from "react"
+import React ,{ useState, useEffect } from "react"
 
 
 function App() {
+  let id = 0;
+  const getId = () => id++;
   const [loggedIn, setLoggedIn] = useState(false)
   useEffect(() => {
     try {
@@ -38,17 +40,16 @@ function App() {
           <Routes>
             <Route path="/">
               <Route index element={<Login />} />
-              {
-                loggedIn ?
-                  [
-                    <Route path="test" element={<TestPage />} />,
-                    <Route path="playbook" element={<Playbook />} />
+              {loggedIn
+                ? [
+                    <React.Fragment key={getId()}>
+                      <Route path="test" element={<TestPage />} />,
+                      <Route path="playbook" element={<Playbook />} />
+                    </React.Fragment>,
                   ]
-                  : null
-              }
-              {/* <Route path="test" element={<TestPage />} />
-              <Route path="playbook" element={<Playbook />} /> */}
+                : null}
             </Route>
+            <Route path="*" element={<p>Path not resolved</p>} />
           </Routes>
         </Router>
       </div>
