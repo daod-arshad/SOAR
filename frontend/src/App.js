@@ -49,7 +49,7 @@ function App() {
                   ]
                 : null}
             </Route>
-            <Route path="*" element={<p>Path not resolved</p>} />
+            <Route path="*" element={<p>Path not resolved !</p>} />
           </Routes>
         </Router>
       </div>
