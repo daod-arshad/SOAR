@@ -1,8 +1,9 @@
 import Playbook from "./homepage/Playbook";
-import { BrowserRouter as Router, Routes, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import TestPage from "./TestPage"
 import Login from "./loginSignup/Login.js"
 import jwt_decode from "jwt-decode";
+import Signup from "./loginSignup/Signup";
 import React ,{ useState, useEffect } from "react"
 
 
@@ -35,21 +36,26 @@ function App() {
 
   return (
     <div className="app">
-      <div className="app_body">
+        <div className="app_body">
         <Router>
           <Routes>
             <Route path="/">
-              <Route index element={<Login />} />
+              <Route index element={<Login/>} />
+              
+             
               {loggedIn
                 ? [
                     <React.Fragment key={getId()}>
                       <Route path="test" element={<TestPage />} />,
-                      <Route path="playbook" element={<Playbook />} />
+                      <Route path="/signup"  element= {<Signup/>}/>
                     </React.Fragment>,
                   ]
                 : null}
+                
             </Route>
             <Route path="*" element={<p>Path not resolved !</p>} />
+            <Route path="playbook" element={<Playbook />} />
+
           </Routes>
         </Router>
       </div>

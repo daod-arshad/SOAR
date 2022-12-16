@@ -49,9 +49,12 @@ let navigate = useNavigate();
 
   return (
     <>
-      <div className="formCenter">
-        <h3 className="formTitle">Sign In</h3>
-        <br />
+    <div className="app">
+      <div className="auth-wrapper">
+        <div className="auth-inner">
+          <div className="formCenter">
+            <h3 className="formTitle">Sign In</h3>
+            <br />
         <form className="formFields" onSubmit={handleSubmit}>
           <div className="formFields">
             <label className="formFieldLabel" htmlFor="name">
@@ -109,6 +112,9 @@ let navigate = useNavigate();
           </div>
         </form>
       </div>
-    </>
+    </div>
+  </div>
+</div>
+</>
   );
 }
