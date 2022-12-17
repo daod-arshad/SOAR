@@ -33,20 +33,6 @@ let navigate = useNavigate();
     }
   };
 
-  //    //Validate Password Function
-  // const validate = (password) => {
-
-  //   if (validator.isStrongPassword(password, {
-  //     minLength: 8, minLowercase: 1,
-  //     minUppercase: 1, minNumbers: 1, minSymbols: 1
-  //   })) {
-  //     setErrorMessage('')
-  //     setPassword(password);
-  //   } else {
-  //     setErrorMessage('Is Not Strong Password')
-  //   }
-  // }
-
   return (
     <>
     <div className="app">
