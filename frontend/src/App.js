@@ -31,6 +31,7 @@ function App() {
     catch {
       setLoggedIn(false)
     }
+    console.log(loggedIn)
     
     },[loggedIn]);
   
@@ -48,8 +49,9 @@ function App() {
                 [
                   <React.Fragment key={getId()}>
                     <Route path="test" element={<TestPage />} />,
-                    <Route path="/signup" element={<Signup />} />,
+                    <Route path="signup" element={<Signup />} />,
                     <Route path="playbook" element={<Playbook />} />,
+                    <Route path="*" element={<h1>Path not Resolved</h1>} />,
                   </React.Fragment>
                 ]
               ) : (
