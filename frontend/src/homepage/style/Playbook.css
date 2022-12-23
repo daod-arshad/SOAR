@@ -2,7 +2,7 @@
     flex-direction: row;
     display: flex;
     flex-grow: 1;
-    height: 640px;
+    height: 630px;
     
 }
 
@@ -20,7 +20,7 @@
 
 .dndflow .reactflow-wrapper {
     flex-grow: 1;
-    height: 120%;
+    height: 100%;
     width: 80%;
 }
 
