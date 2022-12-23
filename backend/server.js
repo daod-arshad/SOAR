@@ -6,7 +6,24 @@ import windowsRoute from "./api/routes/windowsPlaybooks.js"
 import otherPlaybookRoute from "./api/routes/otherPlaybooks.js"
 import userRoute from "./api/routes/user.js"
 import cors from "cors"
-import {spawn} from "child_process"
+import { spawn } from "child_process"
+
+
+import SyslogServer from "ts-syslog";
+const server = new SyslogServer();
+
+server.on("message", (value) => {
+  console.log(value.date); // the date/time the message was received
+  console.log(value.message); // the syslog message
+});
+
+server.on("error", (err) => {
+  console.error(err.message);
+});
+
+server.listen({ port: 514 }, () => {
+  console.log("Syslog listening on port 514");
+});
 
 // app config
 const app = express()
