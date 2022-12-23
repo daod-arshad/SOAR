@@ -2,8 +2,17 @@
     flex-direction: row;
     display: flex;
     flex-grow: 1;
-    height: 630px;
-    
+    height: 600px;
+
+}
+
+.body{
+   
+    min-height: 100vh;
+    display: flex;
+    font-weight: 400;
+    font-family: "Fira Sans", sans-serif;
+    background: whitesmoke !important;
 }
 
 .dndflow .dndnode {

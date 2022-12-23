@@ -137,6 +137,7 @@ function Playbook() {
   );
 
   return (
+    <div className="body">
     <div className="dndflow">
       <ReactFlowProvider>
         <NewSidebar />
@@ -170,6 +171,8 @@ function Playbook() {
         </div>
       </ReactFlowProvider>
     </div>
+    </div>
+  
   );
 };
 
