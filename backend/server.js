@@ -7,23 +7,24 @@ import otherPlaybookRoute from "./api/routes/otherPlaybooks.js"
 import userRoute from "./api/routes/user.js"
 import cors from "cors"
 import { spawn } from "child_process"
-
-
 import SyslogServer from "ts-syslog";
+
 const server = new SyslogServer();
 
 server.on("message", (value) => {
-  console.log(value.date); // the date/time the message was received
-  console.log(value.message); // the syslog message
+  console.log("---------------------------------------------"); // the date/time the message was received
+  console.log(value.message.toString()); // the syslog message
+  
 });
 
 server.on("error", (err) => {
-  console.error(err.message);
+  console.error("The error message is: "+err.message);
 });
 
-server.listen({ port: 514 }, () => {
-  console.log("Syslog listening on port 514");
+server.listen({ port: 5000 | process.env.port, address: "172.16.16.196"}, () => {
+  console.log("Syslog listening on port 5000");
 });
+server.isRunning()
 
 // app config
 const app = express()
@@ -85,4 +86,4 @@ app.post("/recievePlaybook", (req, res) => {
 
 
 // listen
-app.listen(port, () => console.log(`Listening on localhost:${port}`))
+app.listen(port, "172.16.16.196" ,() => console.log(`Listening on localhost:${port}`))
