@@ -13,7 +13,7 @@ const server = new SyslogServer();
 
 server.on("message", (value) => {
   console.log("---------------------------------------------"); // the date/time the message was received
-  console.log(value.message.toString()); // the syslog message
+  console.log(value.message); // the syslog message
   
 });
 
