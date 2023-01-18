@@ -6,9 +6,31 @@ import windowsRoute from "./api/routes/windowsPlaybooks.js"
 import otherPlaybookRoute from "./api/routes/otherPlaybooks.js"
 import userRoute from "./api/routes/user.js"
 import cors from "cors"
+<<<<<<< HEAD
 import cookieParser from "cookie-parser";
 import {spawn} from "child_process"
 import checkAuth from "../backend/api/middleware/check-auth.js"
+=======
+import { spawn } from "child_process"
+import SyslogServer from "ts-syslog";
+
+const server = new SyslogServer();
+
+server.on("message", (value) => {
+  console.log("---------------------------------------------"); // the date/time the message was received
+  console.log(value.message); // the syslog message
+  
+});
+
+server.on("error", (err) => {
+  console.error("The error message is: "+err.message);
+});
+
+server.listen({ port: 5000 | process.env.port, address: "172.16.16.196"}, () => {
+  console.log("Syslog listening on port 5000");
+});
+server.isRunning()
+>>>>>>> b60f85509efb1bc7af5c253d9734f4c162564c40
 
 // app config
 const app = express()
@@ -105,4 +127,4 @@ app.post("/recievePlaybook", (req, res) => {
 // });
 
 // listen
-app.listen(port, () => console.log(`Listening on localhost:${port}`))
+app.listen(port, "172.16.16.196" ,() => console.log(`Listening on localhost:${port}`))
