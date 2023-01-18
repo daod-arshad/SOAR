@@ -1,12 +1,23 @@
 import express from "express"
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 import bcrypt from "bcrypt"
 import User from "../schema/user.js"
 import jwt from "jsonwebtoken"
+// const {checkUser} = require("../api/middleware/check-auth");
+import checkAuth from "../middleware/check-auth.js"
 
+var CryptoJS = require("crypto-js");
 const router = express.Router()
 const saltRounds = 10
+const maxAge = 30 * 60;
 
-router.post("/signup", (req, res) => {
+router.post("/playbook", checkAuth , (req,res)=>{
+ //create
+ res.json({message: 'welcome to playbook page'})
+})
+
+router.post("/signup", checkAuth,(req, res) => {
     bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
         if (err) {
             return res.status(500).send(err)
@@ -54,9 +65,23 @@ router.post("/login", (req, res) => {
                     },
                         "this is dummy text",
                         {
-                            expiresIn: "24h"
+                            expiresIn: maxAge
                         }
                     )
+                    res.cookie("jwt",token,{
+                        withCredentials: true,
+                        httpOnly: false,
+                        maxAge: maxAge * 1000
+                    })
+                   
+                    //res.status(200).json({success:true});
+                    // var bytes  = CryptoJS.AES.decrypt(token, 'secret key 123');
+                    // var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+                    // console.log("data: "+ decryptedData);
+                    // // var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(token), 'secret key 123').toString();
+                    // // console.log(ciphertext)
+                    
+                    
                     res.status(200).send(token)
                 }
             })
@@ -65,5 +90,10 @@ router.post("/login", (req, res) => {
         res.status(500).send(err)
     })
 })
+
+
+
+
+
 
 export default router

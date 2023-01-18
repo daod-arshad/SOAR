@@ -1,6 +1,6 @@
 import WindowsPlaybooksUpdated from "../schema/windowsPlaybookSchemaUpdated.js";
 import express from "express"
-import checkAuth from "../middleware/check-auth.js"
+//import checkAuth from "../middleware/check-auth.js"
 
 const router = express.Router()
 

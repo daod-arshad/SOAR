@@ -2,9 +2,10 @@ import Playbook from "./homepage/Playbook";
 import { BrowserRouter as Router, Routes, Route, Navigate, redirect } from "react-router-dom";
 import TestPage from "./TestPage"
 import Login from "./loginSignup/Login.js"
-import jwt_decode from "jwt-decode";
+import PrivateRoute from "./loginSignup/PrivateRoute.js"
 import Signup from "./loginSignup/Signup";
-import React ,{ useState, useEffect } from "react"
+import React from "react";
+import Cookies from "js-cookie";
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
   //   },[loggedIn]);
   
     
+  
 
   return (
     <div className="app">
@@ -43,15 +45,18 @@ function App() {
         <Router>
           <Routes>
             <Route path="/">
-              <Route index element={<Login />} />
-
-              {/* {loggedIn ? ( */}
-                {/* [ */}
-                  {/* <React.Fragment key={getId()}> */}
-                    <Route path="test" element={<TestPage />} />
-                    <Route path="signup" element={<Signup />} />
-                    <Route path="playbook" element={<Playbook />} />
+              <Route index element= {<Login/>} />
+             
+     
+              // {/* {loggedIn ? ( */}
+              //   {/* [ */}
+              //     {/* <React.Fragment key={getId()}> */}
+                
+                    <Route path="test" element={<PrivateRoute><TestPage/></PrivateRoute>} />
+                    <Route path="signup" element={<PrivateRoute><Signup /></PrivateRoute>} />
+                    <Route path="playbook" element={<PrivateRoute><Playbook /></PrivateRoute>} />
                     <Route path="*" element={<h1>Path not Resolved</h1>} />
+                 
                   {/* </React.Fragment> */}
                 {/* ] */}
               {/* ) : ( */}

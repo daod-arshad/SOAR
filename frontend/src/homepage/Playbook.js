@@ -1,4 +1,4 @@
-import React, { useState,useRef ,useCallback,} from "react";
+import React, { useState,useRef ,useCallback} from "react";
 import ReactFlow, {
   ReactFlowProvider,
   addEdge,
@@ -16,6 +16,11 @@ import NewSidebar from "./NewSidebar";
 import Button from "@mui/material/Button";
 import axios from "../axios.js";
 
+// app.use(cors({
+//   origin: ["http://localhost:3000"],
+//   // methods:["GET","POST"],
+//   credentials: true
+// }))
 const initialNodes = [
   /*
   {
@@ -26,6 +31,8 @@ const initialNodes = [
   }, 
   */
 ];
+
+
 const rfStyle = {
   backgroundColor: "#f8f8f8",
 };
@@ -43,6 +50,10 @@ function Playbook() {
   const [edges, setEdges,] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   
+
+
+  
+
   const onNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
     [setNodes]
@@ -136,6 +147,8 @@ function Playbook() {
     
   );
 
+
+  
   return (
     <div className="body">
     <div className="dndflow">

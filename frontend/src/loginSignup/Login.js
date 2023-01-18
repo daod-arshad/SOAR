@@ -3,6 +3,7 @@ import "./style/login.css"
 import axios from "../axios.js"
 import { useNavigate } from "react-router-dom";
 
+
 export default function Login() {
   const [error, setErrormsg] = useState(false);
   const [name, setName] = useState("");
@@ -16,22 +17,45 @@ let navigate = useNavigate();
     }else{
         console.log("The form was submitted with the following data:");
         console.log("username: " + name, "password: " + password);
-        axios
-          .post("/user/login", {
-            username: name, password: password
-          })
-            .then((response) => {
-                    // console.log("Login alert");
-                // console.log(response.data);
-                // const user = jwt(response.data)
-                // console.log(user)
-                localStorage.setItem("token", response.data)
-                navigate("/playbook")
+        // var dataaa = [{"username": name},{"password":password}]
+        // console.log(dataaa)
+        // var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(dataaa), 'secret key 123').toString();
+        // console.log(ciphertext)
+
+        
+
+          axios.defaults.withCredentials = true;
+          axios
+            .post("/user/login", {
+              username: name, password: password
+            },{
+              withCredentials: true,
+            }).then((response)=>{
+              
+              axios.defaults.headers.common['x-auth-token'] = response.data;
+              console.log("data: "+ response.data);
+              console.log(response)
+              // const previous = {response};
+              // const databar = response;
+              
+          
+              navigate("/playbook")
+            },[])
+          
+      .catch(err => console.log("Incorrect Username or Password"));
       
-            }, [])
-          .catch(err => console.log("Incorrect Username or Password"));
-    }
-  };
+      
+      
+  }}
+  // const LoggedIn=()=>{
+  //   let response= localStorage.getItem("data");
+  //   if (response != null) {
+  //   console.log("logged in");
+  //   return true;}
+  //   else {
+  //     console.log("not login");
+  //     return false;}
+  // }
 
   return (
     <>
@@ -103,4 +127,7 @@ let navigate = useNavigate();
 </div>
 </>
   );
+  
 }
+
+
