@@ -3,21 +3,18 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 import bcrypt from "bcrypt"
 import User from "../schema/user.js"
-import jwt from "jsonwebtoken"
-// const {checkUser} = require("../api/middleware/check-auth");
-import checkAuth from "../middleware/check-auth.js"
-
-var CryptoJS = require("crypto-js");
+const jwt = require('jsonwebtoken');
+import requireJwtAuth from "../middleware/check-auth.js"
 const router = express.Router()
 const saltRounds = 10
 const maxAge = 30 * 60;
+const jwtSecret = ",7q'21681B-F>-#";
 
-router.post("/playbook", checkAuth , (req,res)=>{
- //create
- res.json({message: 'welcome to playbook page'})
+router.post("/playbook" , requireJwtAuth, (req, res) => {
+            res.json({message: 'welcome to playbook page'})    
 })
 
-router.post("/signup", checkAuth,(req, res) => {
+router.post("/signup", (req, res) => {
     bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
         if (err) {
             return res.status(500).send(err)
@@ -56,32 +53,23 @@ router.post("/login", (req, res) => {
                     res.status(401).send("Password Failed to match")
                 }
                 if (result) {
-                    const token = jwt.sign({
+                    
+                    const payload = {
                         username: user[0].username,
                         usertype: user[0].usertype,
                         fullname: user[0].fullname,
                         email: user[0].email,
                         designation: user[0].designation
-                    },
-                        "this is dummy text",
-                        {
-                            expiresIn: maxAge
-                        }
-                    )
-                    res.cookie("jwt",token,{
-                        withCredentials: true,
-                        httpOnly: false,
-                        maxAge: maxAge * 1000
-                    })
-                   
-                    //res.status(200).json({success:true});
-                    // var bytes  = CryptoJS.AES.decrypt(token, 'secret key 123');
-                    // var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-                    // console.log("data: "+ decryptedData);
-                    // // var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(token), 'secret key 123').toString();
-                    // // console.log(ciphertext)
-                    
-                    
+                      };
+
+                     
+                      const token = jwt.sign(payload,
+                        jwtSecret, 
+                        {expiresIn: 2*60}
+                        );
+                            
+           
+                    //console.log((token))
                     res.status(200).send(token)
                 }
             })

@@ -43,7 +43,7 @@ let id = 0;
 const getId = () => `dndnode_${id++}`;
 
 
-function Playbook() {
+function Playbook({updatedUser}) {
   const edgeUpdateSuccessful = useRef(true);
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes,] = useNodesState(initialNodes);

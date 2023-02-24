@@ -6,31 +6,32 @@ import windowsRoute from "./api/routes/windowsPlaybooks.js"
 import otherPlaybookRoute from "./api/routes/otherPlaybooks.js"
 import userRoute from "./api/routes/user.js"
 import cors from "cors"
-<<<<<<< HEAD
+import requireJwtAuth from "../backend/api/middleware/check-auth.js"
 import cookieParser from "cookie-parser";
 import {spawn} from "child_process"
-import checkAuth from "../backend/api/middleware/check-auth.js"
-=======
-import { spawn } from "child_process"
-import SyslogServer from "ts-syslog";
+//import checkAuth from "../backend/api/middleware/check-auth.js"
 
-const server = new SyslogServer();
+//import SyslogServer from "ts-syslog";
 
-server.on("message", (value) => {
-  console.log("---------------------------------------------"); // the date/time the message was received
-  console.log(value.message); // the syslog message
+// import SyslogServer from "ts-syslog";
+
+// const server = new SyslogServer();
+
+// server.on("message", (value) => {
+//   console.log("---------------------------------------------"); // the date/time the message was received
+//   console.log(value.message); // the syslog message
   
-});
+// });
 
-server.on("error", (err) => {
-  console.error("The error message is: "+err.message);
-});
+// server.on("error", (err) => {
+//   console.error("The error message is: "+err.message);
+// });
 
-server.listen({ port: 5000 | process.env.port, address: "172.16.16.196"}, () => {
-  console.log("Syslog listening on port 5000");
-});
-server.isRunning()
->>>>>>> b60f85509efb1bc7af5c253d9734f4c162564c40
+// server.listen({ port: 5000 | process.env.port, address: "127.0.0.1"}, () => {
+//   console.log("Syslog listening on port 5000");
+// });
+// server.isRunning()
+
 
 // app config
 const app = express()
@@ -45,6 +46,9 @@ app.use(cors({
   // methods:["GET","POST"],
   credentials: true
 }))
+
+
+
 
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000")
@@ -63,9 +67,11 @@ mongoose.connect(connection_url)
 // ???
 
 // api routes
-app.get('/', (req, res) => res.status(200).send('hello world'))
-//app.get("/playbook", checkAuth ,(req,res) => res.status(200).send('okk okk'))
-//app.get('/test', checkAuth,(req, res) => res.status(200).send('hiii'))
+
+
+// );
+app.get('/' ,(req, res) => res.status(200).send('hello world'))
+
 
 app.use("/linuxPlaybooks", linuxRoute)
 app.use("/windowsPlaybooks",windowsRoute)
@@ -73,7 +79,7 @@ app.use("/otherPlaybooks", otherPlaybookRoute)
 app.use("/user", userRoute)
 
 
-app.post("/recievePlaybook", (req, res) => {
+app.post("/recievePlaybook", requireJwtAuth,(req, res) => {
   // console.log("New data recieved")
   // console.log(req.body.playbooks)
   const playbooks = req.body.playbooks
@@ -127,4 +133,4 @@ app.post("/recievePlaybook", (req, res) => {
 // });
 
 // listen
-app.listen(port, "172.16.16.196" ,() => console.log(`Listening on localhost:${port}`))
+app.listen(port, "127.0.0.1" ,() => console.log(`Listening on localhost:${port}`))

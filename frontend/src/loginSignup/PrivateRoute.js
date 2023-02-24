@@ -1,80 +1,58 @@
 import { useNavigate } from 'react-router-dom';
-import {useCookies} from "react-cookie";
-import React, {useEffect, useState} from "react";
-import Cookies from 'js-cookie';
-import axios from "../axios.js"
-//import * as jwt_decode from 'jwt-decode'
-
+import React, {useEffect} from "react";
+import { useJwt } from 'react-jwt';
+import jwt_decode from 'jwt-decode'
 const PrivateRoute = React.memo( function PrivateRoute({children}) {
-  
-  
-  const[cookies, removeCookie] = useCookies([]);
+const maxAge = 30*60
+
+
+  const authorizationToken = localStorage.getItem('User');
+  const decodedToken = jwt_decode(authorizationToken);
+  console.log("decodedToken",decodedToken);
+
+  //const expirationTime = decodedToken ? decodedToken.exp * 1000 : 0;
+  //const isExpired = new Date().getTime() > expirationTime;
+  const isExpired = decodedToken ? new Date().getTime() > decodedToken.exp * 1000 : true;
+ // const tt= decodedToken.exp * 1000 < currentDate.getTime())
+  console.log(isExpired)
+
   let navigate = useNavigate();
- // const [loggedIn, setLoggedIn] = useState(false)
 
-
-
-//  const checkLogged= ()=>{
-//     let id = 0;
-//     const getId = () => id++;
-//     try {
-//          let token = Cookies.get("jwt");
-//          let decodedToken = jwt_decode(token);
-//          console.log("Decoded Token", decodedToken);
-//         let currentDate = new Date();
-// // JWT exp is in seconds
-//         if (decodedToken.exp * 1000 < currentDate.getTime()) {
-//           console.log("Token expired.");
-//           setLoggedIn(false);
-//         } else {
-//           console.log("Valid token");
-//           setLoggedIn(true);
-//           navigate("/playbook")}
-//         }
-// catch {
-// setLoggedIn(false)
-// }
-// console.log(loggedIn)}
-
-  // const jwtval = Cookies.get('jwt');
-  // console.log("jwtvalue: " +jwtval)
   useEffect(()=>{
     const verifyUser = async()=>{
-      if (!cookies.jwt){
-        // document.location.href= "/"
-        
-        navigate('/');
-        console.log("gfgfghggh");}
+      if (!authorizationToken){
+        navigate('/')
+      }
     
-      // } 
       else{
-        {cookies.jwt?
-          axios
-          .post("/user/playbook", {},{
-        // withCredentials: true,
-      }).then((response)=>{
-        //checkLogged()
-
-  
-      },[])
-      .catch(err => console.log("Nothing")) : navigate("/");
-          
-    }
-  }
-  
-        // if (cookies.jwt === jwtval){
-        //     console.log('matched')
-        //   }
-        //   else{
-        //     document.location.href= "/"
-        //   }
-        
-        
-        // }
-    }
+        if(authorizationToken){
+          try{
+           // console.log(isExpired)
+           // let currentDate = new Date();
+            {!(isExpired)
     
+              //(decodedToken.exp * 1000 < currentDate.getTime())
+              ?   navigate({children}):
+              //localStorage.removeItem("User")
+               (navigate('/'))
+            }
+         
+          }
+          catch(err){
+            if (err.message === 'Invalid token specified') {
+                // Redirect to login page
+                navigate('/');    
+          
+        }
+      }
+        }
+       
+         
+  }
+ }
+      
     verifyUser();
-},[cookies, navigate, removeCookie]);
+},[navigate]);
 
 return (
    <>
