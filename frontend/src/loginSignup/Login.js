@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import "./style/login.css"
+import "./style/relogin.css"
 import axios from "../axios.js"
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from "react-router-dom";
 
 
@@ -33,7 +34,7 @@ let navigate = useNavigate();
               navigate("/playbook")
             },[])
           
-      .catch(err => console.log("Incorrect Username or Password"));
+      .catch(err => alert('Incorrect username or password!'));
       
       
       
@@ -42,72 +43,63 @@ let navigate = useNavigate();
 
   return (
     <>
-    <div className="app">
-      <div className="auth-wrapper">
-        <div className="auth-inner">
-          <div className="formCenter">
-            <h3 className="formTitle">Sign In</h3>
-            <br />
-        <form className="formFields" onSubmit={handleSubmit}>
-          <div className="formFields">
-            <label className="formFieldLabel" htmlFor="name">
-              Username
-            </label>
-            <input
-              type="username"
-              id="username"
-              className="formFieldInput"
-              placeholder="Enter your name"
-              name="username"
-              //value={state.email}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <br />
-            <div style={{ height: "40px" }}>
+    <div className="App">
+    <div className="appAside" />
+    <div className="appForm">
+    <div className="formCenter">
+    <h3 className="formTitle">Sign In</h3>
+    <form className="formFields" onSubmit={handleSubmit}>
+      <div className="form_Field" >
+
+        <label className="formField_Label" htmlFor="name">
+          Username
+        </label>
+        <div className="form-outline">
+          <input type="username" id="formWhite" className="form_control" 
+            onChange={(e) => setName(e.target.value)}/>
+        </div>
+        <div style={{ height: "40px" }}>
               {error && name.length <= 0 ? (
                 <div className="label">Username can't be empty</div>
               ) : (
                 ""
               )}
-            </div>
-          </div>
+        </div>
+      </div>
+     
 
-          <div className="formField">
-            <label className="formFieldLabel" htmlFor="password">
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              className="formFieldInput"
-              placeholder="Enter your password"
-              name="password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <br />
+    <div className="form_Field">
+      <label className="formField_Label" htmlFor="password">
+          Password
+      </label>
+      <div className="form-outline">     
+    <input type="password" id="password" className="form_control"
+      onChange={(e) => setPassword(e.target.value)}
+      />
+    </div>
+    <br />
             <div style={{ height: "45px" }}>
               {error && password.length <= 0 ? (
                 <div className="label">Password can't be empty</div>
               ) : (
                 ""
               )}
-            </div>
-          </div>
-
-          <div className="formField">
-            <button
+        </div>
+   </div>
+     
+        <div className="form_Field">
+          <button
               className="formFieldButton"
               style={{ display: "block", margin: "0 auto" }}
-              onClick={handleSubmit}
-            >
+              onClick={handleSubmit}>
               Sign In
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+          </button>
+        </div>
+
+    </form>
   </div>
-</div>
+  </div>
+  </div>
 </>
   );
   

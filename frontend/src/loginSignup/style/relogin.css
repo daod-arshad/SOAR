@@ -1,0 +1,125 @@
+.App{
+    height: 100vh;
+    display: flex;
+    color: black;
+    text-align: center;
+}
+  .appAside {
+    width: 63%;
+    background: url(bg.jpg) no-repeat;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    flex-direction: column;
+    background-color:#B24BF3 ;
+  }
+  
+  .appForm {
+    width: 37%;
+    background-color: whitesmoke;
+    padding: 25px 40px;
+    overflow: auto;
+  }
+  
+  
+  .formCenter {
+    margin-bottom: 80px;
+    
+  }
+  
+
+.form_control{
+  padding-left: 20%;
+  display: block;
+  width: 90%;
+  padding: 0.35rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 2;
+  color: #212529;
+  background-color: rgb(255, 255, 255);
+  background-clip:initial;
+  border: 1px solid #dbdddf;
+  appearance: none;
+  border-radius: 1.5rem;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+  
+
+.formTitle {
+    color: black;
+    margin-top: 50px;
+    font-weight: 400;
+    margin-bottom: 70px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    
+  }
+  
+  .formTitleLink {
+    color: #ffffff;
+    text-decoration: none;
+    display: inline-block;
+    
+    font-size: 1.9em;
+    margin: 0 20px;
+    padding-bottom: 0px;
+  }
+  
+  .formTitleLink:first-child {
+    margin-left: 0;
+  }
+  
+  
+  
+  .formTitleLink-active {
+    color: white;
+    border-bottom: 1px solid #6b5b95;
+  }
+  
+  .form_Field {
+    margin-bottom: 20px;
+  }
+  
+  .formField_Label {
+    display:flex;
+    font-size: 1.0em;
+    color: black;
+    text-align: left;
+    padding-left: 20px;
+    padding-bottom: 10px;
+    font-family:Arial, Helvetica, sans-serif;
+  }
+  .formFieldInput {
+    width: 85%;
+    background-color: transparent;
+    border: none;
+    color: black;
+    outline: none;
+    border-bottom: 1px solid #B24BF3;
+    font-size: 1em;
+    font-weight: 300;
+    padding-bottom: 10px;
+    margin-top: 15px;
+  }
+  .label{
+    color:red;
+    
+  }
+  
+  .formFieldInput::placeholder {
+    color: #616e7f;
+  }
+  
+  .formFieldButton {
+    background-color: #431d2e;
+    color: white;
+    border: none;
+    outline: none;
+    border-radius: 75px;
+    padding: 11px 40px;
+    font-size: 1.1em;
+    font-weight: 170;
+  }
+ 

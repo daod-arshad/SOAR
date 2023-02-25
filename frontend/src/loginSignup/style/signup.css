@@ -68,7 +68,7 @@ html,
     margin-bottom: 30px;
 }
 
-.formTitle {
+.form_Title {
     color: #c5cbd3;
     font-weight: 350;
     margin-bottom: 70px;
@@ -160,7 +160,7 @@ html,
     text-align: right;
 }
 
-.formFieldButton {
+.formField_Button {
     background-color: #70515e;
     color: white;
     border: none;

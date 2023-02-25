@@ -62,7 +62,7 @@ return (
       <div className="auth-wrapper">
       <div className="auth-inner">
       <div className="formCenter">
-        <h3 className="formTitle">Sign Up</h3>
+        <h3 className="form_Title">Sign Up</h3>
         <br />
         <form className="formFields">
           <div className="formField">
@@ -192,7 +192,7 @@ return (
   
   
           <div className="formField">
-            <button className='formFieldButton'  style={{display:"block", margin: "0 auto"}} onClick={save}>
+            <button className='formField_Button'  style={{display:"block", margin: "0 auto"}} onClick={save}>
               Sign Up
             </button>
           </div>
