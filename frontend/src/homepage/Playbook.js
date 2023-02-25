@@ -151,7 +151,7 @@ function Playbook({updatedUser}) {
   
   return (
     <>
-      <ResponsiveAppBar />
+      {/* <ResponsiveAppBar /> */}
       <div className="body">
         <div className="dndflow">
           <ReactFlowProvider>
