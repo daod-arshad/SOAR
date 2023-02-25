@@ -11,7 +11,7 @@ import cors from "cors"
 import requireJwtAuth from "../backend/api/middleware/check-auth.js"
 import cookieParser from "cookie-parser";
 import {spawn} from "child_process"
-import axios from "axios";
+import axios from "./axios.js";
 import date from "date-and-time"
 //import checkAuth from "../backend/api/middleware/check-auth.js"
 
@@ -86,36 +86,38 @@ app.post("/recievePlaybook",(req, res) => {
   // console.log("New data recieved")
   // console.log(req.body.playbooks)
   const playbooks = req.body.playbooks
-
+  console.log(playbooks.length)
   if (playbooks.length > 1) {
-    var dataToSend;
+    var dataToSend = '';
+    var playbookResults = []
     // spawn new child process to call ansible-runner.py
     const python = spawn("python3", playbooks);
     // collecting data from ansible-runner.py
     python.stdout.on("data", function (data) {
-      dataToSend = data.toString();
+      dataToSend += data.toString();
       // console.log(dataToSend);
+    });
+    
+    // in close event we are sure that stream from child process is closed
+    python.on("close", (code) => {
+      console.log(`child process close all stdio with code ${code}`);
+      // send data to browser
+
       axios.post("/results/new",{
         date: date.format(now,"YYYY-MM-DD"),
         time: date.format(now,"HH:mm:ss"),
         noOfPlaybooks: playbooks.length,
         data: dataToSend
       }).then((response) => {
+        // console.log(playbookResults)
           console.log(response.data)  
         }, []);
     });
-
-    // in close event we are sure that stream from child process is closed
-    python.on("close", (code) => {
-      console.log(`child process close all stdio with code ${code}`);
-      // send data to browser
-      // console.log(dataToSend)
-      res.send(dataToSend); 
-    });
   } else {
     console.log("no playbook to be executed");
-    res.send();
+    // res.send();
   }
+ 
 })
 
 // server.on("message", (value) => {
