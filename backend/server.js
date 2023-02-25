@@ -89,7 +89,6 @@ app.post("/recievePlaybook",(req, res) => {
   console.log(playbooks.length)
   if (playbooks.length > 1) {
     var dataToSend = '';
-    var playbookResults = []
     // spawn new child process to call ansible-runner.py
     const python = spawn("python3", playbooks);
     // collecting data from ansible-runner.py
