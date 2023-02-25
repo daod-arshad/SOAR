@@ -1,10 +1,18 @@
 import express from "express"
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 import bcrypt from "bcrypt"
 import User from "../schema/user.js"
-import jwt from "jsonwebtoken"
-
+const jwt = require('jsonwebtoken');
+import requireJwtAuth from "../middleware/check-auth.js"
 const router = express.Router()
 const saltRounds = 10
+const maxAge = 30 * 60;
+const jwtSecret = ",7q'21681B-F>-#";
+
+router.post("/playbook" , requireJwtAuth, (req, res) => {
+            res.json({message: 'welcome to playbook page'})    
+})
 
 router.post("/signup", (req, res) => {
     bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
@@ -45,18 +53,23 @@ router.post("/login", (req, res) => {
                     res.status(401).send("Password Failed to match")
                 }
                 if (result) {
-                    const token = jwt.sign({
+                    
+                    const payload = {
                         username: user[0].username,
                         usertype: user[0].usertype,
                         fullname: user[0].fullname,
                         email: user[0].email,
                         designation: user[0].designation
-                    },
-                        "this is dummy text",
-                        {
-                            expiresIn: "24h"
-                        }
-                    )
+                      };
+
+                     
+                      const token = jwt.sign(payload,
+                        jwtSecret, 
+                        {expiresIn: 2*60}
+                        );
+                            
+           
+                    //console.log((token))
                     res.status(200).send(token)
                 }
             })
@@ -65,5 +78,10 @@ router.post("/login", (req, res) => {
         res.status(500).send(err)
     })
 })
+
+
+
+
+
 
 export default router

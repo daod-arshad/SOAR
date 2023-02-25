@@ -3,7 +3,8 @@ import "./style/login.css"
 import axios from "../axios.js"
 import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+
+export default function Login({updatedUser}) {
   const [error, setErrormsg] = useState(false);
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -13,25 +14,31 @@ let navigate = useNavigate();
     e.preventDefault();
     if (name.length === 0 || password.length === 0) {
       setErrormsg(true);
-    }else{
+      window.alert("Please fill out the input field to proceed.");
+    }
+    else{
         console.log("The form was submitted with the following data:");
         console.log("username: " + name, "password: " + password);
-        axios
-          .post("/user/login", {
-            username: name, password: password
-          })
-            .then((response) => {
-                    // console.log("Login alert");
-                // console.log(response.data);
-                // const user = jwt(response.data)
-                // console.log(user)
-                localStorage.setItem("token", response.data)
-                navigate("/playbook")
+   
+        
+
+          axios.defaults.withCredentials = true;
+          axios
+            .post("/user/login", {
+              username: name, password: password
+            }).then((response)=>{
+              updatedUser(response.data);
+              console.log(response.data);              
+          
+              navigate("/playbook")
+            },[])
+          
+      .catch(err => console.log("Incorrect Username or Password"));
       
-            }, [])
-          .catch(err => console.log("Incorrect Username or Password"));
-    }
-  };
+      
+      
+  }}
+
 
   return (
     <>
@@ -103,4 +110,7 @@ let navigate = useNavigate();
 </div>
 </>
   );
+  
 }
+
+

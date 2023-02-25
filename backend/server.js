@@ -7,18 +7,32 @@ import otherPlaybookRoute from "./api/routes/otherPlaybooks.js"
 import userRoute from "./api/routes/user.js"
 import alertRoute from "./api/routes/alerts.js"
 import cors from "cors"
-import { spawn } from "child_process"
-import SyslogServer from "ts-syslog";
-import axios from "./axios.js"
+import requireJwtAuth from "../backend/api/middleware/check-auth.js"
+import cookieParser from "cookie-parser";
+import {spawn} from "child_process"
+//import checkAuth from "../backend/api/middleware/check-auth.js"
 
-const server = new SyslogServer();
-server.on("error", (err) => {
-  console.error("The error message is: "+err.message);
-});
-server.listen({ port: 5000 | process.env.port, address: "172.16.16.180"}, () => {
-  console.log("Syslog listening on port 5000");
-});
-server.isRunning()
+//import SyslogServer from "ts-syslog";
+
+// import SyslogServer from "ts-syslog";
+
+// const server = new SyslogServer();
+
+// server.on("message", (value) => {
+//   console.log("---------------------------------------------"); // the date/time the message was received
+//   console.log(value.message); // the syslog message
+  
+// });
+
+// server.on("error", (err) => {
+//   console.error("The error message is: "+err.message);
+// });
+
+// server.listen({ port: 5000 | process.env.port, address: "127.0.0.1"}, () => {
+//   console.log("Syslog listening on port 5000");
+// });
+// server.isRunning()
+
 
 // app config
 const app = express()
@@ -26,10 +40,23 @@ const port = process.env.port || 9000
 
 // middleware
 app.use(express.json())
-app.use(cors())
+app.use(cookieParser())
+// app.use(cors())
+app.use(cors({
+  origin: ["http://localhost:3000"],
+  // methods:["GET","POST"],
+  credentials: true
+}))
+
+
+
+
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*")
-    res.setHeader("Access-Control-Allow-Headers", "*")
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000")
+    res.setHeader("Access-Control-Allow-Headers","*")
+    // res.setHeader("Access-Control-Allow-Headers", "Content-Type,Content-Length,Authorization,Accept,X-Requested-With")
+    // res.setHeader("Access-Control-Allow-Methods", POST,GET,DELETE,OPTIONS)
+    res.setHeader("Access-Control-Allow-Credentials", "true")
     next()
 })
 
@@ -41,7 +68,11 @@ mongoose.connect(connection_url)
 // ???
 
 // api routes
-app.get('/', (req, res) => res.status(200).send('hello world'))
+
+
+// );
+app.get('/' ,(req, res) => res.status(200).send('hello world'))
+
 
 app.use("/linuxPlaybooks", linuxRoute)
 app.use("/windowsPlaybooks",windowsRoute)
@@ -49,7 +80,7 @@ app.use("/otherPlaybooks", otherPlaybookRoute)
 app.use("/user", userRoute)
 app.use("/alerts", alertRoute)
 
-app.post("/recievePlaybook", (req, res) => {
+app.post("/recievePlaybook", requireJwtAuth,(req, res) => {
   // console.log("New data recieved")
   // console.log(req.body.playbooks)
   const playbooks = req.body.playbooks
@@ -104,5 +135,28 @@ axios.post("/alerts/sa",{
 });
 
 
+// app.get('/playbook', checkAuth, (req, res) => {
+//   //verify the JWT token generated for the user
+//   jwt.verify(req.token,"this is dummy text",(err, authorizedData) => {
+//       if(err){
+//           //If error send Forbidden (403)
+//           console.log('ERROR: Could not connect to the protected route');
+//           res.sendStatus(403);
+          
+//       } else {
+//           //If token is successfully verified, we can send the autorized data 
+          
+//           res.json({
+//               message: 'Successful log in',
+//               authorizedData
+//           });
+//           console.log('SUCCESS: Connected to protected route');
+          
+          
+//       }
+//   })
+  
+// });
+
 // listen
-app.listen(port,"172.16.16.180",() => console.log(`Listening on localhost:${port}`))
+app.listen(port, "127.0.0.1" ,() => console.log(`Listening on localhost:${port}`))
