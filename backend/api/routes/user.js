@@ -65,7 +65,7 @@ router.post("/login", (req, res) => {
                      
                       const token = jwt.sign(payload,
                         jwtSecret, 
-                        {expiresIn: 2*60}
+                        {expiresIn: "10h"}
                         );
                             
            

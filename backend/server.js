@@ -5,10 +5,14 @@ import linuxRoute from "./api/routes/linuxPlaybooks.js"
 import windowsRoute from "./api/routes/windowsPlaybooks.js"
 import otherPlaybookRoute from "./api/routes/otherPlaybooks.js"
 import userRoute from "./api/routes/user.js"
+import alertRoute from "./api/routes/alerts.js"
+import resultRoute from "./api/routes/results.js"
 import cors from "cors"
 import requireJwtAuth from "../backend/api/middleware/check-auth.js"
 import cookieParser from "cookie-parser";
 import {spawn} from "child_process"
+import axios from "axios";
+import date from "date-and-time"
 //import checkAuth from "../backend/api/middleware/check-auth.js"
 
 //import SyslogServer from "ts-syslog";
@@ -36,7 +40,7 @@ import {spawn} from "child_process"
 // app config
 const app = express()
 const port = process.env.port || 9000
-
+const now = new Date()
 // middleware
 app.use(express.json())
 app.use(cookieParser())
@@ -71,15 +75,14 @@ mongoose.connect(connection_url)
 
 // );
 app.get('/' ,(req, res) => res.status(200).send('hello world'))
-
-
 app.use("/linuxPlaybooks", linuxRoute)
 app.use("/windowsPlaybooks",windowsRoute)
 app.use("/otherPlaybooks", otherPlaybookRoute)
 app.use("/user", userRoute)
+app.use("/alerts", alertRoute)
+app.use("/results",resultRoute)
 
-
-app.post("/recievePlaybook", requireJwtAuth,(req, res) => {
+app.post("/recievePlaybook",(req, res) => {
   // console.log("New data recieved")
   // console.log(req.body.playbooks)
   const playbooks = req.body.playbooks
@@ -91,15 +94,22 @@ app.post("/recievePlaybook", requireJwtAuth,(req, res) => {
     // collecting data from ansible-runner.py
     python.stdout.on("data", function (data) {
       dataToSend = data.toString();
-      console.log("****************************------------------")
-      console.log(dataToSend);
+      // console.log(dataToSend);
+      axios.post("/results/new",{
+        date: date.format(now,"YYYY-MM-DD"),
+        time: date.format(now,"HH:mm:ss"),
+        noOfPlaybooks: playbooks.length,
+        data: dataToSend
+      }).then((response) => {
+          console.log(response.data)  
+        }, []);
     });
 
     // in close event we are sure that stream from child process is closed
     python.on("close", (code) => {
       console.log(`child process close all stdio with code ${code}`);
       // send data to browser
-      console.log(dataToSend)
+      // console.log(dataToSend)
       res.send(dataToSend); 
     });
   } else {
@@ -107,6 +117,31 @@ app.post("/recievePlaybook", requireJwtAuth,(req, res) => {
     res.send();
   }
 })
+
+// server.on("message", (value) => {
+//   console.log("---------------------------------------------"); // the date/time the message was received
+//   console.log(value.message); // the syslog message
+// let mainAlert = value.message.substring(value.message.indexOf("{") + 1);
+// var alertTobeSent='{'+mainAlert;
+// alertTobeSent=alertTobeSent.replace(/(\t) | (\r) | (\n)/gmi, '')
+// alertTobeSent=alertTobeSent.replace(/[\""]/gmi,'"')
+// alertTobeSent=alertTobeSent.replace(/["\"]/gmi,'"')
+// alertTobeSent=alertTobeSent.replace(/(\\\\) | (\\)/gmi, "/")
+// var parsedAlert=JSON.parse(alertTobeSent)
+// console.log(parsedAlert)
+// var foundTime = parsedAlert.timestamp.substring(parsedAlert.timestamp.indexOf("T")+1)
+// var foundDate = parsedAlert.timestamp.substring(0,parsedAlert.timestamp.indexOf("T"))
+// axios.post("/alerts/sa",{
+//   date: foundDate,
+//   time: foundTime,
+//   os: parsedAlert.decoder.name,
+//   alert: parsedAlert,
+
+// }).then((response) => {
+//   console.log(response.data)  
+// }, []);
+  
+// });
 
 
 // app.get('/playbook', checkAuth, (req, res) => {
