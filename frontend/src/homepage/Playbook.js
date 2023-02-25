@@ -15,7 +15,7 @@ import "./style/text-updater-node.css";
 import NewSidebar from "./NewSidebar";
 import Button from "@mui/material/Button";
 import axios from "../axios.js";
-
+import ResponsiveAppBar from "./AppBar.js";
 // app.use(cors({
 //   origin: ["http://localhost:3000"],
 //   // methods:["GET","POST"],
@@ -150,42 +150,44 @@ function Playbook({updatedUser}) {
 
   
   return (
-    <div className="body">
-    <div className="dndflow">
-      <ReactFlowProvider>
-        <NewSidebar />
-        <div className="reactflow-wrapper" ref={reactFlowWrapper}>
-          <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
-            onInit={setReactFlowInstance}
-            onDrop={onDrop}
-            onDragOver={onDragOver}
-            fitView={false}
-            nodeTypes={nodeTypes}
-            style={rfStyle}
-            onEdgeUpdate={onEdgeUpdate}
-            onEdgeUpdateStart={onEdgeUpdateStart}
-            onEdgeUpdateEnd={onEdgeUpdateEnd}
-          >
-            <Controls />
-            <div className="save__controls">
-              <Button
-                variant="contained"
-                onClick={() => runPlaybooks(edges, nodes)}
+    <>
+      <ResponsiveAppBar />
+      <div className="body">
+        <div className="dndflow">
+          <ReactFlowProvider>
+            <NewSidebar />
+            <div className="reactflow-wrapper" ref={reactFlowWrapper}>
+              <ReactFlow
+                nodes={nodes}
+                edges={edges}
+                onNodesChange={onNodesChange}
+                onEdgesChange={onEdgesChange}
+                onConnect={onConnect}
+                onInit={setReactFlowInstance}
+                onDrop={onDrop}
+                onDragOver={onDragOver}
+                fitView={false}
+                nodeTypes={nodeTypes}
+                style={rfStyle}
+                onEdgeUpdate={onEdgeUpdate}
+                onEdgeUpdateStart={onEdgeUpdateStart}
+                onEdgeUpdateEnd={onEdgeUpdateEnd}
               >
-                Execute
-              </Button>
+                <Controls />
+                <div className="save__controls">
+                  <Button
+                    variant="contained"
+                    onClick={() => runPlaybooks(edges, nodes)}
+                  >
+                    Execute
+                  </Button>
+                </div>
+              </ReactFlow>
             </div>
-          </ReactFlow>
+          </ReactFlowProvider>
         </div>
-      </ReactFlowProvider>
-    </div>
-    </div>
-  
+      </div>
+    </>
   );
 };
 
