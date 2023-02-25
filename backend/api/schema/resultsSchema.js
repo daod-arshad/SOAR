@@ -4,7 +4,7 @@ const results = mongoose.Schema({
   // user:String
   date: String,
   time: String,
-  noOfPlaybooks: String,
+  noOfPlaybooks: Number,
   data: String,
   
 });
