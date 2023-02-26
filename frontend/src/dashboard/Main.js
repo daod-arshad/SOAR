@@ -10,9 +10,10 @@ import GaugePlot from './GaugePlot';
 import MultiLinePlot from './MultiLinePlot';
 import ScatterPlot from './ScatterPlot';
 import {FilterOutlined}from '@ant-design/icons';
-import { Breadcrumb,Layout,Typography,Avatar,DatePicker,Table, Popover} from 'antd';
+import { Breadcrumb, Layout, Typography, Avatar, DatePicker, Table, Popover } from 'antd';
+import ResponsiveAppBar from "../homepage/AppBar";
 const { Header, Footer, Content } = Layout;
-const { Title,Text } = Typography;
+const { Title, Text } = Typography;
 
 
 function Main() {
@@ -72,16 +73,16 @@ function Main() {
 
   return (
     <>
-   
+    <ResponsiveAppBar/>
     <Layout>
     
     <Layout>
-    <Header style={{background:'White' ,padding:10}}> 
-    {/* <Avatar  style={{float:'right',paddingRight:6}} shape="square" size={32}  /> */}
+    {/* <Header style={{background:'White' ,padding:10}}> 
+    {/* <Avatar  style={{float:'right',paddingRight:6}} shape="square" size={32}  /> 
     <Title level={3}>SOAR</Title>
-    </Header>
+    </Header> */}
     
-    <Content style={{ padding: '0 20px' ,background:'white',height:900 }}>
+    <Content style={{ padding: '0 20px' ,background:'white',height:900, paddingTop:"2vh" }}>
     <div style={{ background:'White'}}> 
     <Popover placement="topLeft" title='Query Alert Stats by Date' trigger="hover">
     <FilterOutlined />

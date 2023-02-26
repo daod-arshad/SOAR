@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Space, Table, Tag } from "antd";
 import axios from "../axios.js";
+import ResponsiveAppBar from "../homepage/AppBar.js";
+
 function PlaybookTable() {
   const [playbookData, setplaybookData] = useState([]);
   useEffect(() => {
@@ -47,8 +49,16 @@ function PlaybookTable() {
     },
   ];
 
-  return <Table columns={columns} dataSource={playbookData} style={{
-    height: "100vh" 
-  }} />;
+  return (
+    <>
+      <ResponsiveAppBar />
+      <Table
+        columns={columns}
+        dataSource={playbookData}
+        style={{ height: "100vh" }}
+      />
+      ;
+    </>
+  );
 }
 export default PlaybookTable;
