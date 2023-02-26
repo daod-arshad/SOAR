@@ -24,5 +24,24 @@ router.get("/find", (req, res) => {
       }
     });
 });
+
+router.get("/playbookCount", async (req, res) => {
+  try {
+    let docs = await resultSchema.aggregate([
+      {
+        $group: {
+          _id: "",
+          noOfPlaybooks: { $sum: "$noOfPlaybooks" },
+        },
+      },
+      {
+        $project: { _id: 0, TotalPlayBooksRun: "$noOfPlaybooks" },
+      },
+    ]);
+    res.status(200).json(docs);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+});
   
 export default router
