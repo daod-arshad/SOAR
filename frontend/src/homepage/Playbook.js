@@ -176,6 +176,7 @@ function Playbook({updatedUser}) {
                 <Controls />
                 <div className="save__controls">
                   <Button
+                    style={{ background: "#431d2e" }}
                     variant="contained"
                     onClick={() => runPlaybooks(edges, nodes)}
                   >
