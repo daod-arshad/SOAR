@@ -79,8 +79,8 @@ app.use("/linuxPlaybooks", linuxRoute)
 app.use("/windowsPlaybooks",windowsRoute)
 app.use("/otherPlaybooks", otherPlaybookRoute)
 app.use("/user", userRoute)
-app.use("/alerts", alertRoute)
-app.use("/results",resultRoute)
+app.use("/Alert", alertRoute);
+app.use("/result", resultRoute);
 
 app.post("/recievePlaybook",(req, res) => {
   // console.log("New data recieved")
