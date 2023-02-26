@@ -9,6 +9,7 @@ import React, { useEffect, useState} from "react";
 import jwt_decode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import Main from "./dashboard/Main";
+import PlaybookTable from "./dashboard/PlaybookTable";
 
 function App() {
 
@@ -37,7 +38,8 @@ function App() {
                     <Route path="signup" element={<PrivateRoute><Signup /></PrivateRoute>} />
                     <Route path="playbook" element={<PrivateRoute><Playbook/></PrivateRoute>} />
                     <Route path="*" element={<h1>Path not Resolved</h1>} />
-                    <Route path='dashboard' element={<Main/>}/>
+              <Route path='dashboard' element={<Main />} />
+              <Route path='results' element={<PlaybookTable/>}/>
            
                 {/* <Route path="*" element={<Navigate to="/" replace/>} /> */}
               {/* )} */}
