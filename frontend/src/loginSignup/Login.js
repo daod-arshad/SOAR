@@ -31,7 +31,7 @@ let navigate = useNavigate();
               updatedUser(response.data);
               console.log(response.data);              
           
-              navigate("/playbook")
+              navigate("/dashboard")
             },[])
           
       .catch(err => alert('Incorrect username or password!'));
