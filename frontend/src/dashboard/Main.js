@@ -138,7 +138,7 @@ function Main() {
     </div>
     
     </Content>
-    <Footer style={{ textAlign: 'center' ,background:'white' }}>SOAR ©2023 Product by National Center Of Cyber Security, Karachi</Footer>
+    <Footer style={{ textAlign: 'center' ,background:'white', margin:'0px', paddingTop:'0px',paddingBottom:"2vh" }}>SOAR ©2023 Product by National Center Of Cyber Security, Karachi</Footer>
     </Layout>
     </Layout>
    
