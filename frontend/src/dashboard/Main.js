@@ -170,10 +170,11 @@ function Main() {
         </div>
       </div>
     </div>
+    </div>
     <div >
      {active==='table' && <TableComponent data={data_table}/>}
     </div>
-    </div>
+   
     
     </Content>
     <Footer style={{ textAlign: 'center' ,background:'white', margin:'0px', paddingTop:'0px',paddingBottom:"2vh" }}>SOAR ©2023 Product by National Center Of Cyber Security, Karachi</Footer>
