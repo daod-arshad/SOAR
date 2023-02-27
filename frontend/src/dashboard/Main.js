@@ -10,7 +10,7 @@ import GaugePlot from './GaugePlot';
 import MultiLinePlot from './MultiLinePlot';
 import ScatterPlot from './ScatterPlot';
 import {FilterOutlined}from '@ant-design/icons';
-import { Breadcrumb, Layout, Typography, Avatar, DatePicker, Table, Popover } from 'antd';
+import { Breadcrumb, Layout, Typography, Descriptions, DatePicker, Table, Popover } from 'antd';
 import ResponsiveAppBar from "../homepage/AppBar";
 import { fontWeight } from '@mui/system';
 const { Header, Footer, Content } = Layout;
@@ -132,26 +132,47 @@ function Main() {
       >Security Events Detail</Breadcrumb.Item>
       </Breadcrumb>
       <div style={divsHidden ? { display: 'none' } : {}}>
-      <div style={{width: '50%', border: '1px solid black',height: '260px', display: 'inline-block',padding: '0 30px'}}>
-      {active==='chart' &&<PieComponent data={data_pie_chart}/>}
+      <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}}>
+      <div style={{width: '50%', border: '1px solid black', height: '260px', display: 'inline-block', padding: '0 30px'}}>
+        <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%'}}>
+          {active === 'chart' && <PieComponent data={data_pie_chart}/>}
+          <Descriptions><Descriptions.Item>Alert Count based on Operating System</Descriptions.Item></Descriptions> 
+        </div>
       </div>
-      <div style={{width: '50%',border: '1px solid black', height: '260px', display: 'inline-block',padding: '0 30px'}}>
-      {active==='chart' &&<GradientGauge data1={alertCount} data2={bruteforceIDCount}/>}
+      <div style={{width: '50%', border: '1px solid black', height: '260px', display: 'inline-block', padding: '0 30px'}}>
+        <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%'}}>
+          {active === 'chart' && <GradientGauge data1={alertCount} data2={bruteforceIDCount}/>}
+          <Descriptions><Descriptions.Item>Brute Force</Descriptions.Item></Descriptions> 
+        </div>
       </div>
-      <div style={{width: '50%',border: '1px solid black', height: '260px', display: 'inline-block',padding: '0 30px'}}>
-      {active==='chart' &&<GaugePlot data1={alertCount} data2={playbookCount}/>}
+      <div style={{width: '50%', border: '1px solid black', height: '260px', display: 'inline-block', padding: '0 30px'}}>
+        <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%'}}>
+          {active === 'chart' && <GaugePlot data1={alertCount} data2={playbookCount}/>}
+          <Descriptions><Descriptions.Item>Gauge Plot</Descriptions.Item></Descriptions> 
+        </div>
       </div>
-      <div style={{width: '50%',border: '1px solid black', height: '260px', display: 'inline-block',padding: '0 30px'}}>
-      {active==='chart' &&<QuarterPie data={data_bar_chart}/>}
+      <div style={{width: '50%', border: '1px solid black', height: '260px', display: 'inline-block', padding: '0 30px'}}>
+        <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%'}}>
+          {active === 'chart' && <QuarterPie data={data_bar_chart}/>}
+          <Descriptions><Descriptions.Item>Quarter Pie</Descriptions.Item></Descriptions> 
+        </div>
       </div>
-      <div style={{width: '50%',border: '1px solid black', height: '260px', display: 'inline-block',padding: '0 30px'}}>
-      {active==='chart' &&<LevelBarComponent data={data_columnPlot}/>}
+      <div style={{width: '50%', border: '1px solid black', height: '260px', display: 'inline-block', padding: '0 30px'}}>
+        <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%'}}>
+          {active === 'chart' && <LevelBarComponent data={data_columnPlot}/>}
+          <Descriptions><Descriptions.Item>Level Bar</Descriptions.Item></Descriptions> 
+        </div>
       </div>
-      <div style={{width: '50%',border: '1px solid black', height: '260px', display: 'inline-block',padding: '0 30px'}}>
-      {active==='chart' &&<ScatterPlot/>}
-      </div></div>
+      <div style={{width: '50%', border: '1px solid black', height: '260px', display: 'inline-block', padding: '0 30px'}}>
+        <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%'}}>
+          {active === 'chart' && <ScatterPlot/>}
+          <Descriptions><Descriptions.Item>Scatter Plot</Descriptions.Item></Descriptions> 
+        </div>
+      </div>
+    </div>
     <div >
      {active==='table' && <TableComponent data={data_table}/>}
+    </div>
     </div>
     
     </Content>
