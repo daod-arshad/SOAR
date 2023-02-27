@@ -12,6 +12,7 @@ import ScatterPlot from './ScatterPlot';
 import {FilterOutlined}from '@ant-design/icons';
 import { Breadcrumb, Layout, Typography, Avatar, DatePicker, Table, Popover } from 'antd';
 import ResponsiveAppBar from "../homepage/AppBar";
+import { fontWeight } from '@mui/system';
 const { Header, Footer, Content } = Layout;
 const { Title, Text } = Typography;
 
@@ -19,7 +20,7 @@ const { Title, Text } = Typography;
 function Main() {
   //var date='2023-02-16';
 
-  const date = useRef("2023-02-16");
+  const [dAte, setDate] = useState("2023-02-16");
   
   const [data_pie_chart, setdata_pie_chart] = useState([])
   const [data_bar_chart, setdata_bar_chart] = useState([]);
@@ -31,45 +32,73 @@ function Main() {
   //const [date,setdate]=useState("");
   //setdate("2023-02-16");
 
+  const [active,setactive]=useState('chart');
+  const [divsHidden, setDivsHidden] = useState(false);
+  const [summary, setsummary] = useState(false);
+  const [detail, setdetail] = useState(false);
+  const handlebredcrumClick1 = () => {
+    setsummary(true);
+    setdetail(false);
+    setDivsHidden(true);
+    setactive('table');
+  };
+  const handlebredcrumClick2 = () => {
+    setsummary(false);
+    setdetail(true);
+    setDivsHidden(false);
+    setactive('chart');
+  };
+
   
  useEffect(() => {
-    console.log(date);
-    axios.get("/Alert/receivePieChartData",{params: { query_date: date.current}}).then((response) => {
-      console.log(response.data);
-      setdata_pie_chart(response.data)
-    },[]);
-    axios.get("/Alert/receiveBarGraphData",{params: { query_date: date.current}}).then((response) => {
-      console.log(response.data);
-      setdata_bar_chart(response.data);
-    },[]);
-    axios.get("/Alert/receiveTableData",{params: { query_date:date.current}}).then((response) => {
-      console.log(response.data);
-      setdata_table(response.data);
-    },[]);
-    axios.get("/Alert/Columnplotwithslider",{params: { query_date:date.current}}).then((response) => {
-      console.log(response.data);
-      setdata_columnPlot(response.data);
-    },[]);
-    axios.get("/Alert/alertCount",{params: { query_date:date.current}}).then((response) => {
-      console.log(response.data);
-      setalertCount(response.data);
-    },[]);
-    axios.get("/Alert/alertCountRuleId",{params: { query_date:date.current}}).then((response) => {
-      console.log(response.data);
-      const res = response.data;
-      for (const key in res){
-        setbruteforceIDCount(res[key].count)
-        
-}
-    },[]);
-    axios.get("/result/playbookCount").then((response) => {
-      console.log(response.data);
-      const res = response.data;
-      for (const key in res){
-        setplaybookCount(res[key].TotalPlayBooksRun)
-}
-    },[]);
-  }, [date]);
+   console.log(dAte);
+   axios
+     .get("/Alert/receivePieChartData", { params: { query_date: dAte } })
+     .then((response) => {
+       console.log(response.data);
+       setdata_pie_chart(response.data);
+     }, []);
+   axios
+     .get("/Alert/receiveBarGraphData", { params: { query_date: dAte } })
+     .then((response) => {
+       console.log(response.data);
+       setdata_bar_chart(response.data);
+     }, []);
+   axios
+     .get("/Alert/receiveTableData", { params: { query_date: dAte } })
+     .then((response) => {
+       console.log(response.data);
+       setdata_table(response.data);
+     }, []);
+   axios
+     .get("/Alert/Columnplotwithslider", { params: { query_date: dAte } })
+     .then((response) => {
+       console.log(response.data);
+       setdata_columnPlot(response.data);
+     }, []);
+   axios
+     .get("/Alert/alertCount", { params: { query_date: dAte } })
+     .then((response) => {
+       console.log(response.data);
+       setalertCount(response.data);
+     }, []);
+   axios
+     .get("/Alert/alertCountRuleId", { params: { query_date: dAte } })
+     .then((response) => {
+       console.log(response.data);
+       const res = response.data;
+       for (const key in res) {
+         setbruteforceIDCount(res[key].count);
+       }
+     }, []);
+   axios.get("/result/playbookCount").then((response) => {
+     console.log(response.data);
+     const res = response.data;
+     for (const key in res) {
+       setplaybookCount(res[key].TotalPlayBooksRun);
+     }
+   }, []);
+ }, [dAte]);
 
   return (
     <>
@@ -88,37 +117,45 @@ function Main() {
     <FilterOutlined />
     </Popover>
     <Text style={{paddingRight: '5px',paddingLeft: '5px'}} strong></Text>
-    <DatePicker style={{display: 'inline-block'}}  placement="bottomLeft"onChange={(date,dateString) =>date.current.changeData('2023-02-18')} />
+              <DatePicker style={{ display: 'inline-block' }} placement="bottomLeft" onChange={(prevDate,dateString) => {
+                console.log(dateString)
+                // date.current = dateString
+                setDate(dateString)
+                console.log(dAte);
+              }} />
 
     </div>
       <Breadcrumb style={{ margin: '16px 0' }}>
-      <Breadcrumb.Item>Security Events Summary</Breadcrumb.Item>
-      <Breadcrumb.Item>Security Events Detail</Breadcrumb.Item>
+      <Breadcrumb.Item onClick={handlebredcrumClick1} style={summary ? { fontWeight: "bold",color: "black" } : {color: "black"}}
+      >Security Events Summary</Breadcrumb.Item>
+      <Breadcrumb.Item onClick={handlebredcrumClick2} style={detail ? { fontWeight: "bold",color: "black" } : {color: "black"}}
+      >Security Events Detail</Breadcrumb.Item>
       </Breadcrumb>
-      <div>
+      <div style={divsHidden ? { display: 'none' } : {}}>
       <div style={{width: '50%', border: '1px solid black',height: '260px', display: 'inline-block',padding: '0 30px'}}>
-      <PieComponent data={data_pie_chart}/>
-    
+      {active==='chart' &&<PieComponent data={data_pie_chart}/>}
       </div>
       <div style={{width: '50%',border: '1px solid black', height: '260px', display: 'inline-block',padding: '0 30px'}}>
-      <GradientGauge data1={alertCount} data2={bruteforceIDCount}/>
+      {active==='chart' &&<GradientGauge data1={alertCount} data2={bruteforceIDCount}/>}
       </div>
       <div style={{width: '50%',border: '1px solid black', height: '260px', display: 'inline-block',padding: '0 30px'}}>
-      <GaugePlot data1={alertCount} data2={playbookCount}/>
+      {active==='chart' &&<GaugePlot data1={alertCount} data2={playbookCount}/>}
       </div>
       <div style={{width: '50%',border: '1px solid black', height: '260px', display: 'inline-block',padding: '0 30px'}}>
-      <QuarterPie data={data_bar_chart}/>
+      {active==='chart' &&<QuarterPie data={data_bar_chart}/>}
       </div>
       <div style={{width: '50%',border: '1px solid black', height: '260px', display: 'inline-block',padding: '0 30px'}}>
-      <LevelBarComponent data={data_columnPlot}/>
+      {active==='chart' &&<LevelBarComponent data={data_columnPlot}/>}
       </div>
       <div style={{width: '50%',border: '1px solid black', height: '260px', display: 'inline-block',padding: '0 30px'}}>
-      <ScatterPlot/>
-      </div>
-     
+      {active==='chart' &&<ScatterPlot/>}
+      </div></div>
+    <div >
+     {active==='table' && <TableComponent data={data_table}/>}
     </div>
+    
     </Content>
-    <Footer style={{ textAlign: 'center' ,background:'white' }}>SOAR ©2023 Product by National Center Of Cyber Security, Karachi</Footer>
+    <Footer style={{ textAlign: 'center' ,background:'white', margin:'0px', paddingTop:'0px',paddingBottom:"2vh" }}>SOAR ©2023 Product by National Center Of Cyber Security, Karachi</Footer>
     </Layout>
     </Layout>
    
