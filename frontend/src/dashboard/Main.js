@@ -126,11 +126,12 @@ function Main() {
 
     </div>
       <Breadcrumb style={{ margin: '16px 0' }}>
-      <Breadcrumb.Item onClick={handlebredcrumClick1} style={summary ? { fontWeight: "bold",color: "black" } : {color: "black"}}
-      >Security Events Summary</Breadcrumb.Item>
       <Breadcrumb.Item onClick={handlebredcrumClick2} style={detail ? { fontWeight: "bold",color: "black" } : {color: "black"}}
+      >Security Events Summary</Breadcrumb.Item>
+      <Breadcrumb.Item onClick={handlebredcrumClick1} style={summary ? { fontWeight: "bold",color: "black" } : {color: "black"}}
       >Security Events Detail</Breadcrumb.Item>
-      </Breadcrumb>
+       </Breadcrumb>
+     
       <div style={divsHidden ? { display: 'none' } : {}}>
       <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}}>
       <div style={{width: '50%', border: '1px solid black', height: '260px', display: 'inline-block', padding: '0 30px'}}>
