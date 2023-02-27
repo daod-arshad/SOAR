@@ -8,7 +8,7 @@ function PlaybookTable() {
   useEffect(() => {
     axios.get("/result/find").then((response) => {
       console.log(response.data);
-      setplaybookData(response.data);
+      setplaybookData(Buffer.from(response.data, "base64").toString("ascii"));
     }, []);
   }, []);
 

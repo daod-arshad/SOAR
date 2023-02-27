@@ -106,7 +106,7 @@ app.post("/recievePlaybook",(req, res) => {
         date: date.format(now,"YYYY-MM-DD"),
         time: date.format(now,"HH:mm:ss"),
         noOfPlaybooks: playbooks.length,
-        data: dataToSend
+        data: Buffer.from(dataToSend).toString('base64')
       }).then((response) => {
         // console.log(playbookResults)
           console.log(response.data)  
@@ -116,7 +116,7 @@ app.post("/recievePlaybook",(req, res) => {
     console.log("no playbook to be executed");
     // res.send();
   }
- 
+//  Buffer.from("SGVsbG8gV29ybGQ=", "base64").toString("ascii");
 })
 
 // server.on("message", (value) => {
