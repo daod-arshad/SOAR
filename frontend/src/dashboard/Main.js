@@ -12,6 +12,7 @@ import ScatterPlot from './ScatterPlot';
 import {FilterOutlined}from '@ant-design/icons';
 import { Breadcrumb, Layout, Typography, Avatar, DatePicker, Table, Popover } from 'antd';
 import ResponsiveAppBar from "../homepage/AppBar";
+import { fontWeight } from '@mui/system';
 const { Header, Footer, Content } = Layout;
 const { Title, Text } = Typography;
 
@@ -19,7 +20,7 @@ const { Title, Text } = Typography;
 function Main() {
   //var date='2023-02-16';
 
-  const date = useRef("2023-02-16");
+  const [dAte, setDate] = useState("2023-02-16");
   
   const [data_pie_chart, setdata_pie_chart] = useState([])
   const [data_bar_chart, setdata_bar_chart] = useState([]);
@@ -50,43 +51,54 @@ function Main() {
 
   
  useEffect(() => {
-    console.log(date);
-    axios.get("/Alert/receivePieChartData",{params: { query_date: date.current}}).then((response) => {
-      console.log(response.data);
-      setdata_pie_chart(response.data)
-    },[]);
-    axios.get("/Alert/receiveBarGraphData",{params: { query_date: date.current}}).then((response) => {
-      console.log(response.data);
-      setdata_bar_chart(response.data);
-    },[]);
-    axios.get("/Alert/receiveTableData",{params: { query_date:date.current}}).then((response) => {
-      console.log(response.data);
-      setdata_table(response.data);
-    },[]);
-    axios.get("/Alert/Columnplotwithslider",{params: { query_date:date.current}}).then((response) => {
-      console.log(response.data);
-      setdata_columnPlot(response.data);
-    },[]);
-    axios.get("/Alert/alertCount",{params: { query_date:date.current}}).then((response) => {
-      console.log(response.data);
-      setalertCount(response.data);
-    },[]);
-    axios.get("/Alert/alertCountRuleId",{params: { query_date:date.current}}).then((response) => {
-      console.log(response.data);
-      const res = response.data;
-      for (const key in res){
-        setbruteforceIDCount(res[key].count)
-        
-}
-    },[]);
-    axios.get("/result/playbookCount").then((response) => {
-      console.log(response.data);
-      const res = response.data;
-      for (const key in res){
-        setplaybookCount(res[key].TotalPlayBooksRun)
-}
-    },[]);
-  }, [date]);
+   console.log(dAte);
+   axios
+     .get("/Alert/receivePieChartData", { params: { query_date: dAte } })
+     .then((response) => {
+       console.log(response.data);
+       setdata_pie_chart(response.data);
+     }, []);
+   axios
+     .get("/Alert/receiveBarGraphData", { params: { query_date: dAte } })
+     .then((response) => {
+       console.log(response.data);
+       setdata_bar_chart(response.data);
+     }, []);
+   axios
+     .get("/Alert/receiveTableData", { params: { query_date: dAte } })
+     .then((response) => {
+       console.log(response.data);
+       setdata_table(response.data);
+     }, []);
+   axios
+     .get("/Alert/Columnplotwithslider", { params: { query_date: dAte } })
+     .then((response) => {
+       console.log(response.data);
+       setdata_columnPlot(response.data);
+     }, []);
+   axios
+     .get("/Alert/alertCount", { params: { query_date: dAte } })
+     .then((response) => {
+       console.log(response.data);
+       setalertCount(response.data);
+     }, []);
+   axios
+     .get("/Alert/alertCountRuleId", { params: { query_date: dAte } })
+     .then((response) => {
+       console.log(response.data);
+       const res = response.data;
+       for (const key in res) {
+         setbruteforceIDCount(res[key].count);
+       }
+     }, []);
+   axios.get("/result/playbookCount").then((response) => {
+     console.log(response.data);
+     const res = response.data;
+     for (const key in res) {
+       setplaybookCount(res[key].TotalPlayBooksRun);
+     }
+   }, []);
+ }, [dAte]);
 
   return (
     <>
@@ -105,13 +117,18 @@ function Main() {
     <FilterOutlined />
     </Popover>
     <Text style={{paddingRight: '5px',paddingLeft: '5px'}} strong></Text>
-    <DatePicker style={{display: 'inline-block'}}  placement="bottomLeft"onChange={(date,dateString) =>date.current.changeData('2023-02-18')} />
+              <DatePicker style={{ display: 'inline-block' }} placement="bottomLeft" onChange={(prevDate,dateString) => {
+                console.log(dateString)
+                // date.current = dateString
+                setDate(dateString)
+                console.log(dAte);
+              }} />
 
     </div>
       <Breadcrumb style={{ margin: '16px 0' }}>
-      <Breadcrumb.Item onClick={handlebredcrumClick1} style={summary ? { background: 'green' } : {}}
+      <Breadcrumb.Item onClick={handlebredcrumClick1} style={summary ? { fontWeight: "bold",color: "black" } : {color: "black"}}
       >Security Events Summary</Breadcrumb.Item>
-      <Breadcrumb.Item onClick={handlebredcrumClick2} style={detail ? { background: 'green' } : {}}
+      <Breadcrumb.Item onClick={handlebredcrumClick2} style={detail ? { fontWeight: "bold",color: "black" } : {color: "black"}}
       >Security Events Detail</Breadcrumb.Item>
       </Breadcrumb>
       <div style={divsHidden ? { display: 'none' } : {}}>
