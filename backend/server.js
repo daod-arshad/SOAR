@@ -102,7 +102,7 @@ app.post("/recievePlaybook",(req, res) => {
       console.log(`child process close all stdio with code ${code}`);
       // send data to browser
 
-      axios.post("/results/new",{
+      axios.post("/result/new",{
         date: date.format(now,"YYYY-MM-DD"),
         time: date.format(now,"HH:mm:ss"),
         noOfPlaybooks: playbooks.length,

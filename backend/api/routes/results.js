@@ -20,6 +20,11 @@ router.get("/find", (req, res) => {
       if (err) {
         res.status(500).send(err);
       } else {
+        // res.status(201).send(data);
+        // console.log(data[0])
+        for (var i = 0; i < data.length; i++){
+          data[i].data = Buffer.from(data[i].data, "base64").toString("ascii"); 
+        }
         res.status(201).send(data);
       }
     });
