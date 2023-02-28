@@ -60,6 +60,8 @@ function PlaybookTable() {
       ;
     </>
 
+   
+
     // playbookData.map((item) => (
     //   <div style={{whiteSpace:"pre-wrap"}}>
     //     {item.data}
