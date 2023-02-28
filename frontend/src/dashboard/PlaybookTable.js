@@ -55,10 +55,16 @@ function PlaybookTable() {
       <Table
         columns={columns}
         dataSource={playbookData}
-        style={{ height: "100vh" }}
+        style={{ height: "100vh", whiteSpace: "pre-wrap" }}
       />
       ;
     </>
+
+    // playbookData.map((item) => (
+    //   <div style={{whiteSpace:"pre-wrap"}}>
+    //     {item.data}
+    //   </div>
+    // ))
   );
 }
 export default PlaybookTable;
