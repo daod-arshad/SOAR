@@ -13,6 +13,7 @@ import cookieParser from "cookie-parser";
 import {spawn} from "child_process"
 import axios from "./axios.js";
 import date from "date-and-time"
+import stripAnsi from "strip-ansi"
 //import checkAuth from "../backend/api/middleware/check-auth.js"
 
 //import SyslogServer from "ts-syslog";
@@ -106,7 +107,7 @@ app.post("/recievePlaybook",(req, res) => {
         date: date.format(now,"YYYY-MM-DD"),
         time: date.format(now,"HH:mm:ss"),
         noOfPlaybooks: playbooks.length,
-        data: Buffer.from(dataToSend).toString('base64')
+        data: stripAnsi(dataToSend)
       }).then((response) => {
         // console.log(playbookResults)
           console.log(response.data)  
