@@ -55,10 +55,12 @@ function PlaybookTable() {
       <Table
         columns={columns}
         dataSource={playbookData}
-        style={{ height: "100vh" }}
+        style={{ height: "100vh", whiteSpace: "pre-wrap" }}
       />
       ;
     </>
+
+   
   );
 }
 export default PlaybookTable;
