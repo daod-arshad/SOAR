@@ -13,8 +13,14 @@ import {FilterOutlined}from '@ant-design/icons';
 import { Breadcrumb, Layout, Typography, Descriptions, DatePicker, Table, Popover } from 'antd';
 import ResponsiveAppBar from "../homepage/AppBar";
 import { fontWeight } from '@mui/system';
+import Card from "@mui/material/Card";
+import Box from "@mui/material/Box";
+import CardContent from "@mui/material/CardContent";
+// import Typography from "@mui/material/Typography";
+
 const { Header, Footer, Content } = Layout;
 const { Title, Text } = Typography;
+
 
 
 function Main() {
@@ -106,12 +112,8 @@ function Main() {
     <Layout>
     
     <Layout>
-    {/* <Header style={{background:'White' ,padding:10}}> 
-    {/* <Avatar  style={{float:'right',paddingRight:6}} shape="square" size={32}  /> 
-    <Title level={3}>SOAR</Title>
-    </Header> */}
     
-    <Content style={{ padding: '0 20px' ,background:'white',height:900, paddingTop:"2vh" }}>
+    <Content style={{ padding: '0 20px' ,background:'white', paddingTop:"2vh", paddingBottom:"5vh" }}>
     <div style={{ background:'White'}}> 
     <Popover placement="topLeft" title='Query Alert Stats by Date' trigger="hover">
     <FilterOutlined />
@@ -134,42 +136,57 @@ function Main() {
      
       <div style={divsHidden ? { display: 'none' } : {}}>
       <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}}>
-      <div style={{width: '50%', border: '1px solid black', height: '260px', display: 'inline-block', padding: '0 30px'}}>
-        <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%'}}>
-          {active === 'chart' && <PieComponent data={data_pie_chart}/>}
-          <Descriptions><Descriptions.Item>Alert Count based on Operating System</Descriptions.Item></Descriptions> 
-        </div>
-      </div>
-      <div style={{width: '50%', border: '1px solid black', height: '260px', display: 'inline-block', padding: '0 30px'}}>
-        <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%'}}>
-          {active === 'chart' && <GradientGauge data1={alertCount} data2={bruteforceIDCount}/>}
-          <Descriptions><Descriptions.Item>Brute Force</Descriptions.Item></Descriptions> 
-        </div>
-      </div>
-      <div style={{width: '50%', border: '1px solid black', height: '260px', display: 'inline-block', padding: '0 30px'}}>
-        <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%'}}>
-          {active === 'chart' && <GaugePlot data1={alertCount} data2={playbookCount}/>}
-          <Descriptions><Descriptions.Item>Gauge Plot</Descriptions.Item></Descriptions> 
-        </div>
-      </div>
-      <div style={{width: '50%', border: '1px solid black', height: '260px', display: 'inline-block', padding: '0 30px'}}>
-        <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%'}}>
-          {active === 'chart' && <QuarterPie data={data_bar_chart}/>}
-          <Descriptions><Descriptions.Item>Quarter Pie</Descriptions.Item></Descriptions> 
-        </div>
-      </div>
-      <div style={{width: '50%', border: '1px solid black', height: '260px', display: 'inline-block', padding: '0 30px'}}>
-        <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%'}}>
-          {active === 'chart' && <LevelBarComponent data={data_columnPlot}/>}
-          <Descriptions><Descriptions.Item>Level Bar</Descriptions.Item></Descriptions> 
-        </div>
-      </div>
-      <div style={{width: '50%', border: '1px solid black', height: '260px', display: 'inline-block', padding: '0 30px'}}>
-        <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%'}}>
-          {active === 'chart' && <ScatterPlot/>}
-          <Descriptions><Descriptions.Item>Scatter Plot</Descriptions.Item></Descriptions> 
-        </div>
-      </div>
+        <Box sx={{ width: "60vw", marginBottom:"4vh" }}>
+          <Card variant='outlined'>
+        <div style={{display: 'flex', padding:"1.5vw 1.5vw 0vw 1.5vw", flexDirection: 'column', justifyContent: 'space-between', height: '100%'}}>
+                      {active === 'chart' && <LevelBarComponent data={data_columnPlot} />}
+                      <CardContent><Title style={{margin:"0", padding:"0"}} level={4}>Alerts Per Agent</Title></CardContent>
+                  </div>    
+          </Card>
+        
+                </Box>
+                
+        <Box sx={{ minWidth: "35vw", marginBottom:"4vh" }}>
+          <Card variant='outlined'>
+                <div style={{ display: 'flex',padding:"1.5vw 1.5vw 0vw 1.5vw", flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+                      {active === 'chart' && <GradientGauge data1={alertCount} data2={bruteforceIDCount} />}
+                      <CardContent><Title style={{margin:"0", padding:"0"}} level={4}>Brute Force Alerts</Title></CardContent>
+                  </div>
+                  </Card>
+                  </Box>
+        <Box sx={{ minWidth: "30vw", marginBottom:"4vh", marginLeft:"10vw" }}>
+          <Card variant='outlined'>
+                <div style={{ display: 'flex',padding:"1.5vw 1.5vw 0vw 1.5vw", flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+                      {active === 'chart' && <GaugePlot data1={alertCount} data2={playbookCount} />}
+                      <CardContent><Title style={{margin:"0", padding:"0"}} level={4}>Playbooks Executed on Alerts</Title></CardContent>
+                    </div>
+                  </Card>
+                  </Box>
+        <Box sx={{ minWidth: "30vw", marginBottom:"4vh", marginRight:"10vw" }}>
+          <Card variant='outlined'>
+                <div style={{ display: 'flex',padding:"1.5vw 1.5vw 0vw 1.5vw", flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+                      {active === 'chart' && <QuarterPie data={data_bar_chart} />}
+                      <CardContent><Title style={{margin:"0", padding:"0"}} level={4}>Quarter Pie</Title></CardContent>
+                    </div>
+                  </Card>
+                  </Box>
+        <Box sx={{ minWidth: "35vw", marginBottom:"4vh" }}>
+          <Card variant='outlined'>
+                <div style={{ display: 'flex',padding:"1.5vw 1.5vw 0vw 1.5vw", flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+                      {active === 'chart' && <PieComponent data={data_pie_chart} />}
+                      <CardContent><Title lstyle={{margin:"0", padding:"0"}} level={4}>Alerts per Decoder</Title></CardContent>
+                    </div>
+                  </Card>
+                  </Box>
+        <Box sx={{ minWidth: "60vw", marginBottom:"4vh" }}>
+          <Card variant='outlined'>
+                <div style={{ display: 'flex',padding:"1.5vw 1.5vw 0vw 1.5vw", flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+                      {active === 'chart' && <ScatterPlot />}
+                      <CardContent><Title style={{margin:"0", padding:"0"}} level={4}>Alerts</Title></CardContent>
+                    </div>
+                  </Card>
+                  </Box>
+      
     </div>
     </div>
     <div >
@@ -178,7 +195,7 @@ function Main() {
    
     
     </Content>
-    <Footer style={{ textAlign: 'center' ,background:'white', margin:'0px', paddingTop:'0px',paddingBottom:"2vh" }}>SOAR ©2023 Product by National Center Of Cyber Security, Karachi</Footer>
+    {/* <Footer style={{ textAlign: 'center' ,background:'white', margin:'0px', paddingTop:'0px',paddingBottom:"2vh" }}>SOAR ©2023 Product by National Center Of Cyber Security, Karachi</Footer> */}
     </Layout>
     </Layout>
    
