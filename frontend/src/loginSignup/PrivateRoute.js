@@ -1,62 +1,81 @@
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import React, {useEffect} from "react";
-import { useJwt } from 'react-jwt';
-import jwt_decode from 'jwt-decode'
+import axios from 'axios';
 const PrivateRoute = React.memo( function PrivateRoute({children}) {
-const maxAge = 30*60
 
 
   const authorizationToken = localStorage.getItem('User');
-  const decodedToken = jwt_decode(authorizationToken);
-  console.log("decodedToken",decodedToken);
+  // const decodedToken = jwt_decode(authorizationToken);
+  // console.log("decodedToken",decodedToken);
 
-  //const expirationTime = decodedToken ? decodedToken.exp * 1000 : 0;
-  //const isExpired = new Date().getTime() > expirationTime;
-  const isExpired = decodedToken ? new Date().getTime() > decodedToken.exp * 1000 : true;
- // const tt= decodedToken.exp * 1000 < currentDate.getTime())
-  console.log(isExpired)
+  // const isExpired = decodedToken ? new Date().getTime() > decodedToken.exp * 1000 : true;
 
-  let navigate = useNavigate();
+  // console.log(isExpired)
 
-  useEffect(()=>{
+  //const location = useLocation();
+  const navigate = useNavigate();
+  
+    useEffect(()=>{
     const verifyUser = async()=>{
       if (!authorizationToken){
         navigate('/')
       }
-    
-      else{
-        if(authorizationToken){
-          try{
-           // console.log(isExpired)
-           // let currentDate = new Date();
-            {!(isExpired)
-    
-              //(decodedToken.exp * 1000 < currentDate.getTime())
-              ?   navigate({children}):
-              //localStorage.removeItem("User")
-               (navigate('/'))
-            }
-         
-          }
-          catch(err){
-            if (err.message === 'Invalid token specified') {
-                // Redirect to login page
-                navigate('/');    
-          
-        }
-      }
-        }
-       
-         
-  }
  }
       
     verifyUser();
-},[navigate]);
+},[navigate, authorizationToken]);
+
+
+  const axiosInstance = axios.create({
+    headers: {
+      Authorization: `Bearer ${authorizationToken}`
+    }
+  });
+
+  const currentRoute = window.location.pathname;
+  console.log(currentRoute);
+  
+  axiosInstance.post(`http://localhost:9000/user/${currentRoute}`) // <-- this is the protected endpoint
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(error => {
+     // Wait for 0.5 seconds before redirecting to the login route
+      setTimeout(removeTokenAndRedirect, 500);
+      //document.location.href= '/';
+    });
+
+
+    function removeTokenAndRedirect() {
+      localStorage.removeItem('User');
+      window.location.href = '/';
+    }
+  
+    
+    // axiosInstance.post('http://localhost:9000/user/dashboard') // <-- this is the protected endpoint
+    // .then(response => {
+    //   console.log(response.data);
+    // })
+    // .catch(error => {
+    //  // Wait for 0.5 seconds before redirecting to the login route
+    //   setTimeout(removeTokenAndRedirect, 500);
+    //   //document.location.href= '/';
+    // });
+
+
+
 
 return (
    <>
 {children}
+ 
+      {/* {isAuthenticated() ? (
+          {children}
+        ) : (
+          <navigate to={{ pathname: loginPath, state: { from: location.pathname } }} replace />
+        )
+      } */}
+    
    </>
 )}
 

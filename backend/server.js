@@ -77,13 +77,13 @@ mongoose.connect(connection_url)
 // );
 app.get('/' ,(req, res) => res.status(200).send('hello world'))
 app.use("/linuxPlaybooks", linuxRoute)
-app.use("/windowsPlaybooks",windowsRoute)
+app.use("/windowsPlaybooks", windowsRoute)
 app.use("/otherPlaybooks", otherPlaybookRoute)
 app.use("/user", userRoute)
-app.use("/Alert", alertRoute);
+app.use("/Alert",alertRoute);
 app.use("/result", resultRoute);
 
-app.post("/recievePlaybook",(req, res) => {
+app.post("/recievePlaybook", requireJwtAuth,(req, res) => {
   // console.log("New data recieved")
   // console.log(req.body.playbooks)
   const playbooks = req.body.playbooks
@@ -96,6 +96,7 @@ app.post("/recievePlaybook",(req, res) => {
     python.stdout.on("data", function (data) {
       dataToSend += data.toString();
       // console.log(dataToSend);
+      res.json({message: 'welcome to recieve playbook page'})  
     });
     
     // in close event we are sure that stream from child process is closed

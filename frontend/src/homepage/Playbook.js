@@ -43,7 +43,7 @@ let id = 0;
 const getId = () => `dndnode_${id++}`;
 
 
-function Playbook({updatedUser}) {
+function Playbook({token}) {
   const edgeUpdateSuccessful = useRef(true);
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes,] = useNodesState(initialNodes);
@@ -277,6 +277,7 @@ function runPlaybooks(edges, nodes) {
     });
   })
   
+  //const headers = { 'Authorization': `Bearer ${token}` };
   if (finalSequence.length > 0) {
     axios
       .post("/recievePlaybook", {

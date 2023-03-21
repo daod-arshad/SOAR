@@ -9,12 +9,31 @@ const router = express.Router()
 const saltRounds = 10
 const maxAge = 30 * 60;
 const jwtSecret = ",7q'21681B-F>-#";
+// const token = '';
 
-router.post("/playbook" , requireJwtAuth, (req, res) => {
+// const headers = { 'Authorization': `Bearer ${token}` };
+// console.log(headers);
+
+
+
+router.post("/playbook" ,requireJwtAuth ,(req, res) => {
             res.json({message: 'welcome to playbook page'})    
 })
 
-router.post("/signup", (req, res) => {
+router.post("/test", requireJwtAuth ,(req, res) => {
+    res.json({message: 'welcome to test page'})    
+})
+
+router.post("/dashboard", requireJwtAuth ,(req, res) => {
+    res.json({message: 'welcome to dashboard page'})    
+})
+
+
+router.post("/results", requireJwtAuth ,(req, res) => {
+    res.json({message: 'welcome to results page'})    
+})
+
+router.post("/signup", requireJwtAuth,(req, res) => {
     bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
         if (err) {
             return res.status(500).send(err)
@@ -31,6 +50,7 @@ router.post("/signup", (req, res) => {
             user.save().then(
                 result => {
                     res.status(200).send(result)
+                    //res.json({message: 'welcome to signup page'})
                 }
             )
                 .catch(err => {
@@ -63,7 +83,7 @@ router.post("/login", (req, res) => {
                       };
 
                      
-                      const token = jwt.sign(payload,
+                      let token = jwt.sign(payload,
                         jwtSecret, 
                         {expiresIn: "10h"}
                         );

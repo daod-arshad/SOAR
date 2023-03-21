@@ -2,14 +2,21 @@ import React, { useState } from "react";
 import "./style/relogin.css"
 import axios from "../axios.js"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 
-export default function Login({updatedUser}) {
+export default function Login({updatedUser},{children}) {
   const [error, setErrormsg] = useState(false);
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-let navigate = useNavigate(); 
+  const location = useLocation();
+
+  const isAuthenticated = () => {
+    // Check if the user is authenticated by looking for a session variable
+    return localStorage.getItem('User') !== null;
+  };
+
+  let navigate = useNavigate(); 
   //functions
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,7 +28,7 @@ let navigate = useNavigate();
         console.log("The form was submitted with the following data:");
         console.log("username: " + name, "password: " + password);
    
-        
+        //axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
           axios.defaults.withCredentials = true;
           axios
@@ -29,8 +36,8 @@ let navigate = useNavigate();
               username: name, password: password
             }).then((response)=>{
               updatedUser(response.data);
-              console.log(response.data);              
-          
+                   
+              // setLoggedIn(true);
               navigate("/dashboard")
             },[])
           
@@ -40,9 +47,18 @@ let navigate = useNavigate();
       
   }}
 
+  React.useEffect(() => {
+    if (isAuthenticated()) {
+      window.history.back();
+      // (location.state?.from || '/');
+    }
+  }, [location.state]);
+
+
 
   return (
     <>
+      {!isAuthenticated() && (
     <div className="App">
     <div className="appAside" />
     <div className="appForm">
@@ -99,7 +115,7 @@ let navigate = useNavigate();
     </form>
   </div>
   </div>
-  </div>
+  </div>)}
 </>
   );
   
