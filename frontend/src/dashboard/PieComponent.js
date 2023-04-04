@@ -6,7 +6,7 @@ function PieComponent(prop) {
    var data =prop.data 
       const config = {
         appendPadding: 10,
-        loading: data.length === 0,
+        //loading: data.length === 0,
         data,
         angleField: 'count',  //alert count
         colorField: '_id',  //name of OS

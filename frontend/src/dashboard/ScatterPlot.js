@@ -1,61 +1,17 @@
 import React from 'react'
 import { Scatter } from '@ant-design/plots';
 import {Description} from 'antd'
-function ScatterPlot() {
-    var data=[
-        {
-          "Agent Name": "Dawood",
-          "ID": "117",
-          "Alerts": 16
-        },
-        {
-          "Agent Name": "Standalone",
-          "ID": "101",
-          "Alerts": 25
-        },
-        {
-          "Agent Name": "NCCS",
-          "ID": "000",
-          "Alerts": 12        },
-          {
-            "Agent Name": "Dawood",
-            "ID": "117",
-            "Alerts": 19
-          },
-          {
-            "Agent Name": "Standalone",
-            "ID": "101",
-            "Alerts": 4
-          },
-          {
-            "Agent Name": "NCCS",
-            "ID": "000",
-            "Alerts": 1
-          },
-          {
-              "Agent Name": "NCCS",
-              "ID": "000",
-              "Alerts": 16
-          },
-          {
-                "Agent Name": "NCCS",
-                "ID": "000",
-                "Alerts": 10
-          },
-        {
-        "Agent Name": "NCCS",
-                  "ID": "000",
-                  "Alerts": 14
-          },
-         ]
+function ScatterPlot(prop) {
+    var data=prop.data;
+    console.log(data)
 
     const config = {
         appendPadding: 10,
         data,
-        xField: 'Alerts',
-        yField: 'Agent Name',
-        shape: 'circle',
-        colorField: 'ID',
+        xField: 'count',
+      yField: '_id',
+      shape: 'circle',
+      colorField: 'Level',
         size: 4,
    
         yAxis: {

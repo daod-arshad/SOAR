@@ -5,7 +5,7 @@ import { Bar } from '@ant-design/plots';
   var data=prop.data
         const config = {
             data,
-            loading: data.length === 0,
+            //loading: data.length === 0,
             xField: 'count',
             yField: '_id',  //alert level
             seriesField: '_id',
