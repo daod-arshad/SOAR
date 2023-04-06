@@ -33,11 +33,11 @@ const PrivateRoute = React.memo( function PrivateRoute({children}) {
   });
 
   const currentRoute = window.location.pathname;
-  console.log(currentRoute);
+  // console.log(currentRoute);
   
   axiosInstance.post(`http://localhost:9000/user/${currentRoute}`) // <-- this is the protected endpoint
     .then(response => {
-      console.log(response.data);
+      // console.log(response.data);
     })
     .catch(error => {
      // Wait for 0.5 seconds before redirecting to the login route

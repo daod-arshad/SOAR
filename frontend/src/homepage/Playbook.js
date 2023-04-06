@@ -185,6 +185,7 @@ function Playbook({token}) {
                       } else {
                         setVisibilityOfSidebar(true);
                       }
+                      console.log(visibilityOfSidebar)
                     }}
                   >
                     Set Trigger

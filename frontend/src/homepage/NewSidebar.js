@@ -11,15 +11,15 @@ function NewSidebar() {
   const [otherPlaybooks, setotherPlaybooks] = useState([]);
   useEffect(() => {
     axios.get("/windowsPlaybooks/find").then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
       setwindowsPlaybooks(response.data)
     },[]);
     axios.get("/linuxPlaybooks/find").then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
       setlinuxPlaybooks(response.data);
     },[]);
     axios.get("/otherPlaybooks/find").then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
       setotherPlaybooks(response.data);
     });
   }, []);

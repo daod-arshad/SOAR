@@ -19,8 +19,8 @@ const jwtStrategy = new JwtStrategy(jwtOptions, async(payload, done) => {
   try {
   const user = await findUser(payload)
     if (user) {
-    console.log('User found')
-    console.log(payload)
+    // console.log('User found')
+    // console.log(payload)
     return done(null, user);
   } else {
     return done(null, false);
