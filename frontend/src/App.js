@@ -8,6 +8,8 @@ import "./style/App.css"
 import React, { useEffect, useState} from "react";
 import Main from "./dashboard/Main";
 import PlaybookTable from "./dashboard/PlaybookTable";
+import Automation from "./homepage/Automation"
+import "semantic-ui-css/semantic.min.css";
 
 function App() {
   
@@ -50,7 +52,7 @@ function App() {
                     <Route path="*" element={<h1>Path not Resolved</h1>} />
                     <Route path='dashboard' element={<PrivateRoute><Main /></PrivateRoute>} />              
                     <Route path='results' element={<PrivateRoute><PlaybookTable/></PrivateRoute>}/>
-           
+                    <Route path='automation' element={<PrivateRoute><Automation/></PrivateRoute>}/>
                 {/* <Route path="*" element={<Navigate to="/" replace/>} /> */}
               {/* )} */}
             </Route>

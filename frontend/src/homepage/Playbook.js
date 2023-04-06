@@ -16,6 +16,7 @@ import NewSidebar from "./NewSidebar";
 import Button from "@mui/material/Button";
 import axios from "../axios.js";
 import ResponsiveAppBar from "./AppBar.js";
+import VerticalSidebar from "./RightSideBar";
 // app.use(cors({
 //   origin: ["http://localhost:3000"],
 //   // methods:["GET","POST"],
@@ -50,7 +51,7 @@ function Playbook({token}) {
   const [edges, setEdges,] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   
-
+  const [visibilityOfSidebar, setVisibilityOfSidebar] = useState(false);
 
   
 
@@ -178,6 +179,19 @@ function Playbook({token}) {
                   <Button
                     style={{ background: "#431d2e" }}
                     variant="contained"
+                    onClick={() => {
+                      if (visibilityOfSidebar) {
+                        setVisibilityOfSidebar(false);
+                      } else {
+                        setVisibilityOfSidebar(true);
+                      }
+                    }}
+                  >
+                    Set Trigger
+                  </Button>
+                  <Button
+                    style={{ background: "#431d2e" }}
+                    variant="contained"
                     onClick={() => runPlaybooks(edges, nodes)}
                   >
                     Execute
@@ -185,6 +199,7 @@ function Playbook({token}) {
                 </div>
               </ReactFlow>
             </div>
+            <VerticalSidebar animation='overlay' direction='right' visible={visibilityOfSidebar} playbooks={nodes} />
           </ReactFlowProvider>
         </div>
       </div>
