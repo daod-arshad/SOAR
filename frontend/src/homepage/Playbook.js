@@ -200,7 +200,8 @@ function Playbook({token}) {
                 </div>
               </ReactFlow>
             </div>
-            <VerticalSidebar animation='overlay' direction='right' visible={visibilityOfSidebar} playbooks={nodes} />
+            <VerticalSidebar animation='overlay' direction='right'
+              visible={visibilityOfSidebar} playbooks={nodes} />
           </ReactFlowProvider>
         </div>
       </div>

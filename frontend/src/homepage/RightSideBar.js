@@ -1,14 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Icon,
   Menu,
   Sidebar,
 } from "semantic-ui-react";
 import Button from "@mui/material/Button";
+import "./style/RightSidebar.css"
+
 
 const VerticalSidebar = ({ animation, direction, visible, playbooks }) => {
-    var x = visible
-    const [Visibility, setVisibility] = useState(x)
+  for (let i = 0; i < playbooks.length; i++){
+    console.log(playbooks[i].data.playbook)
+  }
+    const [Visibility, setVisibility] = useState(Boolean);
+  useEffect(() => {
+      setVisibility(visible)
+    },[visible])
     return (
       <Sidebar
         as={Menu}
@@ -21,24 +28,41 @@ const VerticalSidebar = ({ animation, direction, visible, playbooks }) => {
         // width="wide"
       >
         <Menu.Item as="a">
-          <Icon name="home" />
-          Home
+          <label className="LabelForInputs">Set Rule ID</label>
+          <input className="inputForTrigger" placeholder="rule.id" />
+          <br className="space" />
         </Menu.Item>
-        <Menu.Item as="a">
-          <Icon name="gamepad" />
-          Games
-        </Menu.Item>
-        <Menu.Item as="a">
-          <Icon name="camera" />
-          Channels
-        </Menu.Item>
-            <Button
-                style={{ background: "#431d2e" }}
-                variant="contained"
-                onClick={() => {
-                    setVisibility(false)
-                    console.log(Visibility)
-                }} 
+
+        {playbooks.map((item) => (
+          // console.log(item.data.playbook)
+          <Menu.Item>
+            <label className="playbookTriggerTitle">{item.data.playbook.playbook_display_name}</label>
+            {item.data.generateArrays.map((item2) => (
+              <React.Fragment>
+                <label className="LabelForInputs">
+                  {item.data.playbook.playbook_labels[item2]}
+                </label>
+                <input
+                  className="inputForTrigger"
+                  placeholder="Relevant Field"
+                />
+              </React.Fragment>
+              // console.log(item.data.playbook)
+            ))}
+          </Menu.Item>
+        ))}
+
+        <br />
+        <Button style={{ background: "#431d2e" }} variant="contained">
+          Save
+        </Button>
+        <Button
+          style={{ background: "#431d2e" }}
+          variant="contained"
+          onClick={() => {
+            setVisibility(false);
+            // console.log(Visibility)
+          }}
         >
           Cancel
         </Button>

@@ -1,0 +1,22 @@
+Sidebar{
+    background-color: #fff;
+}
+
+.LabelForInputs {
+    font-weight: bold;
+    display: block;
+    text-align: left;
+    color: white;
+    font-size: 1rem;
+    padding: 0.25rem;
+}
+
+.inputForTrigger{
+    font-size: medium;
+    margin: 0.1rem 0.5rem 0.5rem 0.5rem;
+    padding: 0.2rem;
+}
+
+.playbookTriggerTitle{
+    font-weight: bolder;
+}
