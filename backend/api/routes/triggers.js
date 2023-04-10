@@ -12,7 +12,16 @@ router.post("/save", (req, res) => {
       } else {
         res.status(201).send(data);
       }
-    });
+    });  
 })
 
+router.get("/find", (req, res) => {
+  triggerSchema.find((err, data) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(201).send(data);
+    }
+  });
+});
 export default router

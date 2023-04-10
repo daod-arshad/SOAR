@@ -53,8 +53,7 @@ app.use(cors({
   credentials: true
 }))
 
-
-
+var triggers = []
 
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000")
@@ -143,34 +142,19 @@ app.post("/recievePlaybook", requireJwtAuth,(req, res) => {
 //   alert: parsedAlert,
 
 // }).then((response) => {
-//   console.log(response.data)  
+//   console.log(response.data)
 // }, []);
   
 // });
 
 
-// app.get('/playbook', checkAuth, (req, res) => {
-//   //verify the JWT token generated for the user
-//   jwt.verify(req.token,"this is dummy text",(err, authorizedData) => {
-//       if(err){
-//           //If error send Forbidden (403)
-//           console.log('ERROR: Could not connect to the protected route');
-//           res.sendStatus(403);
-          
-//       } else {
-//           //If token is successfully verified, we can send the autorized data 
-          
-//           res.json({
-//               message: 'Successful log in',
-//               authorizedData
-//           });
-//           console.log('SUCCESS: Connected to protected route');
-          
-          
-//       }
-//   })
-  
-// });
 
 // listen
+
 app.listen(port, "127.0.0.1" ,() => console.log(`Listening on localhost:${port}`))
+triggers =await axios.get("/triggers/find").then((response) => {
+  return response.data;
+  // setwindowsPlaybooks(response.data);
+});
+console.log(triggers)
+console.log("test")
