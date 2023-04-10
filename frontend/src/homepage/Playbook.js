@@ -201,7 +201,7 @@ function Playbook({token}) {
               </ReactFlow>
             </div>
             <VerticalSidebar animation='overlay' direction='right'
-              visible={visibilityOfSidebar} playbooks={nodes} />
+              visible={visibilityOfSidebar} nodes={nodes} sequence={findSequence(edges, nodes)}/>
           </ReactFlowProvider>
         </div>
       </div>

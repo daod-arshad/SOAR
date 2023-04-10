@@ -14,6 +14,7 @@ import {spawn} from "child_process"
 import axios from "./axios.js";
 import date from "date-and-time"
 import stripAnsi from "strip-ansi"
+import triggerRoute from "./api/routes/triggers.js"
 //import checkAuth from "../backend/api/middleware/check-auth.js"
 
 //import SyslogServer from "ts-syslog";
@@ -82,6 +83,7 @@ app.use("/otherPlaybooks", otherPlaybookRoute)
 app.use("/user", userRoute)
 app.use("/Alert",alertRoute);
 app.use("/result", resultRoute);
+app.use("/triggers", triggerRoute)
 
 app.post("/recievePlaybook", requireJwtAuth,(req, res) => {
   // console.log("New data recieved")
