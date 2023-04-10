@@ -11,7 +11,9 @@ const VerticalSidebar = ({ animation, direction, visible, nodes, sequence }) => 
   // for (let i = 0; i < playbooks.length; i++){
   //   console.log(playbooks[i].data.playbook)
   // }
-  console.log(sequence)
+  
+  const [ruleid, setRuleid] = useState(Number)
+  // console.log(sequence)
     const [Visibility, setVisibility] = useState(Boolean);
   useEffect(() => {
       setVisibility(visible)
@@ -29,14 +31,20 @@ const VerticalSidebar = ({ animation, direction, visible, nodes, sequence }) => 
       >
         <Menu.Item as="a">
           <label className="LabelForInputs">Set Rule ID</label>
-          <input className="inputForTrigger" placeholder="rule.id" />
+          <input
+            className="inputForTrigger"
+            placeholder="rule number"
+            onChange={(evt) => setRuleid(evt.target.value)}
+          />
           <br className="space" />
         </Menu.Item>
 
         {nodes.map((item) => (
           // console.log(item.data.playbook)
           <Menu.Item>
-            <label className="playbookTriggerTitle">{item.data.playbook.playbook_display_name}</label>
+            <label className="playbookTriggerTitle">
+              {item.data.playbook.playbook_display_name}
+            </label>
             {item.data.generateArrays.map((item2) => (
               <React.Fragment>
                 <label className="LabelForInputs">
@@ -45,7 +53,8 @@ const VerticalSidebar = ({ animation, direction, visible, nodes, sequence }) => 
                 <input
                   className="inputForTrigger"
                   placeholder="Relevant Field"
-                  onChange={(evt) => item.data.values[item2] = evt.target.value
+                  onChange={(evt) =>
+                    (item.data.values[item2] = evt.target.value)
                   }
                 />
               </React.Fragment>
@@ -55,13 +64,15 @@ const VerticalSidebar = ({ animation, direction, visible, nodes, sequence }) => 
         ))}
 
         <br />
-        <Button style={{ background: "#431d2e" }} variant="contained"
+        <Button
+          style={{ background: "#431d2e" }}
+          variant="contained"
           onClick={() => {
             // for (let i = 0; i < nodes.length; i++){
             //   console.log(nodes[i].data.values)
             // }
-            savePlaybooks(nodes, sequence)
-        }}
+            savePlaybooks(nodes, sequence, ruleid);
+          }}
         >
           Save
         </Button>
@@ -80,7 +91,8 @@ const VerticalSidebar = ({ animation, direction, visible, nodes, sequence }) => 
 };
 
 
-function savePlaybooks(nodes, sequence) {
+function savePlaybooks(nodes, sequence, ruleID) {
+  const date = new Date();
   const playbooksToBeExecuted = ["ansible-runner.py"];
   // var finalSequence = findSequence(edges, nodes);
   // console.log(finalSequence);
@@ -111,10 +123,14 @@ function savePlaybooks(nodes, sequence) {
 
   //const headers = { 'Authorization': `Bearer ${token}` };
   if (sequence.length > 0) {
-
+    // console.log(ruleID)
     axios
       .post("/triggers/save", {
-        playbooks: playbooksToBeExecuted,
+        date: date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear(),
+        time: date.getHours()+':'+date.getMinutes()+':'+date.getSeconds(),
+        ruleId: ruleID,
+        isEnabled: true,
+        nodes: playbooksToBeExecuted,
       })
       .then((response) => {
         console.log(response.data);
