@@ -239,7 +239,7 @@ dayjs(startDate).isSame(dayjs(), "day");
           <Card variant='outlined'>
                 <div style={{ display: 'flex',padding:"1.5vw 1.5vw 0vw 1.5vw", flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
                       {active === 'chart' && <ScatterPlot data={scatterPlotData} />}
-                      <CardContent><Title style={{margin:"0", padding:"0"}} level={4}>Alerts</Title></CardContent>
+                      <CardContent><Title style={{margin:"0", padding:"0"}} level={4}>Alerts over a range</Title></CardContent>
                     </div>
                   </Card>
                   </Box>
