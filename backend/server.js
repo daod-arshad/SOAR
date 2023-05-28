@@ -17,28 +17,6 @@ import stripAnsi from "strip-ansi"
 import triggerRoute from "./api/routes/triggers.js"
 //import checkAuth from "../backend/api/middleware/check-auth.js"
 
-//import SyslogServer from "ts-syslog";
-
-// import SyslogServer from "ts-syslog";
-
-// const server = new SyslogServer();
-
-// server.on("message", (value) => {
-//   console.log("---------------------------------------------"); // the date/time the message was received
-//   console.log(value.message); // the syslog message
-  
-// });
-
-// server.on("error", (err) => {
-//   console.error("The error message is: "+err.message);
-// });
-
-// server.listen({ port: 5000 | process.env.port, address: "127.0.0.1"}, () => {
-//   console.log("Syslog listening on port 5000");
-// });
-// server.isRunning()
-
-
 // app config
 const app = express()
 const port = process.env.port || 9000
@@ -53,7 +31,7 @@ app.use(cors({
   credentials: true
 }))
 
-var triggers = []
+let triggers = []
 
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000")
@@ -84,11 +62,13 @@ app.use("/Alert",alertRoute);
 app.use("/result", resultRoute);
 app.use("/triggers", triggerRoute)
 
-app.post("/recievePlaybook", requireJwtAuth,(req, res) => {
+app.post("/recievePlaybook",(req, res) => {
   // console.log("New data recieved")
   // console.log(req.body.playbooks)
   const playbooks = req.body.playbooks
   console.log(playbooks.length)
+  console.log(playbooks)
+  console.log("I am here")
   if (playbooks.length > 1) {
     var dataToSend = '';
     // spawn new child process to call ansible-runner.py
@@ -97,14 +77,18 @@ app.post("/recievePlaybook", requireJwtAuth,(req, res) => {
     python.stdout.on("data", function (data) {
       dataToSend += data.toString();
       // console.log(dataToSend);
-      res.json({message: 'welcome to recieve playbook page'})  
+      
     });
-    
+    // console.log("I am down")
     // in close event we are sure that stream from child process is closed
     python.on("close", (code) => {
       console.log(`child process close all stdio with code ${code}`);
       // send data to browser
+      if(dataToSend == ''){
+        dataToSend += "There has been an error in playbook execution"
+      }
       console.log(dataToSend)
+      // console.log("I am above axios")
       axios.post("/result/new",{
         date: date.format(now,"YYYY-MM-DD"),
         time: date.format(now,"HH:mm:ss"),
@@ -122,30 +106,7 @@ app.post("/recievePlaybook", requireJwtAuth,(req, res) => {
 //  Buffer.from("SGVsbG8gV29ybGQ=", "base64").toString("ascii");
 })
 
-// server.on("message", (value) => {
-//   console.log("---------------------------------------------"); // the date/time the message was received
-//   console.log(value.message); // the syslog message
-// let mainAlert = value.message.substring(value.message.indexOf("{") + 1);
-// var alertTobeSent='{'+mainAlert;
-// alertTobeSent=alertTobeSent.replace(/(\t) | (\r) | (\n)/gmi, '')
-// alertTobeSent=alertTobeSent.replace(/[\""]/gmi,'"')
-// alertTobeSent=alertTobeSent.replace(/["\"]/gmi,'"')
-// alertTobeSent=alertTobeSent.replace(/(\\\\) | (\\)/gmi, "/")
-// var parsedAlert=JSON.parse(alertTobeSent)
-// console.log(parsedAlert)
-// var foundTime = parsedAlert.timestamp.substring(parsedAlert.timestamp.indexOf("T")+1)
-// var foundDate = parsedAlert.timestamp.substring(0,parsedAlert.timestamp.indexOf("T"))
-// axios.post("/alerts/sa",{
-//   date: foundDate,
-//   time: foundTime,
-//   os: parsedAlert.decoder.name,
-//   alert: parsedAlert,
 
-// }).then((response) => {
-//   console.log(response.data)
-// }, []);
-  
-// });
 
 
 
@@ -157,4 +118,101 @@ triggers =await axios.get("/triggers/find").then((response) => {
   // setwindowsPlaybooks(response.data);
 });
 console.log(triggers)
-console.log("test")
+
+
+
+
+
+
+import SyslogServer from "ts-syslog";
+
+const server = new SyslogServer();
+
+// server.on("message", (value) => {
+//   console.log("---------------------------------------------"); // the date/time the message was received
+//   console.log(value.message); // the syslog message
+  
+// });
+
+server.on("error", (err) => {
+  console.error("The error message is: "+err.message);
+});
+
+server.listen({ port: 5000 | process.env.port, address: "192.168.0.114"}, () => {
+  console.log("Syslog listening on port 5000");
+});
+server.isRunning()
+
+server.on("message", (value) => {
+  console.log("---------------------------------------------"); // the date/time the message was received
+  // console.log(value.message); // the syslog message
+let mainAlert = value.message.substring(value.message.indexOf("{") + 1);
+var alertTobeSent='{'+mainAlert;
+alertTobeSent=alertTobeSent.replace(/(\t) | (\r) | (\n)/gmi, '')
+alertTobeSent=alertTobeSent.replace(/[\""]/gmi,'"')
+alertTobeSent=alertTobeSent.replace(/["\"]/gmi,'"')
+alertTobeSent=alertTobeSent.replace(/(\\\\) | (\\)/gmi, "/")
+var parsedAlert=JSON.parse(alertTobeSent);
+// console.log(parsedAlert)
+// let copyoftriggers=[];
+// console.log("Original fields before automation",triggers[1]["nodes"][1]["data"]["values"])
+automation(triggers,parsedAlert);
+var foundTime = parsedAlert.timestamp.substring(parsedAlert.timestamp.indexOf("T")+1)
+var foundDate = parsedAlert.timestamp.substring(0,parsedAlert.timestamp.indexOf("T"))
+axios.post("/Alert/sa",{
+  date: foundDate,
+  time: foundTime,
+  os: parsedAlert.decoder.name,
+  alert: parsedAlert,
+
+}).then((response) => {
+  // console.log(response.data)
+}, []);
+  
+});
+
+function automation(triggers,parsedAlert){
+  
+  console.log(parsedAlert["rule"]["id"])
+  for(let i=0;i<triggers.length;i++){
+    if(triggers[i]["ruleId"]==parsedAlert["rule"]["id"]){
+      
+    var copyoftriggers = JSON.parse(JSON.stringify(triggers[i]));
+    
+      for(let j=1;j<copyoftriggers["nodes"].length;j++){
+        // console.log(triggers[i]["nodes"][j]["data"]["values"])
+        for(let k=0;k<copyoftriggers["nodes"][j]["data"]["values"].length;k++){
+          // console.log(copyoftriggers[i]["nodes"][j]["data"]["values"][k])
+          var valueOfField = copyoftriggers["nodes"][j]["data"]["values"][k];
+          
+          console.log("values of field is",valueOfField)
+          valueOfField = valueOfField.split(".")
+          console.log(valueOfField)
+          var temp=parsedAlert;
+          for(let l=0;l<valueOfField.length;l++){
+            temp = temp[valueOfField[l]]
+          }
+          console.log(temp)
+          copyoftriggers["nodes"][j]["data"]["values"][k] = temp;
+          
+        }
+      }
+      // console.log("copy in trigger",copyoftriggers["nodes"][1]["data"]["values"][0])
+      // console.log("copy in trigger",copyoftriggers["nodes"])
+      const playbooksToBeExecuted = ["ansible-runner.py"]
+      for(let f=1;f<copyoftriggers["nodes"].length;f++){
+        playbooksToBeExecuted.push(JSON.stringify(copyoftriggers["nodes"][i])) 
+      }
+      console.log("copy in trigger after loop",playbooksToBeExecuted)
+      axios
+      .post("/recievePlaybook", {
+        playbooks: playbooksToBeExecuted,
+      })
+      .then((response) => {
+        console.log("REcieved Data")
+        console.log(response.data);
+      }, []);
+      break;
+    }
+  }
+}

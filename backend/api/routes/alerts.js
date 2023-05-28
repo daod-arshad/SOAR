@@ -1,4 +1,5 @@
 import express from "express";
+import alertSchema from "../schema/alertSchema.js";
 import Alert from "../schema/alertSchema.js";
 const router = express.Router();
 const iterate = (obj) => {
