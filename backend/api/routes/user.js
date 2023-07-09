@@ -33,6 +33,10 @@ router.post("/results", requireJwtAuth ,(req, res) => {
     res.json({message: 'welcome to results page'})    
 })
 
+router.post("/automation", requireJwtAuth ,(req, res) => {
+    res.json({message: 'welcome to automation page'})    
+})
+
 router.post("/signup", requireJwtAuth,(req, res) => {
     bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
         if (err) {
