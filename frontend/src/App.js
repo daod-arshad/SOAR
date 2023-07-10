@@ -7,9 +7,12 @@ import Signup from "./loginSignup/Signup";
 import "./style/App.css"
 import React, { useEffect, useState} from "react";
 import Main from "./dashboard/Main";
+import CreateCustomPlaybook from "./playbook/CreateCustomPlaybook";
 import PlaybookTable from "./dashboard/PlaybookTable";
 import Automation from "./homepage/Automation"
 import "semantic-ui-css/semantic.min.css";
+import DisplayCustomPlaybook from "./playbook/DisplayCustomPlaybook";
+import DisplayTriggers from "./playbook/DisplayTriggers";
 
 function App() {
   
@@ -53,6 +56,9 @@ function App() {
                     <Route path='dashboard' element={<PrivateRoute><Main /></PrivateRoute>} />              
                     <Route path='results' element={<PrivateRoute><PlaybookTable/></PrivateRoute>}/>
                     <Route path='automation' element={<PrivateRoute><Automation/></PrivateRoute>}/>
+                    <Route path='createplaybook' element={<CreateCustomPlaybook/>}/>
+                    <Route path='displayplaybook' element={<DisplayCustomPlaybook/>}/>
+                    <Route path='displayTriggers' element={<DisplayTriggers/>}/>
                 {/* <Route path="*" element={<Navigate to="/" replace/>} /> */}
               {/* )} */}
             </Route>

@@ -4,9 +4,15 @@ import { Gauge } from '@ant-design/plots';
  function GaugePlot(prop) {
     var alerts=prop.data1;
     var playbooks_executed=prop.data2
+    console.log(alerts,playbooks_executed)
+    console.log(playbooks_executed / alerts)
+    var percentage = (alerts > 0) ? (playbooks_executed / alerts) : ((playbooks_executed > 0) ? 0 : 0);
+    if (percentage>1){  // when executed playbooks are greater then alert count, make it 0%
+      percentage=0
+    }
     
     const config = {
-        percent: playbooks_executed/alerts,
+        percent: percentage,
         range: {
           color: '#eb2f96',
         },

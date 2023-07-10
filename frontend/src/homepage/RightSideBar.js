@@ -6,12 +6,13 @@ import {
 import Button from "@mui/material/Button";
 import "./style/RightSidebar.css"
 import axios from "../axios.js"
+import { notification } from "antd";
 
-const VerticalSidebar = ({ animation, direction, visible, nodes, sequence }) => {
+const  VerticalSidebar = ({ animation, direction, visible, nodes, sequence }) => {
   // for (let i = 0; i < playbooks.length; i++){
   //   console.log(playbooks[i].data.playbook)
   // }
-  
+ 
   const [ruleid, setRuleid] = useState(Number)
   // console.log(sequence)
     const [Visibility, setVisibility] = useState(Boolean);
@@ -67,11 +68,19 @@ const VerticalSidebar = ({ animation, direction, visible, nodes, sequence }) => 
         <Button
           style={{ background: "#431d2e" }}
           variant="contained"
-          onClick={() => {
+          onClick={async() => {
             // for (let i = 0; i < nodes.length; i++){
             //   console.log(nodes[i].data.values)
             // }
-            savePlaybooks(nodes, sequence, ruleid);
+            console.log(ruleid)
+            const result=await checkRuleId(ruleid)
+            if (result){
+              console.log('Rule Id already exist, can not save playbooks');
+              showErrorNotification();
+            }
+            else if (!result){
+              savePlaybooks(nodes, sequence, ruleid);
+            }
           }}
         >
           Save
@@ -89,6 +98,20 @@ const VerticalSidebar = ({ animation, direction, visible, nodes, sequence }) => 
       </Sidebar>
     );
 };
+
+async function checkRuleId(ruleid){
+
+  try {
+    const response = await axios.get("triggers/findOne", {
+      params: { id: ruleid }
+    });
+    console.log(response.data.exists)
+  return response.data.exists}
+    catch (error) {
+      console.error('Error occurred while checking ID existence:', error);
+      throw error; 
+    }
+} 
 
 
 function savePlaybooks(nodes, sequence, ruleID) {
@@ -137,6 +160,14 @@ function savePlaybooks(nodes, sequence, ruleID) {
       }, []);
   }
 }
+const showErrorNotification = () => {
+  notification.error({
+    message: 'Error',
+    description: "The provided Rule Id already exists. Please retry with a unique Rule Id.",
+    duration: 3, 
+    placement: 'top',
+  });
+};
 
 
 export default VerticalSidebar;

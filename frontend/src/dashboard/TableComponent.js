@@ -9,22 +9,27 @@ function TableComponent(prop){
       key: 'time'
     },
     {
-      title: 'agent.name',
+      title: 'Date',
+      dataIndex: 'date',
+      key: 'date'
+    },
+    {
+      title: 'Agent Name',
       dataIndex: 'agentName',
       key: 'agentName',
     },
     {
-      title: 'rule.description',
+      title: 'Rule Description',
       dataIndex: 'ruleDescription',
       key: 'ruleDescription',
     },
     {
-      title: 'rule.level',
+      title: 'Rule Level',
       dataIndex: 'ruleLevel',
       key: 'ruleLevel',
     },
     {
-      title: 'rule.id',
+      title: 'Rule Id',
       dataIndex: 'ruleId',
       key: 'ruleId',
     },

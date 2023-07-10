@@ -113,63 +113,63 @@ app.post("/recievePlaybook",(req, res) => {
 // listen
 
 app.listen(port, "127.0.0.1" ,() => console.log(`Listening on localhost:${port}`))
-triggers =await axios.get("/triggers/find").then((response) => {
-  return response.data;
-  // setwindowsPlaybooks(response.data);
-});
-console.log(triggers)
+// triggers =await axios.get("/triggers/find").then((response) => {
+//   return response.data;
+//   // setwindowsPlaybooks(response.data);
+// });
+// console.log(triggers)
 
 
 
 
 
 
-import SyslogServer from "ts-syslog";
+// import SyslogServer from "ts-syslog";
 
-const server = new SyslogServer();
+// const server = new SyslogServer();
+
+// // server.on("message", (value) => {
+// //   console.log("---------------------------------------------"); // the date/time the message was received
+// //   console.log(value.message); // the syslog message
+  
+// // });
+
+// server.on("error", (err) => {
+//   console.error("The error message is: "+err.message);
+// });
+
+// server.listen({ port: 5000 | process.env.port, address: "192.168.0.114"}, () => {
+//   console.log("Syslog listening on port 5000");
+// });
+// server.isRunning()
 
 // server.on("message", (value) => {
 //   console.log("---------------------------------------------"); // the date/time the message was received
-//   console.log(value.message); // the syslog message
+//   // console.log(value.message); // the syslog message
+// let mainAlert = value.message.substring(value.message.indexOf("{") + 1);
+// var alertTobeSent='{'+mainAlert;
+// alertTobeSent=alertTobeSent.replace(/(\t) | (\r) | (\n)/gmi, '')
+// alertTobeSent=alertTobeSent.replace(/[\""]/gmi,'"')
+// alertTobeSent=alertTobeSent.replace(/["\"]/gmi,'"')
+// alertTobeSent=alertTobeSent.replace(/(\\\\) | (\\)/gmi, "/")
+// var parsedAlert=JSON.parse(alertTobeSent);
+// // console.log(parsedAlert)
+// // let copyoftriggers=[];
+// // console.log("Original fields before automation",triggers[1]["nodes"][1]["data"]["values"])
+// automation(triggers,parsedAlert);
+// var foundTime = parsedAlert.timestamp.substring(parsedAlert.timestamp.indexOf("T")+1)
+// var foundDate = parsedAlert.timestamp.substring(0,parsedAlert.timestamp.indexOf("T"))
+// axios.post("/Alert/sa",{
+//   date: foundDate,
+//   time: foundTime,
+//   os: parsedAlert.decoder.name,
+//   alert: parsedAlert,
+
+// }).then((response) => {
+//   // console.log(response.data)
+// }, []);
   
 // });
-
-server.on("error", (err) => {
-  console.error("The error message is: "+err.message);
-});
-
-server.listen({ port: 5000 | process.env.port, address: "192.168.0.114"}, () => {
-  console.log("Syslog listening on port 5000");
-});
-server.isRunning()
-
-server.on("message", (value) => {
-  console.log("---------------------------------------------"); // the date/time the message was received
-  // console.log(value.message); // the syslog message
-let mainAlert = value.message.substring(value.message.indexOf("{") + 1);
-var alertTobeSent='{'+mainAlert;
-alertTobeSent=alertTobeSent.replace(/(\t) | (\r) | (\n)/gmi, '')
-alertTobeSent=alertTobeSent.replace(/[\""]/gmi,'"')
-alertTobeSent=alertTobeSent.replace(/["\"]/gmi,'"')
-alertTobeSent=alertTobeSent.replace(/(\\\\) | (\\)/gmi, "/")
-var parsedAlert=JSON.parse(alertTobeSent);
-// console.log(parsedAlert)
-// let copyoftriggers=[];
-// console.log("Original fields before automation",triggers[1]["nodes"][1]["data"]["values"])
-automation(triggers,parsedAlert);
-var foundTime = parsedAlert.timestamp.substring(parsedAlert.timestamp.indexOf("T")+1)
-var foundDate = parsedAlert.timestamp.substring(0,parsedAlert.timestamp.indexOf("T"))
-axios.post("/Alert/sa",{
-  date: foundDate,
-  time: foundTime,
-  os: parsedAlert.decoder.name,
-  alert: parsedAlert,
-
-}).then((response) => {
-  // console.log(response.data)
-}, []);
-  
-});
 
 function automation(triggers,parsedAlert){
   

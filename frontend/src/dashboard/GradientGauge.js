@@ -1,26 +1,11 @@
 import React ,{useRef,useEffect} from 'react'
 import { Gauge } from '@ant-design/plots';
-
-function GradientGauge(prop) {  //2 props total alerts and rule level ID  (60106) triggered count
+ //2 props total alerts and rule level ID  (60106) triggered count
+function GradientGauge(prop) { 
     const ticks = [0, 1 / 3, 2 / 3, 1];
     const color = ['#F4664A', '#FAAD14', '#30BF78'];
-   console.log(prop.data1)
-   console.log(prop.data2)
-
-    // const graphRef = useRef(null);
-    // useEffect(() => {
-    //   if (graphRef.current) {
-    //     let data = 0.7;
-    //     const interval = setInterval(() => {
-    //       if (data >= 1.5) {
-    //         clearInterval(interval);
-    //       }
-  
-    //       data += 0.005;
-    //       graphRef.current.changeData(data > 1 ? data - 1 : data);
-    //     }, 100);
-    //   }
-    // }, [graphRef]);
+   console.log(prop.data1) //alert count
+   console.log(prop.data2)  // brute force ID
     
     var per=(prop.data2/prop.data1)
     console.log(per)
@@ -35,6 +20,7 @@ function GradientGauge(prop) {  //2 props total alerts and rule level ID  (60106
         pointer: {
           style: {
             stroke: '#D0D0D0',
+            display: prop.data1 === 0 && prop.data2 === 0 ? 'none' : 'block',
           },
         },
         pin: {
@@ -52,6 +38,9 @@ function GradientGauge(prop) {  //2 props total alerts and rule level ID  (60106
   
             else if (percent < ticks[2]) {
               return 'Alarming';
+            }
+            else if(prop.data1 === 0 && prop.data2 === 0){
+              return 'No Alerts'
             }
             else
             return 'Danger';

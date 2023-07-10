@@ -57,7 +57,7 @@ function PlaybookTable() {
         dataSource={playbookData}
         style={{ height: "100vh", whiteSpace: "pre-wrap" }}
       />
-      ;
+      
     </>
 
    

@@ -5,8 +5,6 @@ const router = express.Router();
 const iterate = (obj) => {
   Object.keys(obj).forEach((key) => {
     console.log(`key: ${key}, value: ${obj[key]}`);
-    //if (key.name.value=='windows_eventchannel'){console.log('win')}
-
     if (typeof obj[key] === "object" && obj[key] !== null) {
       iterate(obj[key]);
     }
@@ -151,12 +149,21 @@ router.get("/receiveTableData", async (req, res) => {
         date: '$date',
         agentName: '$recievedAlert.agent.name',
         ruleLevel: '$recievedAlert.rule.level',
+        ruleId:'$recievedAlert.rule.id',
+        ruleDescription:'$recievedAlert.rule.description'
 
       }
     };
+    const sortStage = {
+      $sort: {
+        date: -1, 
+        time: -1, 
+      },
+    };
     const pipeline = [
       { $match: matchStage },
-      projectStage
+      projectStage,
+      sortStage
     ];
     const docs = await Alert.aggregate(pipeline);
     res.status(200).json(docs);
@@ -211,35 +218,7 @@ router.get("/Columnplotwithslider", async (req, res) => {
     res.status(404).json({ message: error.message })
   }
 });
-router.get("/alertCount", async (req, res) => {
-  try {
-    let count = await Alert.count({ date: req.query.query_date });
-    res.status(200).json(count);
-  } catch (error) {
-    res.status(404).json({ message: error.message });
-  }
-});
-router.get("/alertCountRuleId", async (req, res) => {
-  try {
-    let docs = await Alert.aggregate([
-      { $match: { date: req.query.query_date } },
-      { $match: { "recievedAlert.rule.id": "60106" } },
-      {
-        $group: {
-          _id: "$recievedAlert.rule.id",
-          count: { $sum: 1 },
-        },
-      },
-    ]);
-
-    res.status(200).json(docs);
-  } catch (error) {
-    res.status(404).json({ message: error.message });
-  }
-});
-
-//scatter plot to show alerts from agents over multiple days
-router.get('/scatter', async (req, res) => {
+router.get('/alertCount', async (req, res) => {
   try {
     var date = new Date();
     var timeString = date.toLocaleTimeString("en-US", {hour12: false});
@@ -255,7 +234,107 @@ router.get('/scatter', async (req, res) => {
     }
     else { formattedDate1 = formattedDate2 = ''; }
     const matchStage = {};
-    if (req.query.query_date1 && req.query.query_date1) {
+    if (req.query.query_date1 && req.query.query_date2) {
+      matchStage.date = { $gte: req.query.query_date1 ,$lte: req.query.query_date2 };
+    } else if (req.query.query_date1) {
+      matchStage.date = req.query.query_date1;
+    } else if (req.query.query_date2) {
+      matchStage.date =req.query.query_date2;
+    }
+
+    if (formattedDate1 && req.query.query_date1==req.query.query_date2) {
+      matchStage.time = { $gte: formattedDate2, $lte: formattedDate1 };
+    }
+
+    const groupStage = {
+        $group: {
+          _id: null,
+          AlertCount: { $sum:1 },
+        }
+      };
+
+    const pipeline = [
+      { $match: matchStage },
+      groupStage,
+    ];
+    const docs = await Alert.aggregate(pipeline);
+    const totalCount = docs.length > 0 ? docs[0].AlertCount : 0;
+
+    res.status(200).json(totalCount);
+    
+  } catch (error) {
+    res.status(404).json({ message: error.message })
+  }
+
+});
+router.get('/alertCountRuleId', async (req, res) => {
+  try {
+    var date = new Date();
+    var timeString = date.toLocaleTimeString("en-US", {hour12: false});
+    var formattedDate1 = timeString + "." + ("000" + date.getMilliseconds()).slice(-3) + "+0500";
+    if (req.query.query_time != null) {
+      console.log(req.query.query_time)
+      var hours = req.query.query_time  //5,30,60,360,720  come from server as parameter
+      var date=new Date()
+      var newdate = date.setTime(date.getTime() - hours * 60 * 1000)
+      var date = new Date(newdate);
+      var timeString = date.toLocaleTimeString("en-US", { hour12: false });
+      var formattedDate2 = timeString + "." + ("000" + date.getMilliseconds()).slice(-3) + "+0500";
+    }
+    else { formattedDate1 = formattedDate2 = ''; }
+    const matchStage = {};
+    if (req.query.query_date1 && req.query.query_date2) {
+      matchStage.date = { $gte: req.query.query_date1 ,$lte: req.query.query_date2 };
+    } else if (req.query.query_date1) {
+      matchStage.date = req.query.query_date1;
+    } else if (req.query.query_date2) {
+      console.log('inside else if')
+      matchStage.date =req.query.query_date2;
+    }
+
+    if (formattedDate1 && req.query.query_date1==req.query.query_date2) {
+      matchStage.time = { $gte: formattedDate2, $lte: formattedDate1 };
+    }
+   
+    matchStage['recievedAlert.rule.id'] = '80730';
+    
+    const groupStage = {
+      $group: {
+       _id: '$recievedAlert.rule.id',
+        count: { $sum: 1 }
+      }
+    };
+    const pipeline = [
+      { $match: matchStage },
+      groupStage
+    ];
+    const docs = await Alert.aggregate(pipeline);
+    console.log(docs)
+    res.status(200).json(docs);
+
+  } catch (error) {
+    res.status(404).json({ message: error.message })
+  }
+});
+
+//scatter plot to show alerts from agents over multiple days
+router.get('/scatter', async (req, res) => {
+  try {
+    /*var date = new Date();
+    var timeString = date.toLocaleTimeString("en-US", {hour12: false});
+    var formattedDate1 = timeString + "." + ("000" + date.getMilliseconds()).slice(-3) + "+0500";
+    if (req.query.query_time != null) {
+      console.log(req.query.query_time)
+      var hours = req.query.query_time  //5,30,60,360,720  come from server as parameter
+      var date=new Date()
+      var newdate = date.setTime(date.getTime() - hours * 60 * 1000)
+      var date = new Date(newdate);
+      var timeString = date.toLocaleTimeString("en-US", { hour12: false });
+      var formattedDate2 = timeString + "." + ("000" + date.getMilliseconds()).slice(-3) + "+0500";
+    }
+    else { formattedDate1 = formattedDate2 = ''; }*/
+    const matchStage = {};
+    if (req.query.query_date1 && req.query.query_date2) {
       matchStage.date = { $gte: req.query.query_date1 ,$lte: req.query.query_date2 };
     } else if (req.query.query_date1) {
       matchStage.date = req.query.query_date1;
@@ -308,10 +387,7 @@ router.get('/scatter', async (req, res) => {
       unwindStage,
       replaceRootStage,
       projectStage,
-   
     ];
-
-
     const docs = await Alert.aggregate(pipeline);
     res.status(200).json(docs);
   } catch (error) {

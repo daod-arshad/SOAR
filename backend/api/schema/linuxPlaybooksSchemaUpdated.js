@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const linuxSchemaUpdated = mongoose.Schema({
-  id: Number,
+  id: String,
   playbook_name: String,
   playbook_class_name: String,
   playbook_display_name: String,

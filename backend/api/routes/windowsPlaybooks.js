@@ -25,6 +25,20 @@ router.get("/find", (req, res) => {
     }
   });
 });
+router.get("/findOne",(req,res)=>{
+  const id = req.query.id;
+  console.log(id);
+  WindowsPlaybooksUpdated.findOne({id:id})
+    .then((result) => {
+      const exists = !!result;
+      res.json({ exists });
+    })
+    .catch((error) => {
+      console.error('Error occurred while checking uniqueness:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    });
+});
+
 
 
 export default router

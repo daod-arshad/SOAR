@@ -16,7 +16,7 @@ router.post("/new", (req, res) => {
   });
 });
 router.get("/find", (req, res) => {
-  LinuxPlaybooksUpdated.find((err, data) => {
+  LinuxPlaybooksUpdated.find((err, data) => {   
     if (err) {
       res.status(500).send(err);
     } else {
@@ -25,5 +25,19 @@ router.get("/find", (req, res) => {
   });
 });
 
+router.get("/findOne",(req,res)=>{
+  const id = req.query.id;
+  console.log(id);
+  
 
+  LinuxPlaybooksUpdated.findOne({id: id })
+    .then((result) => {
+      const exists = !!result; // Convert the result to a boolean value
+      res.json({ exists });
+    })
+    .catch((error) => {
+      console.error('Error occurred while checking uniqueness:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    });
+});
 export default router
