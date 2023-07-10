@@ -138,7 +138,7 @@ server.on("error", (err) => {
   console.error("The error message is: "+err.message);
 });
 
-server.listen({ port: 5000 | process.env.port, address: "192.168.0.114"}, () => {
+server.listen({ port: 5000 | process.env.port, address: "192.168.0.108"}, () => {
   console.log("Syslog listening on port 5000");
 });
 server.isRunning()
@@ -178,30 +178,32 @@ function automation(triggers,parsedAlert){
     if(triggers[i]["ruleId"]==parsedAlert["rule"]["id"]){
       
     var copyoftriggers = JSON.parse(JSON.stringify(triggers[i]));
+    console.log(copyoftriggers)
     
       for(let j=1;j<copyoftriggers["nodes"].length;j++){
-        // console.log(triggers[i]["nodes"][j]["data"]["values"])
+        console.log(triggers[i]["nodes"][j]["data"]["values"])
         for(let k=0;k<copyoftriggers["nodes"][j]["data"]["values"].length;k++){
           // console.log(copyoftriggers[i]["nodes"][j]["data"]["values"][k])
           var valueOfField = copyoftriggers["nodes"][j]["data"]["values"][k];
           
-          console.log("values of field is",valueOfField)
+          console.log("values of field is:",valueOfField)
           valueOfField = valueOfField.split(".")
           console.log(valueOfField)
           var temp=parsedAlert;
           for(let l=0;l<valueOfField.length;l++){
             temp = temp[valueOfField[l]]
           }
-          console.log(temp)
+          console.log("this is temp:",temp)
           copyoftriggers["nodes"][j]["data"]["values"][k] = temp;
-          
+          console.log(copyoftriggers["nodes"][j]["data"]["values"])
         }
       }
       // console.log("copy in trigger",copyoftriggers["nodes"][1]["data"]["values"][0])
       // console.log("copy in trigger",copyoftriggers["nodes"])
       const playbooksToBeExecuted = ["ansible-runner.py"]
       for(let f=1;f<copyoftriggers["nodes"].length;f++){
-        playbooksToBeExecuted.push(JSON.stringify(copyoftriggers["nodes"][i])) 
+        // console.log(copyoftriggers["nodes"][i])
+        playbooksToBeExecuted.push(JSON.stringify(copyoftriggers["nodes"][f])) 
       }
       console.log("copy in trigger after loop",playbooksToBeExecuted)
       axios
