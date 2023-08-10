@@ -220,6 +220,7 @@ server.isRunning()
 // function automation(triggers,parsedAlert){
 
 server.on("message", (value) => {
+  try{
   console.log("---------------------------------------------"); // the date/time the message was received
   // console.log(value.message); // the syslog message
   // console.log("heheh")
@@ -259,6 +260,11 @@ server.on("message", (value) => {
   }, []);
   }); 
   console.log("above api")
+  }catch(err){
+    console.log(err)
+    console.log("An error occured.")
+  }
+
 });
 
   
