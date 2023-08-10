@@ -80,8 +80,8 @@ app.use("/triggers", triggerRoute)
 
 app.post("/recievePlaybook",async(req, res) => {
   const playbooks = req.body.playbooks
-  console.log(playbooks.length)
-  console.log(playbooks)
+  // console.log(playbooks.length)
+  // console.log(playbooks)
 
   if (playbooks.length > 1) {
     var dataToSend = ''
@@ -110,7 +110,7 @@ function processPlaybooks(playbooks) {
       if (dataToSend == '') {
         dataToSend += "There has been an error in playbook execution";
       }
-      console.log(dataToSend);
+      // console.log(dataToSend);
       axios.post("/result/new", {
         date: date.format(now, "YYYY-MM-DD"),
         time: date.format(now, "HH:mm:ss"),
@@ -152,40 +152,40 @@ console.error("Error processing playbooks:", error);
 // listen
 
 app.listen(port, "127.0.0.1" ,() => console.log(`Listening on localhost:${port}`))
-// triggers =await axios.get("/triggers/find").then((response) => {
-//   return response.data;
-//   // setwindowsPlaybooks(response.data);
-// });
-// console.log(triggers)
+triggers =await axios.get("/triggers/find").then((response) => {
+  return response.data;
+  // setwindowsPlaybooks(response.data);
+});
+console.log(triggers)
 
 
 
 
 
 
-// import SyslogServer from "ts-syslog";
+import SyslogServer from "ts-syslog";
 
-// const server = new SyslogServer();
+const server = new SyslogServer();
 
-// // server.on("message", (value) => {
-// //   console.log("---------------------------------------------"); // the date/time the message was received
-// //   console.log(value.message); // the syslog message
+// server.on("message", (value) => {
+//   console.log("---------------------------------------------"); // the date/time the message was received
+//   console.log(value.message); // the syslog message
   
-// // });
-
-// server.on("error", (err) => {
-//   console.error("The error message is: "+err.message);
 // });
 
-// server.listen({ port: 5000 | process.env.port, address: "192.168.0.114"}, () => {
-//   console.log("Syslog listening on port 5000");
-// });
-// server.isRunning()
+server.on("error", (err) => {
+  console.error("The error message is: "+err.message);
+});
+
+server.listen({ port: 5000 | process.env.port, address: "192.168.0.114"}, () => {
+  console.log("Syslog listening on port 5000");
+});
+server.isRunning()
 
 
 // server.on("message", (value) => {
 //   console.log("---------------------------------------------"); // the date/time the message was received
-//   // console.log(value.message); // the syslog message
+//   console.log(value.message); // the syslog message
 // let mainAlert = value.message.substring(value.message.indexOf("{") + 1);
 // var alertTobeSent='{'+mainAlert;
 // alertTobeSent=alertTobeSent.replace(/(\t) | (\r) | (\n)/gmi, '')
@@ -193,12 +193,13 @@ app.listen(port, "127.0.0.1" ,() => console.log(`Listening on localhost:${port}`
 // alertTobeSent=alertTobeSent.replace(/["\"]/gmi,'"')
 // alertTobeSent=alertTobeSent.replace(/(\\\\) | (\\)/gmi, "/")
 // var parsedAlert=JSON.parse(alertTobeSent);
-// // console.log(parsedAlert)
+// console.log(parsedAlert)
 // // let copyoftriggers=[];
 // // console.log("Original fields before automation",triggers[1]["nodes"][1]["data"]["values"])
 // automation(triggers,parsedAlert);
 // var foundTime = parsedAlert.timestamp.substring(parsedAlert.timestamp.indexOf("T")+1)
 // var foundDate = parsedAlert.timestamp.substring(0,parsedAlert.timestamp.indexOf("T"))
+// console.log("I am here")
 // axios.post("/Alert/sa",{
 //   date: foundDate,
 //   time: foundTime,
@@ -207,29 +208,21 @@ app.listen(port, "127.0.0.1" ,() => console.log(`Listening on localhost:${port}`
 
 // }).then((response) => {
 //   // console.log(response.data)
-// }, []);
+// }, []).catch((err) => console.log("hello"));
 // // server.on("message", (value) => {
 // //   console.log("---------------------------------------------"); // the date/time the message was received
 // //   console.log(value.message); // the syslog message
 
   
-// // });
+// });
 
 
-function automation(triggers,parsedAlert){
-
-server.on("error", (err) => {
-  console.error("The error message is: "+err.message);
-});
-
-server.listen({ port: 5000 | process.env.port, address: "10.0.2.4"}, () => {
-  console.log("Syslog listening on port 5000");
-});
-server.isRunning()
+// function automation(triggers,parsedAlert){
 
 server.on("message", (value) => {
   console.log("---------------------------------------------"); // the date/time the message was received
   // console.log(value.message); // the syslog message
+  // console.log("heheh")
   let mainAlert = value.message.substring(value.message.indexOf("{") + 1);
   var alertTobeSent='{'+mainAlert;
   alertTobeSent=alertTobeSent.replace(/(\t) | (\r) | (\n)/gmi, '')
@@ -238,7 +231,7 @@ server.on("message", (value) => {
   alertTobeSent=alertTobeSent.replace(/(\\\\) | (\\)/gmi, "/")
   var parsedAlert=JSON.parse(alertTobeSent);
   //console.log("PARSED ALERT:",parsedAlert)
-
+  // console.log("I am here")
   //Adding playbooks to queue
   const job1 = authqueue.add('AutomatedPlaybooks', {parsedAlert,triggers});
   console.log(`Automated Job ${job1.id} added to the queue.`)
@@ -255,15 +248,17 @@ server.on("message", (value) => {
   automation(triggers,parsedAlert);
   var foundTime = parsedAlert.timestamp.substring(parsedAlert.timestamp.indexOf("T")+1)
   var foundDate = parsedAlert.timestamp.substring(0,parsedAlert.timestamp.indexOf("T"))
+ 
   axios.post("/Alert/sa",{
   date: foundDate,
   time: foundTime,
   os: parsedAlert.decoder.name,
   alert: parsedAlert,
   }).then((response) => {
-  // console.log(response.data)
+  console.log(response.data, "shaasdflkjsdlkfjslkdfjlksdkfjlskdjfk")
   }, []);
   }); 
+  console.log("above api")
 });
 
   
@@ -278,14 +273,14 @@ function automation(triggers,parsedAlert){
   for(let k=0;k<copyoftriggers["nodes"][j]["data"]["values"].length;k++){
   // console.log(copyoftriggers[i]["nodes"][j]["data"]["values"][k])
   var valueOfField = copyoftriggers["nodes"][j]["data"]["values"][k];
-  console.log("values of field is",valueOfField)
+  // console.log("values of field is",valueOfField)
   valueOfField = valueOfField.split(".")
-  console.log(valueOfField)
+  // console.log(valueOfField)
   var temp=parsedAlert;
   for(let l=0;l<valueOfField.length;l++){
   temp = temp[valueOfField[l]]
   }
-  console.log(temp)
+  // console.log(temp)
   copyoftriggers["nodes"][j]["data"]["values"][k] = temp;
   }
   }
@@ -295,7 +290,7 @@ function automation(triggers,parsedAlert){
   for(let f=1;f<copyoftriggers["nodes"].length;f++){
   playbooksToBeExecuted.push(JSON.stringify(copyoftriggers["nodes"][f])) 
   }
-  console.log("copy in trigger after loop",playbooksToBeExecuted)
+  // console.log("copy in trigger after loop",playbooksToBeExecuted)
       axios
        .post("/recievePlaybook", {
          playbooks: playbooksToBeExecuted,
@@ -307,4 +302,5 @@ function automation(triggers,parsedAlert){
       break;
     }
   }
-}}
+}
+// }

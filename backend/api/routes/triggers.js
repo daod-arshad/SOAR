@@ -60,16 +60,17 @@ router.delete('/delete',async (req,res)=>{
 });
 
 router.get("/findOne",(req,res)=>{
+  try{
   const  ruleId  = req.query.id;
   const id=parseInt(ruleId);
   triggerSchema.findOne({"ruleId" :id})
     .then((result) => {
       const exists = !!result; 
       res.json({ exists });
-    })
-    .catch((error) => {
+    })}
+    catch(error){
       console.error('Error occurred while checking uniqueness:', error);
       res.status(500).json({ error: 'Internal Server Error' });
-    });
+    }
 });
 export default router
