@@ -63,7 +63,7 @@ router.get("/receiveBarGraphData", async (req, res) => {
     ];
     const docs = await Alert.aggregate(pipeline);
     res.status(200).json(docs);
-    console.log(docs)
+   
   } catch (error) {
     res.status(404).json({ message: error.message })
   }
@@ -108,7 +108,7 @@ router.get("/receivePiechartData", async (req, res) => {
     ];
     const docs = await Alert.aggregate(pipeline);
     res.status(200).json(docs);
-    console.log(docs)
+   
   } catch (error) {
     res.status(404).json({ message: error.message })
   }
@@ -167,7 +167,7 @@ router.get("/receiveTableData", async (req, res) => {
     ];
     const docs = await Alert.aggregate(pipeline);
     res.status(200).json(docs);
-    console.log(docs)
+   
   } catch (error) {
     res.status(404).json({ message: error.message })
   }
@@ -213,7 +213,6 @@ router.get("/Columnplotwithslider", async (req, res) => {
     ];
     const docs = await Alert.aggregate(pipeline);
     res.status(200).json(docs);
-    console.log(docs)
   } catch (error) {
     res.status(404).json({ message: error.message })
   }
@@ -288,7 +287,7 @@ router.get('/alertCountRuleId', async (req, res) => {
     } else if (req.query.query_date1) {
       matchStage.date = req.query.query_date1;
     } else if (req.query.query_date2) {
-      console.log('inside else if')
+      
       matchStage.date =req.query.query_date2;
     }
 
@@ -309,7 +308,7 @@ router.get('/alertCountRuleId', async (req, res) => {
       groupStage
     ];
     const docs = await Alert.aggregate(pipeline);
-    console.log(docs)
+   
     res.status(200).json(docs);
 
   } catch (error) {
@@ -320,19 +319,7 @@ router.get('/alertCountRuleId', async (req, res) => {
 //scatter plot to show alerts from agents over multiple days
 router.get('/scatter', async (req, res) => {
   try {
-    /*var date = new Date();
-    var timeString = date.toLocaleTimeString("en-US", {hour12: false});
-    var formattedDate1 = timeString + "." + ("000" + date.getMilliseconds()).slice(-3) + "+0500";
-    if (req.query.query_time != null) {
-      console.log(req.query.query_time)
-      var hours = req.query.query_time  //5,30,60,360,720  come from server as parameter
-      var date=new Date()
-      var newdate = date.setTime(date.getTime() - hours * 60 * 1000)
-      var date = new Date(newdate);
-      var timeString = date.toLocaleTimeString("en-US", { hour12: false });
-      var formattedDate2 = timeString + "." + ("000" + date.getMilliseconds()).slice(-3) + "+0500";
-    }
-    else { formattedDate1 = formattedDate2 = ''; }*/
+  
     const matchStage = {};
     if (req.query.query_date1 && req.query.query_date2) {
       matchStage.date = { $gte: req.query.query_date1 ,$lte: req.query.query_date2 };

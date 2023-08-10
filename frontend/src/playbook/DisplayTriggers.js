@@ -10,7 +10,7 @@ function DisplayTriggers() {
     const [Triggers, setTriggers] = useState([]);
     useEffect(() => {
     axios.get("/triggers/all").then((response) => {
-      console.log(response.data);
+     
       setTriggers(response.data);
     }, []);
     }, []);
@@ -27,11 +27,7 @@ function DisplayTriggers() {
         });
     }
     const columns = [
-        /*{
-          title: "ID",
-          dataIndex: "_id",
-          key: "_id",
-        },*/
+       
     
         {
           title: "Date",
@@ -96,6 +92,7 @@ function DisplayTriggers() {
   return (
     <>
     <ResponsiveAppBar />
+    <h1>Custom Triggers</h1>
       <Table
         rowKey="ruleId"
         columns={columns}

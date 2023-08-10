@@ -12,7 +12,7 @@ function DisplayCustomPlaybook() {
     const [CustomPlaybooks, setCustomPlaybooks] = useState([]);
     useEffect(() => {
     axios.get("/result/CustomPlaybooks").then((response) => {
-      console.log(response.data);
+   
       setCustomPlaybooks(response.data);
     }, []);
   }, []);
@@ -84,6 +84,7 @@ function DisplayCustomPlaybook() {
     <>
   
       <ResponsiveAppBar />
+      <h1>Custom Playbooks</h1>
       <Table
         rowKey="id"
         columns={columns}

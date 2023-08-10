@@ -109,41 +109,39 @@ dayjs(startDate).isSame(dayjs(), "day");
    axios
      .get("/Alert/receivePieChartData", { params: { query_date1: startDate,query_date2:endDate,query_time:passedTime } })
      .then((response) => {
-       console.log(response.data);
        setdata_pie_chart(response.data);
      }, []);
    axios
      .get("/Alert/receiveBarGraphData", { params: {query_date1: startDate,query_date2:endDate,query_time:passedTime } })
      .then((response) => {
-       console.log(response.data);
        setdata_bar_chart(response.data);
      }, []);
    axios
      .get("/Alert/receiveTableData", { params: {query_date1: startDate,query_date2:endDate,query_time:passedTime} })
      .then((response) => {
-       console.log(response.data);
+  
        setdata_table(response.data);
      }, []);
    axios
      .get("/Alert/Columnplotwithslider", { params: {query_date1: startDate,query_date2:endDate,query_time:passedTime } })
      .then((response) => {
-       console.log(response.data);
+     
        setdata_columnPlot(response.data);
      }, []);
     axios.get("/Alert/scatter",{params: { query_date1:startDate,query_date2:endDate,query_time:passedTime}}).then((response) => {
-      console.log(response.data);
+   
       setscatterPlotData(response.data);
     },[]);
    axios
      .get("/Alert/alertCount", { params: {query_date1: startDate,query_date2:endDate,query_time:passedTime} })
      .then((response) => {
-       console.log(response.data);
+   
        setalertCount(response.data);
      }, []);
    axios
      .get("/Alert/alertCountRuleId", { params: {query_date1: startDate,query_date2:endDate,query_time:passedTime} })
      .then((response) => {
-       console.log(response.data);
+     
        const res = response.data;
        if (res.length==0){
         setbruteforceIDCount(0);
@@ -154,7 +152,7 @@ dayjs(startDate).isSame(dayjs(), "day");
        }}
      }, []);
    axios.get("/result/playbookCount" ,{params: { query_date1:startDate,query_date2:endDate,query_time:passedTime}}).then((response) => {
-     console.log(response.data);
+
      setplaybookCount(response.data)
    }, []);
  }, [startDate,endDate,passedTime]);

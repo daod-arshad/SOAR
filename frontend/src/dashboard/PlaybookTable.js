@@ -1,27 +1,52 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Space, Table, Tag } from "antd";
+import React, { useState, useEffect} from "react";
+import { Dropdown, Menu,Table,Button} from "antd";
 import axios from "../axios.js";
 import ResponsiveAppBar from "../homepage/AppBar.js";
+import { DownOutlined,UpOutlined } from '@ant-design/icons';
 
 function PlaybookTable() {
   const [playbookData, setplaybookData] = useState([]);
   useEffect(() => {
-    axios.get("/result/find").then((response) => {
+    axios.get("/result/playbookExecution").then((response) => {
       console.log(response.data);
       setplaybookData(response.data);
     }, []);
   }, []);
+  const buttonStyle = {
+    color: '#6c2f4a', 
+    borderColor: 'transparent',
+    fontWeight: 'bold',
+  };
 
-  const columns22 = [
-    {
-      title: "Time",
-      dataIndex: "time",
-      key: "time",
-    },
+  
+  const CustomCell = ({ record }) => {
+    const [showHiddenData, setShowHiddenData] = useState(false);
+  
+    const toggleHiddenData = () => {
+      setShowHiddenData(!showHiddenData);
+    };
+  
+    return (
+      <div>
+        <Button type="link" style={buttonStyle} onClick={toggleHiddenData}>
+          {showHiddenData ? <UpOutlined /> : <DownOutlined />} Execution Result
+        </Button>
+        {showHiddenData &&( <div>{record.data}</div>
+      )}
+      </div>
+    );
+  };
+  const col = [
+   
     {
       title: "date",
       dataIndex: "date",
       key: "date",
+    },
+    {
+      title: "Time",
+      dataIndex: "time",
+      key: "time",
     },
     {
       title: "noOfPlaybooks",
@@ -33,40 +58,24 @@ function PlaybookTable() {
       title: "data",
       dataIndex: "data",
       key: "data",
+      render: (_, record) => <CustomCell record={record} />,
     },
   ];
-  const columns = [
-    {
-      title: "Time",
-      dataIndex: "time",
-      key: "time",
-    },
 
-    {
-      title: "data",
-      dataIndex: "data",
-      key: "data",
-    },
-  ];
 
   return (
     <>
       <ResponsiveAppBar />
+      <h1>Playbook Execution Result</h1>
       <Table
-        columns={columns}
+        columns={col}
         dataSource={playbookData}
         style={{ height: "100vh", whiteSpace: "pre-wrap" }}
       />
       
     </>
 
-   
-
-    // playbookData.map((item) => (
-    //   <div style={{whiteSpace:"pre-wrap"}}>
-    //     {item.data}
-    //   </div>
-    // ))
   );
 }
 export default PlaybookTable;
+

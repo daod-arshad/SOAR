@@ -177,7 +177,7 @@ server.on("error", (err) => {
   console.error("The error message is: "+err.message);
 });
 
-server.listen({ port: 5000 | process.env.port, address: "192.168.0.114"}, () => {
+server.listen({ port: 5000 | process.env.port, address: "172.18.16.5"}, () => {
   console.log("Syslog listening on port 5000");
 });
 server.isRunning()

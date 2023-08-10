@@ -56,9 +56,9 @@ function App() {
                     <Route path='dashboard' element={<PrivateRoute><Main /></PrivateRoute>} />              
                     <Route path='results' element={<PrivateRoute><PlaybookTable/></PrivateRoute>}/>
                     <Route path='automation' element={<PrivateRoute><Automation/></PrivateRoute>}/>
-                    <Route path='createplaybook' element={<CreateCustomPlaybook/>}/>
-                    <Route path='displayplaybook' element={<DisplayCustomPlaybook/>}/>
-                    <Route path='displayTriggers' element={<DisplayTriggers/>}/>
+                    <Route path='create' element={<CreateCustomPlaybook/>}/>
+                    <Route path='display' element={<DisplayCustomPlaybook/>}/>
+                    <Route path='triggers' element={<DisplayTriggers/>}/>
                 {/* <Route path="*" element={<Navigate to="/" replace/>} /> */}
               {/* )} */}
             </Route>

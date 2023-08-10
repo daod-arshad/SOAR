@@ -19,6 +19,36 @@ router.post("/new", (req, res) => {
     }
   });
 });
+router.get("/playbookExecution", async (req, res) => {
+  try {
+     const projectStage = {
+      $project: {
+        _id: 0,
+        time: '$time',
+        date: '$date',
+        noOfPlaybooks:'$noOfPlaybooks',
+        data:'$data'
+
+      }
+    };
+    const sortStage = {
+      $sort: {
+        date: -1, 
+        time: -1, 
+      },
+    };
+    const pipeline = [
+      projectStage,
+      sortStage
+    ];
+    const docs = await resultSchema.aggregate(pipeline);
+    res.status(200).json(docs);
+   
+  } catch (error) {
+    res.status(404).json({ message: error.message })
+  }
+});
+
 
 router.get("/find", (req, res) => {
   resultSchema.find((err, data) => {
@@ -57,7 +87,7 @@ router.get('/playbookCount',async(req,res)=>{
     } else if (req.query.query_date1) {
       matchStage.date = req.query.query_date1;
     } else if (req.query.query_date2) {
-      console.log('inside else if')
+     
       matchStage.date =req.query.query_date2;
     }
 
@@ -113,7 +143,7 @@ router.get('/CustomPlaybooks', async (req, res) => {
       { $project: { _id: 0,playbook_name: 1, playbook_display_name: 1,playbook_inputs: 1, id: 1  } }
     ]);
     playbooks.push(...otherPlaybooks);
-    console.log(playbooks)
+   
     res.json(playbooks);
   } catch (error) {
     console.error('Error occurred while fetching playbooks:', error);
