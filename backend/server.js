@@ -22,7 +22,7 @@ import Redis from 'ioredis';
 // app config
 const app = express()
 const port = process.env.port || 9000
-const now = new Date()
+
 // middleware
 app.use(express.json())
 app.use(cookieParser())
@@ -110,11 +110,14 @@ function processPlaybooks(playbooks) {
       if (dataToSend == '') {
         dataToSend += "There has been an error in playbook execution";
       }
+      var now = new Date()
+      console.log(date.format(now, "YYYY-MM-DD"))
+      console.log(date.format(now, "HH:mm:ss"))
       // console.log(dataToSend);
       axios.post("/result/new", {
         date: date.format(now, "YYYY-MM-DD"),
         time: date.format(now, "HH:mm:ss"),
-        noOfPlaybooks: playbooks.length,
+        noOfPlaybooks: playbooks.length-1,
         data: stripAnsi(dataToSend),
       })
       .then((response) => {
@@ -177,9 +180,9 @@ server.on("error", (err) => {
   console.error("The error message is: "+err.message);
 });
 
-server.listen({ port: 5000 | process.env.port, address: "172.18.16.5"}, () => {
-  console.log("Syslog listening on port 5000");
-});
+// server.listen({ port: 5000 | process.env.port, address: "192.168.0.114"}, () => {
+//   console.log("Syslog listening on port 5000");
+// });
 server.isRunning()
 
 
@@ -222,7 +225,7 @@ server.isRunning()
 server.on("message", (value) => {
   try{
   console.log("---------------------------------------------"); // the date/time the message was received
-  // console.log(value.message); // the syslog message
+  console.log(value.message); // the syslog message
   // console.log("heheh")
   let mainAlert = value.message.substring(value.message.indexOf("{") + 1);
   var alertTobeSent='{'+mainAlert;

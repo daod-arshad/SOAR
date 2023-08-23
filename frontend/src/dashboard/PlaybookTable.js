@@ -6,12 +6,13 @@ import { DownOutlined,UpOutlined } from '@ant-design/icons';
 
 function PlaybookTable() {
   const [playbookData, setplaybookData] = useState([]);
+  const [refreshCounter,setrefreshCounter]=useState(0);
   useEffect(() => {
     axios.get("/result/playbookExecution").then((response) => {
       console.log(response.data);
       setplaybookData(response.data);
     }, []);
-  }, []);
+  }, [refreshCounter]);
   const buttonStyle = {
     color: '#6c2f4a', 
     borderColor: 'transparent',
@@ -66,7 +67,13 @@ function PlaybookTable() {
   return (
     <>
       <ResponsiveAppBar />
-      <h1>Playbook Execution Result</h1>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px' }}>
+      <h1 style={{margin: '0 auto', textAlign: 'center' }}>Playbook Execution Result</h1>
+      <Button style={{background: "white", color: '#431d2e'}}
+        onClick={() => {setrefreshCounter((count) => count + 1)}}>
+        REFRESH
+      </Button>
+      </div>
       <Table
         columns={col}
         dataSource={playbookData}

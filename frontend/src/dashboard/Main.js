@@ -10,7 +10,7 @@ import GaugePlot from './GaugePlot';
 import MultiLinePlot from './MultiLinePlot';
 import ScatterPlot from './ScatterPlot';
 import {FilterOutlined}from '@ant-design/icons';
-import { Breadcrumb, Layout, Typography, Descriptions,Select, DatePicker, Table, Popover } from 'antd';
+import { Breadcrumb, Layout, Button,Typography, Descriptions,Select, DatePicker, Table, Popover } from 'antd';
 import ResponsiveAppBar from "../homepage/AppBar";
 import { fontWeight } from '@mui/system';
 import Card from "@mui/material/Card";
@@ -83,6 +83,7 @@ dayjs(startDate).isSame(dayjs(), "day");
   const [bruteforceIDCount,setbruteforceIDCount]=useState(0);
   const [data_columnPlot, setdata_columnPlot] = useState([]);
   const [playbookCount,setplaybookCount]=useState(0);
+  const [refreshCounter,setrefreshCounter]=useState(0);
   //const [date,setdate]=useState("");
   //setdate("2023-02-16");
 
@@ -155,7 +156,7 @@ dayjs(startDate).isSame(dayjs(), "day");
 
      setplaybookCount(response.data)
    }, []);
- }, [startDate,endDate,passedTime]);
+ }, [startDate,endDate,passedTime,refreshCounter]);
 
   return (
     <>
@@ -165,13 +166,13 @@ dayjs(startDate).isSame(dayjs(), "day");
     <Layout>
     
     <Content style={{ padding: '0 20px' ,background:'white', paddingTop:"2vh", paddingBottom:"5vh" }}>
-    <div style={{ background:'White'}}> 
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'white', padding: '10px' }}>
+    <div style={{margin: '0 auto', textAlign: 'center' }}>
     <Popover placement="topLeft" title='Query Alert Stats by Date' trigger="hover">
     <FilterOutlined />
     </Popover>
     <Text style={{paddingRight: '5px',paddingLeft: '5px'}} strong></Text>
-   
-  <RangePicker  onChange={handleDateChange}  disabled={[false,false]} disabledDate={disabledDate} />
+    <RangePicker  onChange={handleDateChange}  disabled={[false,false]} disabledDate={disabledDate} />
     {isToday &&
         <Select value={selectedTime} style={{ width: 165 }} placeholder="Select Time Range"onChange={handleTimeChange}>
           <Select.Option value="5">Last 5 min</Select.Option>
@@ -181,7 +182,11 @@ dayjs(startDate).isSame(dayjs(), "day");
           <Select.Option value="720">Last 12 hour</Select.Option>
         </Select>
       }
-
+      </div>
+      <Button style={{background: "#431d2e", color: 'white' }}
+        onClick={() => {setrefreshCounter((count) => count + 1) }}>
+        REFRESH
+      </Button>
     </div>
       <Breadcrumb style={{ margin: '16px 0' }}>
       <Breadcrumb.Item onClick={handlebredcrumClick2} style={detail ? { fontWeight: "bold",color: "black" } : {color: "black"}}
@@ -222,7 +227,7 @@ dayjs(startDate).isSame(dayjs(), "day");
           <Card variant='outlined'>
                 <div style={{ display: 'flex',padding:"1.5vw 1.5vw 0vw 1.5vw", flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
                       {active === 'chart' && <QuarterPie data={data_bar_chart} />}
-                      <CardContent><Title style={{margin:"0", padding:"0"}} level={4}>Quarter Pie</Title></CardContent>
+                      <CardContent><Title style={{margin:"0", padding:"0"}} level={4}>Alerts per Decoder </Title></CardContent>
                     </div>
                   </Card>
                   </Box>
@@ -230,7 +235,7 @@ dayjs(startDate).isSame(dayjs(), "day");
           <Card variant='outlined'>
                 <div style={{ display: 'flex',padding:"1.5vw 1.5vw 0vw 1.5vw", flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
                       {active === 'chart' && <PieComponent data={data_pie_chart} />}
-                      <CardContent><Title lstyle={{margin:"0", padding:"0"}} level={4}>Alerts per Decoder</Title></CardContent>
+                      <CardContent><Title lstyle={{margin:"0", padding:"0"}} level={4}>Alerts per Rule level</Title></CardContent>
                     </div>
                   </Card>
                   </Box>

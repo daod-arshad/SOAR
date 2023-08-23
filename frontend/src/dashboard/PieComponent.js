@@ -12,9 +12,9 @@ function PieComponent(prop) {
         colorField: '_id',  //name of OS
         radius: 0.8,
         label: {
-          type: 'inner',
+          type: 'outer',
           offset: '-30%',
-          content: ({ percent }) => `${(percent * 100).toFixed(0)}%`,
+          content: ({ percent }) => `${(percent * 100).toFixed(2)}%`,
           style: {
             fontSize: 14,
             textAlign: 'center',
